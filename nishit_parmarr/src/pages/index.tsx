@@ -1,5 +1,9 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+import Product from "./components/Product/page";
+import ProductPage from "./components/Product/[productId]/page";
+import Cart from "./components/Cart/Cart";
+import ProductData from "./components/Product/ProductData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,10 +15,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+
 export default function Home() {
   return (
-    <h1 className="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+    <>
+      {/* <Product />
+      <ProductPage /> */}
+      <Cart />
+    </>
   );
 }
