@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+import Signup from "@/components/signuppage/signup";
+import header from "@/components/header/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +15,7 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
   return (
-    <h1 className="text-3xl font-bold underline">
-    Hello world!
-  </h1>
+    <header/>
+    <Signup/>
   );
 }
