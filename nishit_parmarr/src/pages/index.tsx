@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
-import Signup from "@/components/signuppage/signup";
+import Signup from "@/pages/signup";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
+import HomePage from "@/components/homepage/homepage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,8 +20,8 @@ export default function Home() {
     <>
     
     <Header/>
-    <Signup/>
-    <Footer/>
+    <HomePage/>
+   
     </>
   );
 }
