@@ -19,7 +19,7 @@ export function Reviews() {
       id: "1",
       user: {
         name: "CrazyDiscoverer",
-        avatar: "/placeholder.svg?height=40&width=40",
+        avatar: "/service-page/pfp.jpg?height=40&width=40",
       },
       rating: 5,
       comment:
@@ -31,7 +31,7 @@ export function Reviews() {
       id: "2",
       user: {
         name: "Suyash_Yadav_5942",
-        avatar: "/placeholder.svg?height=40&width=40",
+        avatar: "/service-page/pfp.jpg?height=40&width=40",
       },
       rating: 4,
       comment: "neuf dix onze douze treize quatorze quinze seize dix-sept dix-huit dix-neuf vingt",

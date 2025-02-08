@@ -2,6 +2,10 @@ import Link from "next/link"
 import Image from "next/image"
 import { User, Star } from "lucide-react"
 import { Reviews } from "../Review/Review"
+import { Workspace } from "../workspace/workspace"
+import { Income } from "../income/income"
+import { MailInbox } from "../Mail/mail"
+import { ContractsSection} from "../contracts/contracts"
 
 interface MainContentProps {
   activeTab: string
@@ -11,6 +15,18 @@ export function MainContent({ activeTab }: MainContentProps) {
   // If the activeTab is Reviews, show the Reviews component
   if (activeTab === "Reviews") {
     return <Reviews />
+  }
+  else if (activeTab === "Workspace") {
+    return <Workspace />
+  }
+  if (activeTab === "Income") {
+    return <Income />
+  }
+  if (activeTab === "Mail") {
+    return <MailInbox />
+  }
+  if (activeTab === "Contracts") {
+    return <ContractsSection />
   }
 
   const stats = [
