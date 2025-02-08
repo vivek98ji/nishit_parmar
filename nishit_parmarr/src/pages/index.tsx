@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
-import Signup from "@/components/signuppage/signup";
-import Header from "@/components/header/header";
-import Footer from "@/components/footer/footer";
+import Signup from "@/components/signup-page/signuppage/signup";
+import Header from "@/components/signup-page/header/header";
+import Footer from "@/components/signup-page/footer/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
