@@ -6,6 +6,7 @@ import { Workspace } from "../workspace/workspace"
 import { Income } from "../income/income"
 import { MailInbox } from "../Mail/mail"
 import { ContractsSection} from "../contracts/contracts"
+import { PromotePlans } from "../promote/promote"
 
 interface MainContentProps {
   activeTab: string
@@ -27,6 +28,9 @@ export function MainContent({ activeTab }: MainContentProps) {
   }
   if (activeTab === "Contracts") {
     return <ContractsSection />
+  }
+  if (activeTab === "Promote") {
+    return <PromotePlans />
   }
 
   const stats = [
