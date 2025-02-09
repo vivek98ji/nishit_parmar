@@ -11,7 +11,6 @@ import { Header } from "./components/service-provider/header/header";
 // import Header from "@/components/signup-page/header/header";
 // import Footer from "@/components/signup-page/footer/footer";
 // import Header from "@/components/header/header";
-import Foo
 // import HomePage from "@/components/homepage/homepage";
 const geistSans = Geist({
   variable: "--font-geist-sans",
