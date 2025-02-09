@@ -3,10 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Product from "./components/Product/page";
 import ProductPage from "./components/Product/[productId]/page";
 import Cart from "./components/Cart/Cart";
-import ProductData from "./components/Product/ProductData";
-import AddressCard from "./components/Address";
 import Link from "next/link";
 import { Header } from "./components/service-provider/header/header";
+import ProductData from "./components/Product/ProductData";
 // import Signup from "@/components/signup-page/signuppage/signup";
 // import Header from "@/components/signup-page/header/header";
 // import Footer from "@/components/signup-page/footer/footer";
@@ -27,7 +26,9 @@ export default function Home() {
   return (
     <>
     
-      {/* { { <Product/> } } */}
+      {/* <ProductData/> */}
+      <Product/>
+      
       <ProductPage />
       <Cart />
       {/* { <AddressCard /> } */}
