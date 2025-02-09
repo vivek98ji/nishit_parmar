@@ -24,21 +24,11 @@
   --ring: 248 90% 66%;
 }
 
-<<<<<<< HEAD
-
-
-/* Smooth transitions */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-=======
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #ffffff;
     --foreground: #ededed;
   }
->>>>>>> feat-home
 }
 
 .transition-transform {

@@ -2,7 +2,6 @@
   "name": "nishit_parmarr",
   "version": "0.1.0",
   "private": true,
-  
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,11 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@heroicons/react": "^2.2.0",
+    "@mui/icons-material": "^6.4.3",
     "dotenv": "^16.4.7",
->>>>>>> feat-home
     "lucide-react": "^0.474.0",
     "mongodb": "^6.13.0",
     "mongoose": "^8.10.0",

@@ -21,19 +21,6 @@
       "@/*": [
         "./src/*"
       ]
-<<<<<<< HEAD
-    }
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
-}
-=======
     },
     "plugins": [
       {
@@ -51,4 +38,3 @@
     "node_modules"
   ]
 }
->>>>>>> feat-home
