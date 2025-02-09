@@ -22,34 +22,35 @@ const AdminServiceRequests: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white p-8">
-            <h1 className="text-3xl font-extrabold text-white mb-8 text-center uppercase tracking-wide">
+        <div className="min-h-screen bg-white text-gray-900 p-8">
+            <h1 className="text-4xl font-extrabold text-center mb-8 ">
                 Service Provider Requests
             </h1>
 
-            <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            {/* <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> */}
+            <div className='grid gap-5 lg-grid-cols-1'>
                 {serviceRequests.map((request) => (
                     <div
                         key={request.id}
-                        className="bg-gray-900 p-6 rounded-2xl shadow-xl border border-gray-700 transition-transform transform hover:scale-105"
+                        className=" p-6 rounded-xl shadow-lg hover:shadow-lg border transition-shadow"
                     >
-                        <h2 className="text-2xl font-bold mb-2 text-gray-100">{request.name}</h2>
-                        <p className="text-gray-400">Provider: {request.provider}</p>
+                        <h2 className="text-2xl font-bold mb-2">{request.name}</h2>
+                        <p className="text-sm text-gray-600">Provider: {request.provider}</p>
                         <p
-                            className={`mt-2 text-sm ${request.status === 'Pending' ? 'text-yellow-400' : 'text-green-400'
+                            className={`mt-2 text-sm font-semibold ${request.status === 'Pending' ? 'text-yellow-500' : 'text-green-500'
                                 }`}
                         >
                             Status: {request.status}
                         </p>
-                        <div className="mt-6 flex gap-4">
+                        <div className="mt-6 flex  justify-center gap-20">
                             <button
-                                className="flex-1 py-2 text-sm font-semibold text-black bg-white rounded-xl hover:bg-gray-300 transition"
+                                className="flex-1 py-2 text-sm font-medium text-white bg-black rounded-md  hover:bg-gray-900 transition"
                                 onClick={() => handleAccept(request.id)}
                             >
                                 Accept
                             </button>
                             <button
-                                className="flex-1 py-2 text-sm font-semibold border border-white text-white rounded-xl hover:bg-white hover:text-black transition"
+                                className="flex-1 py-2 text-sm font-medium text-white bg-gray-800 rounded-md shadow-lg hover:bg-gray-500 transition"
                                 onClick={() => handleDecline(request.id)}
                             >
                                 Decline
