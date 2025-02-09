@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Product from "./components/Product/page";
 import ProductPage from "./components/Product/[productId]/page";
 import Cart from "./components/Cart/Cart";
@@ -11,6 +12,12 @@ import Link from "next/link";
 import Signup from "@/components/signup-page/signuppage/signup";
 import Header from "@/components/signup-page/header/header";
 import Footer from "@/components/signup-page/footer/footer";
+=======
+import Signup from "./signup";
+import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
+import HomePage from "@/components/homepage/homepage";
+>>>>>>> feat-home
 
 >>>>>>> feat--service-provider
 const geistSans = Geist({
@@ -27,6 +34,7 @@ const geistMono = Geist_Mono({
 export default function Home() {
   return (
     <>
+<<<<<<< HEAD
       {/* <Product /> */}
       <ProductPage />
       <Cart />
@@ -35,6 +43,12 @@ export default function Home() {
 
       {/* <Link href="/ProductDetail">Go to Product Details</Link> */}
 
+=======
+    
+    <Header/>
+    <HomePage/>
+   <Footer/>
+>>>>>>> feat-home
     </>
   );
 }
