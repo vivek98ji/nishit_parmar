@@ -7,7 +7,7 @@ import Link from "next/link";
 import ProductData from "./components/Product/ProductData";
 import Header from "./components/signup-page/header/header";
 import Footer from "./components/signup-page/footer/footer";
-import Signup from "@/components/signuppage/signup";
+import Signup from "./components/signup-page/signuppage/signup";
 import HomeServices from "./components/homepage/homepage";
 const geistSans = Geist({
   variable: "--font-geist-sans",
