@@ -6,12 +6,13 @@ import Cart from "./components/Cart/Cart";
 import ProductData from "./components/Product/ProductData";
 import AddressCard from "./components/Address";
 import Link from "next/link";
-import Signup from "@/components/signup-page/signuppage/signup";
-import Header from "@/components/signup-page/header/header";
-import Footer from "@/components/signup-page/footer/footer";
+import { Header } from "./components/service-provider/header/header";
+// import Signup from "@/components/signup-page/signuppage/signup";
+// import Header from "@/components/signup-page/header/header";
+// import Footer from "@/components/signup-page/footer/footer";
 // import Header from "@/components/header/header";
-// import Footer from "@/components/footer/footer";
-import HomePage from "@/components/homepage/homepage";
+import Foo
+// import HomePage from "@/components/homepage/homepage";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -26,7 +27,8 @@ const geistMono = Geist_Mono({
 export default function Home() {
   return (
     <>
-      {/* { <Product /> } */}
+    
+      {/* { { <Product/> } } */}
       <ProductPage />
       <Cart />
       {/* { <AddressCard /> } */}
