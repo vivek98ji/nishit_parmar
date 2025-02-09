@@ -1,11 +1,18 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+<<<<<<< HEAD
 import Product from "./components/Product/page";
 import ProductPage from "./components/Product/[productId]/page";
 import Cart from "./components/Cart/Cart";
 import ProductData from "./components/Product/ProductData";
 import AddressCard from "./components/Address";
 import Link from "next/link";
+=======
+import Signup from "@/components/signup-page/signuppage/signup";
+import Header from "@/components/signup-page/header/header";
+import Footer from "@/components/signup-page/footer/footer";
+
+>>>>>>> feat--service-provider
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
