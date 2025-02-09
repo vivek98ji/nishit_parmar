@@ -26,13 +26,13 @@ const geistMono = Geist_Mono({
 export default function Home() {
   return (
     <>
-      {/* <Product /> */}
+      {/* { <Product /> } */}
       <ProductPage />
       <Cart />
-      {/* <AddressCard /> */}
-      {/* <Link href="/components/product/5" >Productdetail</Link> */}
+      {/* { <AddressCard /> } */}
+      {/* { <Link href="/components/product/5" >Productdetail</Link> } */}
 
-      {/* <Link href="/ProductDetail">Go to Product Details</Link> */}
+      {/* { <Link href="/ProductDetail">Go to Product Details</Link> } */}
 
     </>
   );
