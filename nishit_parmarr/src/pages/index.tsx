@@ -7,8 +7,8 @@ import Link from "next/link";
 import ProductData from "./components/Product/ProductData";
 import Header from "./components/signup-page/header/header";
 import Footer from "./components/signup-page/footer/footer";
-import Signup from "@/components/signuppage/signup";
 import HomeServices from "./components/homepage/homepage";
+import Signup from "./components/signup-page/signuppage/signup";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,6 +28,7 @@ export default function Home() {
       <Product/>
       <ProductPage />
       <Cart />
+      <Signup/>
       {/* { <Link href="/components/product/5" >Productdetail</Link> } */}
 
       {/* { <Link href="/ProductDetail">Go to Product Details</Link> } */}
