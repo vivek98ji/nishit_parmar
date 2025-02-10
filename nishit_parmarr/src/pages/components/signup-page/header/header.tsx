@@ -8,7 +8,7 @@ const Header = () => {
     { label: 'Home', href: '/' },
     { label: 'Services', href: '/services' },
     { label: 'Blog', href: '/blog' },
-    { label: 'Signup', href: '/signup' },
+    { label: 'Signup', href: 'signuppage\signup.tsx' },
     { label: 'About', href: '/about' },
 
   ];
