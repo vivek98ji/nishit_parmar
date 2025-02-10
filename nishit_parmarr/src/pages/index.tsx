@@ -26,7 +26,9 @@ const geistMono = Geist_Mono({
 export default function Home() {
   return (
     <div>
+      <ManageServices />
       <AdminServiceRequests />
+      <ReferralWallet />
     </div>
   );
 }

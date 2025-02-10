@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { services as initialServices } from '../data/serviceData';
 import Image from 'next/image';
 import type { Service as BaseService } from '../data/serviceData';
+import React from 'react';
 
 interface Service extends BaseService {
     price: string;
