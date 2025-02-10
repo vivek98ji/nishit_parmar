@@ -29,7 +29,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
     return (
         <div onClick={handleNavigation}>
-            <div className="mx-auto mt-11 h-[400px] w-80 transform overflow-hidden rounded-[5px] bg-white dark:bg-slate-800 shadow-lg duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
+            <div className="mx-auto mt-11 h-[400px] w-80 transform overflow-hidden rounded-[5px] bg-white dark:bg-white shadow-lg duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
                 <Image
                     className="h-[200px] w-full object-cover object-left-right"
                     src={product.imageUrl}
@@ -41,17 +41,17 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 <div className="p-3">
 
 
-                    <h2 className="mb-2 text-lg font-medium dark:text-white text-white">{product.Brand}</h2>
-                    <p className="mb-2 text-base dark:text-gray-300 text-white-700">Product {product.title}</p>
+                    <h2 className="mb-2 text-lg font-medium dark:text-black text-black">{product.Brand}</h2>
+                    <p className="mb-2 text-base dark:black text-white-700">Product {product.title}</p>
                     <div className="flex items-center">
-                        <p className="mr-2 text-lg font-semibold text-gray-600 dark:text-white">₹{product.discountedPrice}</p>
-                        <p className="text-base font-medium text-gray-500 line-through dark:text-gray-300">₹{product.price}</p>
+                        <p className="mr-2 text-lg font-semibold text-black dark:text-black">₹{product.discountedPrice}</p>
+                        <p className="text-base font-medium text-black line-through dark:text-black">₹{product.price}</p>
 
                     </div>
                     <div>
                         {/* <Link href={`Product${5}`} key={product.id}> */}
                         {/* <Link href={`/product/${5}`}> */}
-                        <button className="bg-black hover:bg-black text-white font-bold py-2 px-4 rounded mt-[10px]">
+                        <button className="bg-black hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
                             View Details
                         </button>
                         {/* </Link> */}
