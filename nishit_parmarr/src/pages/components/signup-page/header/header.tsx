@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { Menu, X, ShoppingBag } from 'lucide-react';
-
+import { useRouter } from 'next/navigation';
+import Link from 'next/link'
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { label: 'Home', href: '/' },
-    { label: 'Services', href: '/services' },
+    { label: 'Home', href: '/components/homepage/homepage' },
+    { label: 'Services', href: '/components/Product/page' },
     { label: 'Blog', href: '/blog' },
-    { label: 'Signup', href: 'signuppage\signup.tsx' },
+    // { label: 'Signup', href: '/signuppage/signup' },
+    { label: 'Signup', href: '/components/signup-page/signuppage/signup' },
     { label: 'About', href: '/about' },
 
   ];
-
+  const router = useRouter();
   return (
+
     <header className="w-full bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -73,10 +76,12 @@ const Header = () => {
                   {item.label}
                 </a>
               ))}
-              <button className="block w-full text-left px-3 py-2 text-white">
+              {/* <a href="/components/Cart" > */}
+              <button className="block w-full text-left px-3 py-2 text-white" onClick={() => router.push('/components/Cart')}>
                 <ShoppingBag className="h-6 w-6 inline mr-2" />
                 Cart
               </button>
+              {/* </a> */}
             </div>
           </div>
         )}

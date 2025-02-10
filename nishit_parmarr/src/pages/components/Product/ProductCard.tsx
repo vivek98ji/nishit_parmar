@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import Link from "next/link";
-
+import ProductPage from '../ProductDetail/ProductDetail';
 interface Product {
     id: number;
     imageUrl: string;
@@ -28,7 +28,8 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
     };
 
     return (
-        <div onClick={handleNavigation}>
+        // <div onClick={handleNavigation}>
+        <div>
             <div className="mx-auto mt-11 h-[400px] w-80 transform overflow-hidden rounded-[5px] bg-white dark:bg-white shadow-lg duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
                 <Image
                     className="h-[200px] w-full object-cover object-left-right"
@@ -50,11 +51,11 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     </div>
                     <div>
                         {/* <Link href={`Product${5}`} key={product.id}> */}
-                        {/* <Link href={`/product/${5}`}> */}
-                        <button className="bg-black hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
-                            View Details
-                        </button>
-                        {/* </Link> */}
+                        <Link href={`../ProductDetail/ProductDetail`}>
+                            <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]" >
+                                View Details
+                            </button>
+                        </Link>
 
                     </div>
                 </div>

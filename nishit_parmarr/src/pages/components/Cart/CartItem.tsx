@@ -83,13 +83,13 @@ const CartItem: React.FC<CartItemProps> = ({ productId, onRemove }) => {
             <div className="flex items-center">
                 {/* Product Image */}
                 <div className="w-[5rem] h-[7rem] lg:w-[15rem] lg:h-[15rem]">
-                <Image
-                            src="https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=574,h=322,fit=crop,q=100/cdn-ecommerce/store_01JCYZKF09EKDA2HS3ZXYAX2G1%2Fassets%2F1734719510714-Washing-machine-repair-costs-explained-Featured-image-scaled1.webp"
-                            alt="Washing machine repair costs explained"
-                          width={574}
-                         height={322}
+                    <Image
+                        src="https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=574,h=322,fit=crop,q=100/cdn-ecommerce/store_01JCYZKF09EKDA2HS3ZXYAX2G1%2Fassets%2F1734719510714-Washing-machine-repair-costs-explained-Featured-image-scaled1.webp"
+                        alt="Washing machine repair costs explained"
+                        width={574}
+                        height={322}
                         priority // Add this prop to indicate the image is above the fold
-/>
+                    />
                 </div>
 
                 {/* Product Details */}
