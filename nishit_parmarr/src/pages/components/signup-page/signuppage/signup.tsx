@@ -1,9 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
+import Header from "../../signup-page/header/header";
+import Footer from "../../signup-page/footer/footer";
 // import logo from '../../public/logo.png'; // Adjust the path as necessary
 
 const Signup: React.FC = () => {
   return (
+    <>
+    <Header/>
     <div className="flex h-screen bg-gray-100">
       {/* Left Side */}
       <div className="flex-1 bg-black text-white p-10 flex flex-col justify-center">
@@ -58,6 +62,8 @@ const Signup: React.FC = () => {
         </form>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 
