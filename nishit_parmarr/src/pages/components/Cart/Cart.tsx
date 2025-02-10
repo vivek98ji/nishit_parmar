@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import CartItem from './CartItem'
+import CartItem from './CartItem';
 import { Divider, Button } from '@mui/material'
 import { useRouter } from "next/navigation";
 // import {  } from '@headlessui/react'

@@ -8,7 +8,9 @@ import AddressCard from "./components/Address";
 import Link from "next/link";
 import ManageServices from "./admin/manage-services/page";
 import ReferralWallet from "./admin/referall-wallet/page";
-import AdminServiceRequests from "./admin/service-partners/page";
+// import AdminServiceRequests from "./admin/service-partners/page";
+import AdminServiceRequests from "./admin/service-partners/page"
+import React from "react";
 // import AdminBlogManagement from "./admin/blogs/page";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,12 +25,8 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
   return (
-    <>
-
+    <div>
       <AdminServiceRequests />
-      <Cart />
-
-
-    </>
+    </div>
   );
 }
