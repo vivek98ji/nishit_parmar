@@ -122,3 +122,7 @@ const CartItem: React.FC<CartItemProps> = () => {
 };
 
 export default CartItem;
+
+
+
+
