@@ -8,10 +8,10 @@ const Header = () => {
   const navItems = [
     { label: 'Home', href: '/components/homepage/homepage' },
     { label: 'Services', href: '/components/Product/page' },
-    { label: 'Blog', href: '/blog' },
+    { label: 'Blog', href: '/components/blog/blog' },
     // { label: 'Signup', href: '/signuppage/signup' },
     { label: 'Signup', href: '/components/signup-page/signuppage/signup' },
-    { label: 'About', href: '/about' },
+    { label: 'About', href: '/components/About/about'  },
 
   ];
   const router = useRouter();
