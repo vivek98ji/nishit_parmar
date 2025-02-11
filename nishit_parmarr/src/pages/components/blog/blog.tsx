@@ -37,7 +37,7 @@ const Blog = () => {
   return (
     <div className="bg-white text-black m-0 p-0">
       {/* Header Section */}
-      <header className="py-10 text-center bg-gray-400">
+      <header className="py-10 text-center bg-gray-100">
         <h1 className="text-5xl font-bold text-gray-800">Our Blog</h1>
         <p className="mt-2 text-lg text-gray-600">Explore insights and tips for a cleaner, healthier home.</p>
       </header>
