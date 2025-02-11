@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import connectDB from "@/lib/mongodb";
-import Booking from "@/models/Service";
+import income from "@/models/income"; // Correct import
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,9 +12,9 @@ export default async function handler(
 
   try {
     await connectDB();
-    const bookings = await Booking.find()
-    
-    return res.status(200).json({ success: true, bookings });
+    const incomes = await income.find(); // Use the correct model
+
+    return res.status(200).json({ success: true, incomes }); // Return "mails" instead of "bookings"
   } catch (error) {
     console.error("Error:", error);
     return res.status(500).json({ 

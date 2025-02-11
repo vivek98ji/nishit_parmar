@@ -1,37 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Mail as MailIcon, Star, AlertCircle, Package, Shield } from 'lucide-react';
 
-export function MailInbox() {  // ✅ Renamed to avoid conflict
+// Type definitions for our mail data
+interface Mail {
+  _id: string;
+  type: 'admin' | 'order';
+  subject: string;
+  sender: string;
+  content: string;
+  createdAt: string;
+  isRead: boolean;
+  isStarred: boolean;
+  priority?: 'high' | 'normal';
+  orderID?: string;
+}
+
+// Custom hook for fetching mails
+const useMails = () => {
+  const [mails, setMails] = useState<Mail[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchMails = async () => {
+      try {
+        const response = await fetch('/api/mail');
+        const data = await response.json();
+        
+        if (!data.success) {
+          throw new Error(data.error || 'Failed to fetch mails');
+        }
+
+        // Transform the data to match our Mail interface
+        const transformedMails = data.mails.map((mail: any) => ({
+          _id: mail._id,
+          type: mail.type || 'admin',
+          subject: mail.subject,
+          sender: mail.sender || 'Unknown Sender',
+          content: mail.content,
+          createdAt: new Date(mail.createdAt).toLocaleString(),
+          isRead: mail.isRead || false,
+          isStarred: mail.isStarred || false,
+          priority: mail.priority || 'normal',
+          ...(mail.orderID && { orderID: mail.orderID })
+        }));
+
+        setMails(transformedMails);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMails();
+  }, []);
+
+  return { mails, loading, error };
+};
+
+export function MailInbox() {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const { mails, loading, error } = useMails();
 
-  const emails = [
-    {
-      id: 1,
-      type: 'admin',
-      subject: 'Important: Service Guidelines Update',
-      sender: 'Admin Team',
-      preview: 'Please review the updated service provider guidelines for 2024...',
-      date: '2h ago',
-      isRead: false,
-      isStarred: true,
-      priority: 'high'
-    },
-    {
-      id: 2,
-      type: 'order',
-      subject: 'New Order: Website Development Service',
-      sender: 'John Smith',
-      preview: 'I would like to proceed with the website development package...',
-      date: '4h ago',
-      isRead: true,
-      isStarred: false,
-      orderID: '#ORD-2024-001'
-    },
-  ];
+  const filteredMails = selectedCategory === 'all' 
+    ? mails 
+    : mails.filter(mail => mail.type === selectedCategory);
 
-  const filteredEmails = selectedCategory === 'all' 
-    ? emails 
-    : emails.filter(email => email.type === selectedCategory);
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="text-gray-500">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white rounded-lg">
@@ -45,7 +95,7 @@ export function MailInbox() {  // ✅ Renamed to avoid conflict
               : 'text-gray-600 hover:bg-gray-50'
           }`}
         >
-          <MailIcon className="w-4 h-4 inline mr-2" />  {/* ✅ Renamed Icon */}
+          <MailIcon className="w-4 h-4 inline mr-2" />
           All Mail
         </button>
         <button 
@@ -63,16 +113,16 @@ export function MailInbox() {  // ✅ Renamed to avoid conflict
 
       {/* Mail List */}
       <div className="divide-y">
-        {filteredEmails.map((email) => (
+        {filteredMails.map((mail) => (
           <div 
-            key={email.id} 
+            key={mail._id} 
             className={`p-4 hover:bg-gray-50 cursor-pointer ${
-              !email.isRead ? 'bg-blue-50' : ''
+              !mail.isRead ? 'bg-blue-50' : ''
             }`}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                {email.type === 'admin' ? (
+                {mail.type === 'admin' ? (
                   <div className="bg-purple-100 p-2 rounded-full">
                     <Shield className="w-4 h-4 text-purple-600" />
                   </div>
@@ -83,24 +133,24 @@ export function MailInbox() {  // ✅ Renamed to avoid conflict
                 )}
                 <div>
                   <div className="flex items-center space-x-2">
-                    <span className="font-medium">{email.sender}</span>
-                    {email.type === 'admin' && email.priority === 'high' && (
+                    <span className="font-medium">{mail.sender}</span>
+                    {mail.type === 'admin' && mail.priority === 'high' && (
                       <AlertCircle className="w-4 h-4 text-red-500" />
                     )}
-                    {email.isStarred && (
+                    {mail.isStarred && (
                       <Star className="w-4 h-4 text-yellow-400 fill-current" />
                     )}
                   </div>
-                  <h3 className="font-medium text-gray-900">{email.subject}</h3>
+                  <h3 className="font-medium text-gray-900">{mail.subject}</h3>
                   <div className="flex items-center space-x-2 text-sm text-gray-500">
-                    {email.type === 'order' && (
-                      <span className="text-green-600">{email.orderID}</span>
+                    {mail.type === 'order' && mail.orderID && (
+                      <span className="text-green-600">{mail.orderID}</span>
                     )}
-                    <span>{email.preview}</span>
+                    <span>{mail.content}</span>
                   </div>
                 </div>
               </div>
-              <div className="text-sm text-gray-500">{email.date}</div>
+              <div className="text-sm text-gray-500">{mail.createdAt}</div>
             </div>
           </div>
         ))}
@@ -109,4 +159,4 @@ export function MailInbox() {  // ✅ Renamed to avoid conflict
   );
 }
 
-export default MailInbox;  // ✅ Renamed Component
+export default MailInbox;
