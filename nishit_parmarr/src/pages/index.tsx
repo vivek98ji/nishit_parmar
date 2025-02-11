@@ -10,6 +10,7 @@ import Footer from "./components/signup-page/footer/footer";
 import HomeServices from "./components/homepage/homepage";
 import Signup from "./components/signup-page/signuppage/signup";
 import React from "react";
+import About from "./components/About/about";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function Home() {
     <>
 
       <HomeServices />
+      
 
 
     </>

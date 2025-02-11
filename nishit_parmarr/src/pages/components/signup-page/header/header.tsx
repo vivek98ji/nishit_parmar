@@ -11,7 +11,7 @@ const Header = () => {
     { label: 'Blog', href: '/blog' },
     // { label: 'Signup', href: '/signuppage/signup' },
     { label: 'Signup', href: '/components/signup-page/signuppage/signup' },
-    { label: 'About', href: '/about' },
+    { label: 'About', href: '/components/About/about'  },
 
   ];
   const router = useRouter();
