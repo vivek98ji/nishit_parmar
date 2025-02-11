@@ -64,7 +64,7 @@ const Blog = () => {
 
       {/* Footer Section */}
       <footer className="py-10 text-center">
-        <p className="text-gray-600">© 2023 HelperBuddy. All rights reserved.</p>
+        <p className="text-gray-600">BLOG by NISHIT_PARMAR</p>
       </footer>
     </div>
   );
