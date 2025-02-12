@@ -9,6 +9,7 @@ import Header from "./components/signup-page/header/header";
 import Footer from "./components/signup-page/footer/footer";
 import HomeServices from "./components/homepage/homepage";
 import Signup from "./components/signup-page/signuppage/signup";
+
 import React from "react";
 import About from "./components/About/about";
 import Blog from "./components/blog/blog";
@@ -26,10 +27,9 @@ const geistMono = Geist_Mono({
 export default function Home() {
   return (
     <>
-
+      <Header />
       <HomeServices />
-
-
+      <Footer />
     </>
   );
 }

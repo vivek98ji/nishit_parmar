@@ -33,7 +33,7 @@
     "**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-, "src/scripts/seed.mjs", "src/pages/api/users.js"  ],
+, "src/scripts/seed.mjs", "src/pages/api/users.js", "src/pages/api/income.ts"  ],
   "exclude": [
     "node_modules"
   ]

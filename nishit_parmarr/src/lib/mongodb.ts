@@ -1,27 +1,24 @@
-import mongoose from 'mongoose';
+// lib/mongodb.ts
+import mongoose from "mongoose"
 
-//const MONGODB_URI = 'mongodb+srv://username:password@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority';
-const MONGODB_URI='mongodb+srv://ashketchup:hNOHeUGfiql0Zb8v@cluster0.w0z87.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
-
-
-
-if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI in .env file");
+if (!process.env.MONGODB_URI) {
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
 }
 
-// Use global caching to prevent multiple connections
-let cached = (global as any).mongoose || { conn: null, promise: null };
+const uri = process.env.MONGODB_URI
 
 async function connectDB() {
-  if (cached.conn) return cached.conn;
-
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI, {}); // Removed deprecated options
+  try {
+    if (mongoose.connections[0].readyState) {
+      return mongoose.connections[0]
+    }
+    
+    await mongoose.connect(uri)
+    return mongoose.connections[0]
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error)
+    throw error
   }
-
-  cached.conn = await cached.promise;
-  (global as any).mongoose = cached;
-  return cached.conn;
 }
 
-export default connectDB;
+export default connectDB

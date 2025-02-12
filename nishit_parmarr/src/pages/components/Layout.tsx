@@ -4,10 +4,8 @@ import Footer from "./signup-page/footer/footer";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
-        <>
-            <Header />
-            <main className="pt-0 pb-16 mb-0">{children}</main>
-            <Footer />
+        <>    
+            <main>{children}</main>
         </>
     );
 };
