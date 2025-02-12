@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { Sidebar } from "./components/service-provider/sidebar/sidebar"
-import { Header } from "./components/service-provider/header/header"
-import { MainContent } from "./components/service-provider/dashboard/main_content"
+import Sidebar from "./components/service-provider/sidebar/sidebar"
+import Header from "./components/service-provider/header/header"
+import MainContent from "./components/service-provider/dashboard/main_content"
 
 export default function Dashboard() {
   const [isSidebarOpen, setSidebarOpen] = useState(true)

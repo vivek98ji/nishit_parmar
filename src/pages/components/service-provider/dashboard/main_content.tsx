@@ -1,18 +1,19 @@
 import Link from "next/link"
 import Image from "next/image"
 import { User, Star } from "lucide-react"
-import { Reviews } from "../Review/Review"
+
 import { Workspace } from "../workspace/workspace"
 import { Income } from "../income/income"
 import { MailInbox } from "../Mail/mail"
 import { ContractsSection} from "../contracts/contracts"
 import { PromotePlans } from "../promote/promote"
+import Reviews from "../Review/Review"
 
 interface MainContentProps {
   activeTab: string
 }
 
-export function MainContent({ activeTab }: MainContentProps) {
+export default function MainContent({ activeTab }: MainContentProps) {
   // If the activeTab is Reviews, show the Reviews component
   if (activeTab === "Reviews") {
     return <Reviews />

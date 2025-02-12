@@ -2,7 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import type { Service } from '../data/serviceData';
+
+interface Service {
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    longDescription: string;
+}
+
+
 
 interface ApiService extends Omit<Service, 'id'> {
     _id: string;
