@@ -23,6 +23,7 @@ export default function Home() {
       {/* <Product /> */}
       <ProductPage />
       <Cart />
+      {/* manisha v=choudhary?\ */}
       {/* <AddressCard /> */}
       {/* <Link href="/components/product/5" >Productdetail</Link> */}
 
