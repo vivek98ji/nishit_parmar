@@ -12,6 +12,8 @@ import Signup from "./components/signup-page/signuppage/signup";
 import React from "react";
 import About from "./components/About/about";
 import Blog from "./components/blog/blog";
+// import Signup from './signup'
+import SignIn from './signup'
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,8 +29,9 @@ export default function Home() {
   return (
     <>
 
-      <HomeServices />
-
+      {/* <HomeServices /> */}
+      {/* <SignIn /> */}
+      <Signup />
 
     </>
   );
