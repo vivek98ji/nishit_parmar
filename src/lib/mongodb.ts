@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 //const MONGODB_URI = 'mongodb+srv://username:password@cluster0.mongodb.net/mydatabase?retryWrites=true&w=majority';
-const MONGODB_URI='mongodb+srv://ashketchup:hNOHeUGfiql0Zb8v@cluster0.w0z87.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URI='mongodb+srv://ashketchup:hNOHeUGfiql0Zb8v@cluster0.w0z87.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0';
 
 
 
@@ -23,5 +23,5 @@ async function connectDB() {
   (global as any).mongoose = cached;
   return cached.conn;
 }
-
+console.log('Connected to MongoDB');
 export default connectDB;

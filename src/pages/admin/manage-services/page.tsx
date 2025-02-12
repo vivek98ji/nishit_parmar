@@ -1,38 +1,36 @@
 'use client';
 
-import { useState } from 'react';
-import { services as initialServices } from '../data/serviceData';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import type { Service as BaseService } from '../data/serviceData';
-import React from 'react';
+import type { Service } from '../data/serviceData';
 
-interface Service extends BaseService {
+interface ApiService extends Omit<Service, 'id'> {
+    _id: string;
+    name: string;  // Changed from title to name
+    description: string;
+    image: string;
+    longDescription: string;
     price: string;
 }
 
 export default function ManageServices() {
-    // Replace services with local state
-    const [services, setServices] = useState(initialServices.map(service => ({
-        ...service,
-        price: '$0.00'
-    })));
+    const [services, setServices] = useState<ApiService[]>([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [selectedService, setSelectedService] = useState<Service | null>(null);
+    const [selectedService, setSelectedService] = useState<ApiService | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [formData, setFormData] = useState({
-        id: '',
-        title: '',
+        name: '',        // Changed from title to name
         description: '',
         image: '',
         price: '',
         longDescription: ''
     });
 
-    // Reset form data when opening add modal
     const handleOpenAddModal = () => {
         setFormData({
-            id: '',
-            title: '',
+            name: '',    // Changed from title to name
             description: '',
             image: '',
             price: '',
@@ -41,41 +39,103 @@ export default function ManageServices() {
         setIsAddModalOpen(true);
     };
 
-    const handleAddService = (e: React.FormEvent) => {
-        e.preventDefault();
+    // Fetch services
+    useEffect(() => {
+        fetchServices();
+    }, []);
 
-        // Create new service with unique ID
-        const newService = {
-            ...formData,
-            id: Date.now().toString(), // Generate unique ID
-        };
-
-        // Add to services array
-        setServices([...services, newService]);
-        setIsAddModalOpen(false);
-    };
-
-    const handleEditService = (e: React.FormEvent) => {
-        e.preventDefault();
-
-        // Update services array with edited service
-        setServices(services.map(service =>
-            service.id === formData.id ? { ...formData, price: formData.price || "$0.00" } : service
-        ));
-
-
-        setIsEditModalOpen(false);
-        setSelectedService(null);
-    };
-
-    const handleDeleteService = (id: string) => {
-        if (confirm('Are you sure you want to delete this service?')) {
-            // Filter out the deleted service
-            setServices(services.filter(service => service.id !== id));
+    const fetchServices = async () => {
+        try {
+            const response = await fetch('/api/services');
+            const data = await response.json();
+            if (data.success) {
+                setServices(data.services);
+            } else {
+                setError('Failed to fetch services');
+            }
+        } catch (err) {
+            setError('Error fetching services');
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    // Add form input handler
+    const handleAddService = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('/api/services', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json();
+            if (data.success) {
+                setServices([...services, data.service]);
+                setIsAddModalOpen(false);
+                setFormData({
+                    name: '',
+                    description: '',
+                    image: '',
+                    price: '',
+                    longDescription: ''
+                });
+            }
+        } catch (err) {
+            setError('Error adding service');
+        }
+    };
+
+    const handleEditService = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedService) return;
+
+        try {
+            const response = await fetch(`/api/services/${selectedService._id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json();
+            if (data.success) {
+                setServices(services.map(service =>
+                    service._id === selectedService._id ? data.service : service
+                ));
+                setIsEditModalOpen(false);
+                setSelectedService(null);
+            }
+        } catch (err) {
+            setError('Error updating service');
+        }
+    };
+
+    const handleDeleteService = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this service?')) return;
+    
+        try {
+            const response = await fetch(`/api/${id}`, {
+                method: 'DELETE',
+            });
+            const data = await response.json();
+            
+            // Add logging to debug
+            console.log('Delete response:', data);
+            
+            if (data.success) {
+                setServices(services.filter(service => service._id !== id));
+            } else {
+                // Handle error case
+                setError(data.message || 'Error deleting service');
+            }
+        } catch (err) {
+            console.error('Delete error:', err);
+            setError('Error deleting service');
+        }
+    };
+
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -86,6 +146,11 @@ export default function ManageServices() {
         }));
     };
 
+    if (isLoading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    if (error) return <div className="min-h-screen flex items-center justify-center text-red-500">{error}</div>;
+
+    // Rest of your JSX remains the same, just update the service.id references to service._id
+    // ... (keep all the existing JSX for the table and modals)
     return (
         <div className="min-h-screen bg-gray-100 py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,7 +188,7 @@ export default function ManageServices() {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {services.map((service) => (
-                                <tr key={service.id}>
+                                <tr key={service._id}>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="relative w-20 h-20">
                                             <Image
@@ -134,7 +199,7 @@ export default function ManageServices() {
                                             />
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{service.title}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">{service.name}</td>
                                     <td className="px-6 py-4">
                                         <div className="max-w-xs truncate">{service.description}</div>
                                     </td>
@@ -161,7 +226,7 @@ export default function ManageServices() {
                                             Edit
                                         </button>
                                         <button
-                                            onClick={() => handleDeleteService(service.id)}
+                                            onClick={() => handleDeleteService(service._id)}
                                             className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
                                         >
                                             Delete
@@ -184,8 +249,8 @@ export default function ManageServices() {
                                         <label className="block text-sm font-medium text-gray-700">Title</label>
                                         <input
                                             type="text"
-                                            name="title"
-                                            value={formData.title}
+                                            name="name"
+                                            value={formData.name}
                                             onChange={handleInputChange}
                                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                                             required
@@ -257,7 +322,7 @@ export default function ManageServices() {
                                         <input
                                             type="text"
                                             name="title"
-                                            value={formData.title}
+                                            value={formData.name}
                                             onChange={handleInputChange}
                                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                                             required
