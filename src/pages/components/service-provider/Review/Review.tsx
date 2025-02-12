@@ -13,7 +13,7 @@ interface Review {
   likes: number
 }
 
-export function Reviews() {
+export default function Reviews() {
   const reviews: Review[] = [
     {
       id: "1",

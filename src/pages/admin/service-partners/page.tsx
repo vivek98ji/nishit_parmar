@@ -24,7 +24,7 @@ const AdminServiceRequests: React.FC = () => {
     return (
         <div className="min-h-screen bg-white text-gray-900 p-8">
             <h1 className="text-4xl font-extrabold text-center mb-8 ">
-                Service Provider Requests
+                Service Provider Requests 
             </h1>
 
             {/* <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"> */}

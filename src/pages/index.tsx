@@ -4,7 +4,7 @@ import Product from "./components/Product/page";
 import ProductPage from "./components/ProductDetail/ProductDetail";
 import Cart from "./components/Cart";
 import Link from "next/link";
-import ProductData from "./components/Product/ProductData";
+import ProductData from '../data/ProductData'
 import Header from "./components/signup-page/header/header";
 import Footer from "./components/signup-page/footer/footer";
 import HomeServices from "./components/homepage/homepage";
