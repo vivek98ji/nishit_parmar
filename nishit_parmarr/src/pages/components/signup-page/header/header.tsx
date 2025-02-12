@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Menu, X, ShoppingBag } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
+import { FaReact } from "react-icons/fa";
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -15,8 +17,12 @@ const Header = () => {
 
   ];
   const router = useRouter();
-  return (
 
+  const handleIconClick = () => {
+    window.open('/service-page', '_blank');
+  };
+
+  return (
     <header className="w-full bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -27,8 +33,8 @@ const Header = () => {
             </a>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
+          {/* Centered Navigation */}
+          <nav className="flex-grow flex justify-center space-x-8">
             {navItems.map((item) => (
               <a
                 key={item.label}
@@ -40,11 +46,14 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Shopping Cart Icon */}
-          <div className="hidden md:flex items-center">
-            <button className="text-white p-2">
-              <ShoppingBag className="h-6 w-6" />
-            </button>
+          {/* Icons on the right */}
+          <div className="flex items-center space-x-4">
+            <FaReact onClick={handleIconClick} className="cursor-pointer h-6 w-6" />
+            <div className="hidden md:flex items-center">
+              <button className="text-white p-2">
+                <ShoppingBag className="h-6 w-6" />
+              </button>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}

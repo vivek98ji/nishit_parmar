@@ -7,7 +7,7 @@ import { MainContent } from "./components/service-provider/dashboard/main_conten
 
 export default function Dashboard() {
   const [isSidebarOpen, setSidebarOpen] = useState(true)
-  const [activeTab, setActiveTab] = useState("Dashboard")
+  const [activeTab, setActiveTab] = useState("Home")
 
   return (
     <div className="flex h-screen bg-white">
