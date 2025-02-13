@@ -1,8 +1,19 @@
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 // import logo from '../../public/logo.png'; // Adjust the path as necessary
 
 const SignupWithUser: React.FC = () => {
+  const router = useRouter();
+
+  const handleForgotPassword = () => {
+    router.push('/components/signup-page/forgotpassword');
+  };
+
+  const handleLogin = () => {
+    router.push('/components/signup-page/login');
+  };
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Left Side */}
@@ -29,32 +40,48 @@ const SignupWithUser: React.FC = () => {
 
       {/* Right Side */}
       <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center">
-        <h2 className="text-2xl font-bold mb-6 text-gray-600">Sign Up as User</h2>
+        <h2 className="text-3xl font-bold mb-16 text-gray-700">User SignIn </h2>
         <form className="w-80">
           <input
             type="email"
             placeholder="Email"
             required
-            className="border border-gray-300 rounded p-2 mb-4 w-full"
+            className="border-2 border-gray-700 rounded p-2 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-600"
           />
           <input
             type="password"
             placeholder="Password"
             required
-            className="border border-gray-300 rounded p-2 mb-4 w-full"
+            className="border-2      border-gray-700 rounded p-2 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder-gray-600"
           />
           <button
             type="submit"
-            className="bg-black text-white py-2 rounded w-full hover:bg-gray-700"
+            className="bg-black text-white py-3 rounded w-full hover:bg-gray-800 transition-all duration-300 transform hover:scale-105"
           >
             SIGN UP
           </button>
-          <p className="mt-4">
-            <a href="#" className="text-blue-600">Forgot password?</a>
-          </p>
-          <p className="mt-2">
-            Already have an account? <a href="#" className="text-blue-600">Log In</a>
-          </p>
+
+          {/* Updated Account Options */}
+          <div className="mt-6 flex flex-col items-center space-y-4">
+            <button
+              type="button"
+              onClick={handleForgotPassword}
+              className="text-gray-600 hover:text-black transition-colors duration-300 text-sm font-medium hover:underline transform hover:scale-105"
+            >
+              Forgot password?
+            </button>
+            
+            <div className="flex items-center space-x-2">
+              <span className="text-gray-500">Already have an account?</span>
+              <button
+                type="button"
+                onClick={handleLogin}
+                className="text-black font-semibold hover:text-gray-800 transition-colors duration-300 hover:underline transform hover:scale-105"
+              >
+                Log In
+              </button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
