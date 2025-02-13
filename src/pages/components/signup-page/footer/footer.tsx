@@ -1,42 +1,90 @@
 import React from 'react';
+import Link from 'next/link';
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa';
 
-interface ContactFormData {
-  name: string;
-  lastName: string;
-  email: string;
-  message: string;
-}
-
 const Footer = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Add your form submission logic here
-  };
-
   return (
     <footer className="bg-black text-white py-16">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Left Column */}
-          <div className="space-y-8">
-            <h2 className="text-4xl font-bold">Connect with us</h2>
-            
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Helper Buddy Column */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Helper Buddy</h2>
+            <p className="text-gray-300">
+              Your trusted partner for finding reliable household services and professionals.
+            </p>
             <div className="space-y-2">
-              <h3 className="text-xl font-semibold">Address</h3>
-              <p className="text-gray-300">
-                123 Business Street
-                <br />
-                Your City, State 12345
-              </p>
+              <h3 className="text-xl font-semibold">Contact Us</h3>
+              <p className="text-gray-300">Email: info@helperbuddy.in</p>
+              <p className="text-gray-300">Phone: +91 XXXXX XXXXX</p>
             </div>
-            
-            <div className="space-y-2">
-              <h3 className="text-xl font-semibold">Contacts</h3>
-              <p className="text-gray-300">+1 (555) 123-4567</p>
-              <p className="text-gray-300">contact@yourcompany.com</p>
-            </div>
-            
+          </div>
+
+          {/* Quick Links Column */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Quick Links</h2>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/components/homepage/homepage" className="text-gray-300 hover:text-white">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link href="/about" className="text-gray-300 hover:text-white">
+                Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/services" className="text-gray-300 hover:text-white">
+                 Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-gray-300 hover:text-white">
+                  SignUp
+                </Link>
+              </li>
+              <li>
+                <Link href="/careers" className="text-gray-300 hover:text-white">
+                  About
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Our Services Column */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Our Services</h2>
+            <ul className="space-y-2">
+              <li>
+                <Link href="/services/house-cleaning" className="text-gray-300 hover:text-white">
+                  House Cleaning
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/cook" className="text-gray-300 hover:text-white">
+                  Cook Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/elderly-care" className="text-gray-300 hover:text-white">
+                  Elderly Care
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/kitchen-cleaning" className="text-gray-300 hover:text-white">
+                  Kitchen Cleaning
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Follow Us Column */}
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold">Follow us</h2>
+            <p className="text-gray-300">
+              Stay connected with us on social media for updates and offers.
+            </p>
             <div className="flex space-x-4">
               <a href="#" className="text-white hover:text-gray-300 transition-colors">
                 <FaFacebook size={24} />
@@ -51,69 +99,6 @@ const Footer = () => {
                 <FaTwitter size={24} />
               </a>
             </div>
-          </div>
-          
-          {/* Right Column - Contact Form */}
-          <div>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-1">
-                  Name*
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  className="w-full px-4 py-2 rounded bg-white text-black"
-                  placeholder="Your name"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="lastName" className="block text-sm font-medium mb-1">
-                  Last name
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  className="w-full px-4 py-2 rounded bg-white text-black"
-                  placeholder="Your last name"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-1">
-                  Your email*
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full px-4 py-2 rounded bg-white text-black"
-                  placeholder="Your email address"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-1">
-                  Message*
-                </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  className="w-full px-4 py-2 rounded bg-white text-black"
-                  placeholder="Enter your message"
-                  required
-                />
-              </div>
-              
-              <button
-                type="submit"
-                className="bg-white text-black px-8 py-2 rounded hover:bg-gray-200 transition-colors"
-              >
-                Submit
-              </button>
-            </form>
           </div>
         </div>
       </div>

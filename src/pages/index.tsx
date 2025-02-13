@@ -22,14 +22,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-
 export default function Home() {
   return (
-    <>
-
-      <HomeServices />
-
-
-    </>
+    <div className="flex flex-col min-h-screen">
+     
+      <main className="flex-grow">
+        <HomeServices />
+      </main>
+      
+    </div>
   );
 }
