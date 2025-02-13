@@ -1,11 +1,22 @@
+"use client"
+
 import { Menu, Settings } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 interface HeaderProps {
   setSidebarOpen: (isOpen: boolean) => void
   activeTab: string
+  setActiveTab: (tab: string) => void 
 }
 
-export function Header({ setSidebarOpen, activeTab }: HeaderProps) {
+export function Header({ setSidebarOpen, activeTab, setActiveTab }: HeaderProps) {
+  const router = useRouter()
+
+  const handleSettingsClick = () => {
+    setActiveTab("Settings")
+    router.push('/settings') // Navigate to settings page
+  }
+
   return (
     <header className="h-20 flex items-center justify-between px-6 border-b border-gray-200">
       <div className="flex items-center">
@@ -20,11 +31,17 @@ export function Header({ setSidebarOpen, activeTab }: HeaderProps) {
         </div>
       </div>
       <div className="flex items-center space-x-4">
-        <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors">
+        <button 
+          onClick={handleSettingsClick}
+          className={`p-2 transition-colors ${
+            activeTab === 'Settings' 
+              ? 'text-gray-900 bg-gray-100 rounded-md' 
+              : 'text-gray-600 hover:text-gray-900'
+          }`}
+        >
           <Settings className="h-6 w-6" />
         </button>
       </div>
     </header>
   )
 }
-

@@ -46,10 +46,13 @@ export function Sidebar({ isSidebarOpen, setSidebarOpen, activeTab, setActiveTab
 
       <div className="p-6">
         <div className="space-y-2 mb-8">
-          <button className="w-full flex items-center justify-center space-x-2 px-3 py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors">
-            <Plus className="h-5 w-5" />
-            <span className="text-base font-medium">Add New Service</span>
-          </button>
+        <button 
+      className="w-full flex items-center justify-center space-x-2 px-3 py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-colors"
+      onClick={() => setActiveTab("addservice")}  // Add this onClick handler
+      >
+  <Plus className="h-5 w-5" />
+  <span className="text-base font-medium">Add New Service</span>
+</button>
         </div>
         <nav className="space-y-2">
           {navItems.map((item) => {

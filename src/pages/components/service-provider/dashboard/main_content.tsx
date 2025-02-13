@@ -7,6 +7,8 @@ import { Income } from "../income/income"
 import { MailInbox } from "../Mail/mail"
 import { ContractsSection} from "../contracts/contracts"
 import { PromotePlans } from "../promote/promote"
+import AddServiceForm from "../addService/addService"
+import Settings from "../settings/settings"
 
 interface MainContentProps {
   activeTab: string
@@ -17,7 +19,7 @@ export function MainContent({ activeTab }: MainContentProps) {
   if (activeTab === "Reviews") {
     return <Reviews />
   }
-  else if (activeTab === "Workspace") {
+  if (activeTab === "Workspace") {
     return <Workspace />
   }
   if (activeTab === "Income") {
@@ -32,6 +34,13 @@ export function MainContent({ activeTab }: MainContentProps) {
   if (activeTab === "Promote") {
     return <PromotePlans />
   }
+  if ( activeTab === "addservice") {
+    return <AddServiceForm onClose={() => {}}/>
+  }
+  if ( activeTab === "Settings") {
+    return <Settings />
+  }
+
 
   const stats = [
     { label: "Total Views", value: "4.42K", subtext: "119", change: "+600.0% since previous day" },
