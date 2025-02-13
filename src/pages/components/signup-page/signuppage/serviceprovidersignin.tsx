@@ -141,8 +141,8 @@ const ServiceProviderSignin: React.FC = () => {
           )}
 
           <div className="mb-4">
-            <label className="block text-2xl text-gray-700 mb-2">Select Service Categories</label>
-            <div className="grid text-xl grid-cols-2 gap-2">
+            <label className="block text-2xl text-gray-700 mb-2">Select Service Categories (Multiple)</label>
+            <div className="grid grid-cols-2 gap-2">
               {serviceCategories.map((category) => (
                 <div key={category.value} className="flex items-center">
                   <input
