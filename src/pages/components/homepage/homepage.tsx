@@ -23,14 +23,54 @@ const HomeServices: React.FC = () => {
   const [activeModal, setActiveModal] = useState<number | null>(null);
 
   const services: ServiceItem[] = [
-    { id: 1, title: "Women's Salon & Spa", icon: "/img/icons/womens-salon.png", category: "beauty" },
-    { id: 2, title: "Men's Salon & Massage", icon: "/img/icons/mens-salon.png", category: "beauty" },
-    { id: 3, title: "AC & Appliance Repair", icon: "/img/icons/ac-repair.png", category: "repair" },
-    { id: 4, title: "Cleaning & Pest Control", icon: "/img/icons/cleaning.png", category: "cleaning" },
-    { id: 5, title: "Electrician, Plumber & Carpenter", icon: "/img/icons/electrician.png", category: "repair" },
-    { id: 6, title: "Native Water Purifier", icon: "/img/icons/water-purifier.png", category: "appliances" },
-    { id: 7, title: "Rooms/walls painting", icon: "/img/icons/painting.png", category: "home" },
-    { id: 8, title: "Wall Panels", icon: "/img/icons/wall-panels.png", category: "home" }
+    { 
+      id: 1, 
+      title: "Women's Salon & Spa", 
+      icon: "https://cdn-icons-png.flaticon.com/512/1940/1940922.png", 
+      category: "beauty" 
+    },
+    { 
+      id: 2, 
+      title: "Men's Salon & Massage", 
+      icon: "https://cdn-icons-png.flaticon.com/512/2377/2377322.png", 
+      category: "beauty" 
+    },
+    { 
+      id: 3, 
+      title: "AC & Appliance Repair", 
+      icon: "https://cdn-icons-png.flaticon.com/512/3069/3069674.png", 
+      category: "repair" 
+    },
+    { 
+      id: 4, 
+      title: "Cleaning & Pest Control", 
+      icon: "https://cdn-icons-png.flaticon.com/512/2970/2970975.png", 
+      category: "cleaning" 
+    },
+    { 
+      id: 5, 
+      title: "Electrician, Plumber & Carpenter", 
+      icon: "https://cdn-icons-png.flaticon.com/512/4264/4264901.png", 
+      category: "repair" 
+    },
+    { 
+      id: 6, 
+      title: "Native Water Purifier", 
+      icon: "https://cdn-icons-png.flaticon.com/512/1175/1175277.png", 
+      category: "appliances" 
+    },
+    { 
+      id: 7, 
+      title: "Rooms/walls painting", 
+      icon: "https://cdn-icons-png.flaticon.com/512/1048/1048947.png", 
+      category: "home" 
+    },
+    { 
+      id: 8, 
+      title: "Wall Panels", 
+      icon: "https://cdn-icons-png.flaticon.com/512/3079/3079162.png", 
+      category: "home" 
+    }
   ];
 
   const fadeIn = {

@@ -4,7 +4,8 @@ const nextConfig = {
     domains: [
       'cdn.zyrosite.com',  // Add the external domain
       'images.unsplash.com',
-      'plus.unsplash.com'
+      'plus.unsplash.com',
+      'cdn-icons-png.flaticon.com'
     ],
     remotePatterns: [
       {
@@ -15,6 +16,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '**.unsplash.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn-icons-png.flaticon.com',
         pathname: '/**',
       }
     ]
