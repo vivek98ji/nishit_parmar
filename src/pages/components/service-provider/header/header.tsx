@@ -5,7 +5,7 @@ interface HeaderProps {
   activeTab: string
 }
 
-export default function Header({ setSidebarOpen, activeTab }: HeaderProps) {
+export function Header({ setSidebarOpen, activeTab }: HeaderProps) {
   return (
     <header className="h-20 flex items-center justify-between px-6 border-b border-gray-200">
       <div className="flex items-center">

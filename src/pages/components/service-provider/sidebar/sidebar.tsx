@@ -10,7 +10,7 @@ interface SidebarProps {
   setActiveTab: (tab: string) => void
 }
 
-export default function Sidebar({ isSidebarOpen, setSidebarOpen, activeTab, setActiveTab }: SidebarProps) {
+export function Sidebar({ isSidebarOpen, setSidebarOpen, activeTab, setActiveTab }: SidebarProps) {
   const navItems = [
     { name: "Dashboard", icon: Home },
     { name: "Workspace", icon: Layout },
