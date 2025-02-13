@@ -83,19 +83,19 @@ const HomeServices: React.FC = () => {
       title: "Women's Salon & Spa",
       items: [
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3055/3055897.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/8028/8028145.png", 
           title: "Hair Styling" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/2454/2454322.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/3685/3685633.png", 
           title: "Facial & Cleanup" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/1940/1940911.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/9397/9397090.png", 
           title: "Waxing" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3163/3163198.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/1005/1005768.png", 
           title: "Manicure & Pedicure" 
         }
       ]
@@ -104,19 +104,19 @@ const HomeServices: React.FC = () => {
       title: "Men's Salon & Massage",
       items: [
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3532/3532033.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/4867/4867608.png", 
           title: "Haircut & Styling" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/1087/1087188.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/7640/7640931.png", 
           title: "Beard Trim & Shape" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/2318/2318536.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/5262/5262327.png", 
           title: "Body Massage" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/1807/1807578.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/3531/3531990.png", 
           title: "Face Care" 
         }
       ]
@@ -125,19 +125,19 @@ const HomeServices: React.FC = () => {
       title: "AC & Appliance Repair",
       items: [
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3069/3069712.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/9457/9457452.png", 
           title: "AC Service & Repair" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/2943/2943407.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/2272/2272219.png", 
           title: "Refrigerator Repair" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/2386/2386855.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/2503/2503513.png", 
           title: "Washing Machine" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/5741/5741326.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/8002/8002163.png", 
           title: "Microwave Repair" 
         }
       ]
@@ -146,19 +146,19 @@ const HomeServices: React.FC = () => {
       title: "Cleaning & Pest Control",
       items: [
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/1940/1940877.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/2865/2865775.png", 
           title: "Home Deep Cleaning" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/2970/2970975.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/995/995053.png", 
           title: "Bathroom Cleaning" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3343/3343641.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/8342/8342542.png", 
           title: "Pest Control" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/2452/2452227.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/2927/2927347.png", 
           title: "Sanitization" 
         }
       ]
@@ -167,7 +167,7 @@ const HomeServices: React.FC = () => {
       title: "Electrician, Plumber & Carpenter",
       items: [
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/4264/4264901.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/1983/1983275.png", 
           title: "Electrical Work" 
         },
         { 
@@ -175,11 +175,11 @@ const HomeServices: React.FC = () => {
           title: "Plumbing Services" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/1995/1995470.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/2829/2829964.png", 
           title: "Carpentry Work" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3079/3079162.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/4544/4544322.png", 
           title: "Installation" 
         }
       ]
@@ -188,7 +188,7 @@ const HomeServices: React.FC = () => {
       title: "Water Purifier",
       items: [
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3105/3105807.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/4147/4147164.png", 
           title: "Installation" 
         },
         { 
@@ -196,11 +196,11 @@ const HomeServices: React.FC = () => {
           title: "Repair" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/1175/1175277.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/4147/4147176.png", 
           title: "Service" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3002/3002772.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/4147/4147138.png", 
           title: "Filter Change" 
         }
       ]
@@ -209,19 +209,19 @@ const HomeServices: React.FC = () => {
       title: "Painting Services",
       items: [
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/1048/1048947.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/3095/3095221.png", 
           title: "Wall Painting" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3729/3729163.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/2913/2913136.png", 
           title: "Texture Painting" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/2091/2091665.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/4880/4880636.png", 
           title: "Waterproofing" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/2891/2891491.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/1048/1048947.png", 
           title: "Wood Painting" 
         }
       ]
@@ -230,19 +230,19 @@ const HomeServices: React.FC = () => {
       title: "Wall Panels",
       items: [
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3079/3079136.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/8068/8068項.png", 
           title: "PVC Panels" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/5661/5661731.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/2432/2432592.png", 
           title: "Wooden Panels" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3659/3659899.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/5229/5229380.png", 
           title: "3D Panels" 
         },
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/3137/3137197.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/4356/4356011.png", 
           title: "Acoustic Panels" 
         }
       ]
