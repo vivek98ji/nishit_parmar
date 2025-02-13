@@ -82,46 +82,169 @@ const HomeServices: React.FC = () => {
     1: {
       title: "Women's Salon & Spa",
       items: [
-        { icon: "/img/icons/salon.png", title: "Salon for Women" },
-        { icon: "/img/icons/spa.png", title: "Spa for Women" },
-        { icon: "/img/icons/hair-studio.png", title: "Hair Studio for Women" },
-        { icon: "/img/icons/makeup.png", title: "Makeup & Styling Studio" }
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3055/3055897.png", 
+          title: "Hair Styling" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/2454/2454322.png", 
+          title: "Facial & Cleanup" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/1940/1940911.png", 
+          title: "Waxing" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3163/3163198.png", 
+          title: "Manicure & Pedicure" 
+        }
       ]
     },
     2: {
       title: "Men's Salon & Massage",
       items: [
-        { icon: "/img/icons/mens-haircut.png", title: "Men's Haircut" },
-        { icon: "/img/icons/beard-trim.png", title: "Beard Styling" },
-        { icon: "/img/icons/massage.png", title: "Body Massage" },
-        { icon: "/img/icons/spa-men.png", title: "Male Grooming" }
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3532/3532033.png", 
+          title: "Haircut & Styling" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/1087/1087188.png", 
+          title: "Beard Trim & Shape" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/2318/2318536.png", 
+          title: "Body Massage" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/1807/1807578.png", 
+          title: "Face Care" 
+        }
       ]
     },
     3: {
       title: "AC & Appliance Repair",
       items: [
-        { icon: "/img/icons/ac-service.png", title: "AC Servicing" },
-        { icon: "/img/icons/refrigerator.png", title: "Refrigerator Repair" },
-        { icon: "/img/icons/washing-machine.png", title: "Washing Machine Repair" },
-        { icon: "/img/icons/microwave.png", title: "Microwave Repair" }
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3069/3069712.png", 
+          title: "AC Service & Repair" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/2943/2943407.png", 
+          title: "Refrigerator Repair" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/2386/2386855.png", 
+          title: "Washing Machine" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/5741/5741326.png", 
+          title: "Microwave Repair" 
+        }
       ]
     },
     4: {
       title: "Cleaning & Pest Control",
       items: [
-        { icon: "/img/icons/home-cleaning.png", title: "Home Cleaning" },
-        { icon: "/img/icons/deep-cleaning.png", title: "Deep Cleaning" },
-        { icon: "/img/icons/pest-control.png", title: "Pest Control" },
-        { icon: "/img/icons/sanitization.png", title: "Sanitization" }
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/1940/1940877.png", 
+          title: "Home Deep Cleaning" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/2970/2970975.png", 
+          title: "Bathroom Cleaning" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3343/3343641.png", 
+          title: "Pest Control" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/2452/2452227.png", 
+          title: "Sanitization" 
+        }
       ]
     },
     5: {
       title: "Electrician, Plumber & Carpenter",
       items: [
-        { icon: "/img/icons/electrical-repair.png", title: "Electrical Repair" },
-        { icon: "/img/icons/plumbing.png", title: "Plumbing Services" },
-        { icon: "/img/icons/carpentry.png", title: "Carpentry Work" },
-        { icon: "/img/icons/installation.png", title: "Installation Services" }
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/4264/4264901.png", 
+          title: "Electrical Work" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/4635/4635163.png", 
+          title: "Plumbing Services" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/1995/1995470.png", 
+          title: "Carpentry Work" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3079/3079162.png", 
+          title: "Installation" 
+        }
+      ]
+    },
+    6: {
+      title: "Water Purifier",
+      items: [
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3105/3105807.png", 
+          title: "Installation" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/4147/4147126.png", 
+          title: "Repair" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/1175/1175277.png", 
+          title: "Service" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3002/3002772.png", 
+          title: "Filter Change" 
+        }
+      ]
+    },
+    7: {
+      title: "Painting Services",
+      items: [
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/1048/1048947.png", 
+          title: "Wall Painting" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3729/3729163.png", 
+          title: "Texture Painting" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/2091/2091665.png", 
+          title: "Waterproofing" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/2891/2891491.png", 
+          title: "Wood Painting" 
+        }
+      ]
+    },
+    8: {
+      title: "Wall Panels",
+      items: [
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3079/3079136.png", 
+          title: "PVC Panels" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/5661/5661731.png", 
+          title: "Wooden Panels" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3659/3659899.png", 
+          title: "3D Panels" 
+        },
+        { 
+          icon: "https://cdn-icons-png.flaticon.com/512/3137/3137197.png", 
+          title: "Acoustic Panels" 
+        }
       ]
     }
   };
