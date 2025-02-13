@@ -1,19 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 // import logo from '../../public/logo.png'; // Adjust the path as necessary
 
-const Signup: React.FC = () => {
-  const router = useRouter();
-
-  const handleUserSignup = () => {
-    router.push('/components/signup-page/signuppage/signupwithuser');
-  };
-
-  const handleProviderSignup = () => {
-    router.push('/components/signup-page/signuppage/signupwithprovider'); // Create this file if needed
-  };
-
+const SignupWithUser: React.FC = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Left Side */}
@@ -40,26 +29,36 @@ const Signup: React.FC = () => {
 
       {/* Right Side */}
       <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center">
-        <h2 className="text-2xl font-bold mb-6 text-gray-600">Choose Account Type</h2>
-        
-        {/* Account Type Buttons */}
-        <div className="w-80 mb-8 space-y-4">
-          <button 
-            onClick={handleUserSignup}
-            className="w-full bg-black text-white py-3 px-6 rounded-lg shadow hover:bg-gray-800 transition-all duration-300 transform hover:scale-105"
+        <h2 className="text-2xl font-bold mb-6 text-gray-600">Sign Up as User</h2>
+        <form className="w-80">
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            className="border border-gray-300 rounded p-2 mb-4 w-full"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            className="border border-gray-300 rounded p-2 mb-4 w-full"
+          />
+          <button
+            type="submit"
+            className="bg-black text-white py-2 rounded w-full hover:bg-gray-700"
           >
-            Sign Up as User
+            SIGN UP
           </button>
-          <button 
-            onClick={handleProviderSignup}
-            className="w-full bg-black text-white py-3 px-6 rounded-lg shadow hover:bg-gray-800 transition-all duration-300 transform hover:scale-105"
-          >
-            Sign Up as Service Provider
-          </button>
-        </div>
+          <p className="mt-4">
+            <a href="#" className="text-blue-600">Forgot password?</a>
+          </p>
+          <p className="mt-2">
+            Already have an account? <a href="#" className="text-blue-600">Log In</a>
+          </p>
+        </form>
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default SignupWithUser;
