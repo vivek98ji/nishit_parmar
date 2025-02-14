@@ -21,6 +21,7 @@ export function Sidebar({ isSidebarOpen, setSidebarOpen, activeTab, setActiveTab
     { name: "Promote", icon: Rocket }
   ]
 
+  
   return (
     <div
       className={`fixed inset-y-0 left-0 z-50 w-72 bg-white transform transition-transform duration-300 ease-in-out ${
