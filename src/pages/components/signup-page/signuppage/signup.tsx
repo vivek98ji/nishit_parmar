@@ -1,18 +1,19 @@
-
-
-
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { FaSearch, FaCheckCircle, FaUserPlus, FaCalendarCheck, FaShieldAlt, FaHandshake } from "react-icons/fa";
 
 const Signup: React.FC = () => {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: ""
   });
   const [errors, setErrors] = useState({
+    name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: ""
   });
@@ -23,6 +24,11 @@ const Signup: React.FC = () => {
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phone);
   };
 
   const validatePassword = (password: string) => {
@@ -36,7 +42,6 @@ const Signup: React.FC = () => {
       [name]: value
     }));
 
-    // Clear errors when user types
     setErrors(prev => ({
       ...prev,
       [name]: ""
@@ -46,13 +51,25 @@ const Signup: React.FC = () => {
   const validateForm = () => {
     let isValid = true;
     const newErrors = {
+      name: "",
       email: "",
+      phone: "",
       password: "",
       confirmPassword: ""
     };
 
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+      isValid = false;
+    }
+
     if (!validateEmail(formData.email)) {
       newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    if (!validatePhone(formData.phone)) {
+      newErrors.phone = "Please enter a valid 10-digit phone number";
       isValid = false;
     }
 
@@ -75,7 +92,23 @@ const Signup: React.FC = () => {
     
     if (validateForm()) {
       try {
-        await sendOTP();
+        const response = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password
+          })
+        });
+
+        if (response.ok) {
+          await sendOTP();
+        } else {
+          const data = await response.json();
+          throw new Error(data.message || "Signup failed");
+        }
       } catch (error) {
         console.error("Error during signup:", error);
       }
@@ -140,6 +173,18 @@ const Signup: React.FC = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <input
+                    type="text"
+                    name="name"
+                    placeholder="Full Name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                  />
+                  {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                </div>
+
+                <div>
+                  <input
                     type="email"
                     name="email"
                     placeholder="Email address"
@@ -148,6 +193,18 @@ const Signup: React.FC = () => {
                     className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
                   />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                </div>
+
+                <div>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone Number"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                  />
+                  {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                 </div>
 
                 <div>
