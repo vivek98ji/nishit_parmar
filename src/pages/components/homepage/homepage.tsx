@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaSearch, FaStar, FaCheckCircle } from "react-icons/fa";
 
 // Define types for service and modal items
@@ -18,6 +18,14 @@ interface ModalItem {
 interface ModalContent {
   title: string;
   items: ModalItem[];
+}
+
+// Add this interface for testimonials
+interface Testimonial {
+  id: number;
+  text: string;
+  author: string;
+  rating: number;
 }
 
 const responsive = {
@@ -320,6 +328,71 @@ const HomeServices: React.FC = () => {
     );
   };
 
+  // Add testimonials state
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+  
+  const testimonials: Testimonial[] = [
+    {
+      id: 1,
+      text: "Amazing service! Very professional and timely. The staff was courteous and did an excellent job.",
+      author: "John Doe",
+      rating: 5
+    },
+    {
+      id: 2,
+      text: "Best home service I've ever experienced! They went above and beyond my expectations.",
+      author: "Jane Smith",
+      rating: 5
+    },
+    {
+      id: 3,
+      text: "Excellent work and great customer service. Would definitely recommend to friends and family.",
+      author: "Mike Johnson",
+      rating: 5
+    },
+    {
+      id: 4,
+      text: "Very satisfied with the cleaning service! They were thorough and professional.",
+      author: "Sarah Wilson",
+      rating: 4
+    },
+    {
+      id: 5,
+      text: "The AC repair service was fantastic. They fixed the issue quickly and efficiently.",
+      author: "David Brown",
+      rating: 5
+    },
+    {
+      id: 6,
+      text: "Great experience with the plumbing service. Good value for money but slightly delayed.",
+      author: "Emily Taylor",
+      rating: 4
+    },
+    {
+      id: 7,
+      text: "The painting team did an outstanding job! My walls look absolutely perfect now.",
+      author: "Robert Clark",
+      rating: 5
+    },
+    {
+      id: 8,
+      text: "Exceptional salon service! The staff was skilled and the ambiance was wonderful.",
+      author: "Lisa Anderson",
+      rating: 5
+    }
+  ];
+
+  // Add useEffect for auto-sliding testimonials
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTestimonialIndex((prev) => 
+        prev === testimonials.length - 1 ? 0 : prev + 1
+      );
+    }, 3000); // Change testimonial every 3 seconds
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="max-w-7xl mx-auto p-6 mt-12">
       {/* Add search bar */}
@@ -419,6 +492,70 @@ const HomeServices: React.FC = () => {
           Book Now
         </button>
       </section>
+
+      {/* Moving Testimonials - Two at a time */}
+      <div className="mt-8 bg-black p-8 rounded-lg overflow-hidden">
+        <h2 className="text-3xl font-bold mb-8 text-white text-center">What Our Customers Say</h2>
+        <div className="relative h-48">
+          <AnimatePresence mode='wait'>
+            <motion.div
+              key={currentTestimonialIndex}
+              initial={{ y: -100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="grid grid-cols-2 gap-8"
+            >
+              <div className="w-full">
+                <div className="bg-blue-950 p-6 rounded-xl shadow-lg text-center h-full">
+                  <p className="text-lg italic mb-4 text-white">
+                    "{testimonials[currentTestimonialIndex].text}"
+                  </p>
+                  <div className="flex justify-center mb-2">
+                    {[...Array(testimonials[currentTestimonialIndex].rating)].map((_, i) => (
+                      <FaStar key={i} className="text-yellow-400 mx-1" />
+                    ))}
+                  </div>
+                  <p className="font-semibold text-white">
+                    - {testimonials[currentTestimonialIndex].author}
+                  </p>
+                </div>
+              </div>
+
+              <div className="w-full">
+                <div className="bg-blue-950 p-6 rounded-xl shadow-lg text-center h-full">
+                  <p className="text-lg italic mb-4 text-white">
+                    "{testimonials[(currentTestimonialIndex + 1) % testimonials.length].text}"
+                  </p>
+                  <div className="flex justify-center mb-2">
+                    {[...Array(testimonials[(currentTestimonialIndex + 1) % testimonials.length].rating)].map((_, i) => (
+                      <FaStar key={i} className="text-yellow-400 mx-1" />
+                    ))}
+                  </div>
+                  <p className="font-semibold text-white">
+                    - {testimonials[(currentTestimonialIndex + 1) % testimonials.length].author}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+        
+        {/* Testimonial Indicators */}
+        <div className="flex justify-center mt-8">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentTestimonialIndex(index)}
+              className={`mx-1 w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentTestimonialIndex || index === (currentTestimonialIndex + 1) % testimonials.length
+                  ? 'bg-blue-950 scale-110'
+                  : 'bg-gray-600 hover:bg-gray-400'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
