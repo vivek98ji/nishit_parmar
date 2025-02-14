@@ -90,9 +90,108 @@
 // export default Signup;
 
 
-import React, { useState } from "react";
-import Image from "next/image";
+// import React, { useState } from "react";
+// import Image from "next/image";
 
+// const Signup: React.FC = () => {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [otp, setOtp] = useState("");
+//   const [otpSent, setOtpSent] = useState(false);
+//   const [message, setMessage] = useState("");
+//   const [isVerified, setIsVerified] = useState(false);
+
+//   const sendOtp = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setMessage("");
+//     const res = await fetch("/api/send-otp", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ email })
+//     });
+//     const data = await res.json();
+//     if (data.success) setOtpSent(true);
+//     setMessage(data.message);
+//   };
+
+//   const verifyOtp = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setMessage("");
+//     const res = await fetch("/api/verify-otp", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ email, otp })
+//     });
+//     const data = await res.json();
+//     if (data.success) setIsVerified(true);
+//     setMessage(data.message);
+//   };
+
+
+
+
+//   return (
+//     <div className="flex h-screen bg-gray-100">
+//       {/* Left Side */}
+//       <div className="flex-1 bg-black text-white p-10 flex flex-col justify-center">
+//         <h1 className="text-5xl font-bold">HelperBuddy</h1>
+//         <h2 className="text-3xl mt-2 mb-6">Your Home Service Partner</h2>
+//         <p className="text-lg">Convenient home services like cleaning, plumbing, and more.</p>
+//       </div>
+
+//       {/* Right Side */}
+//       <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center">
+//         <h2 className="text-2xl font-bold mb-6 text-gray-600">Sign Up</h2>
+//         <form className="w-80" onSubmit={sendOtp}>
+//           <input
+//             type="email"
+//             placeholder="Email"
+//             required
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//             className="border border-gray-300 rounded p-2 mb-4 w-full"
+//           />
+//           <input
+//             type="password"
+//             placeholder="Password"
+//             required
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//             className="border border-gray-300 rounded p-2 mb-4 w-full"
+//           />
+//           {!otpSent ? (
+//             <button type="submit" className="bg-black text-white py-2 rounded w-full hover:bg-gray-700">
+//               SEND OTP
+//             </button>
+//           ) : (
+//             <>
+//               <input
+//                 type="text"
+//                 placeholder="Enter OTP"
+//                 required
+//                 value={otp}
+//                 onChange={(e) => setOtp(e.target.value)}
+//                 className="border border-gray-300 rounded p-2 mb-4 w-full"
+//               />
+//               <button onClick={verifyOtp} className="bg-green-600 text-white py-2 rounded w-full hover:bg-green-700">
+//                 VERIFY OTP
+//               </button>
+//             </>
+//           )}
+//           {message && <p className="mt-4 text-red-500">{message}</p>}
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Signup;
+
+
+
+
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -100,34 +199,29 @@ const Signup: React.FC = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [message, setMessage] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-
-  const sendOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setMessage("");
-    const res = await fetch("/api/send-otp", {
+  const [step, setStep] = useState(1);
+  const router = useRouter();
+  const sendOTP = async () => {
+    await fetch("/api/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email })
+      body: JSON.stringify({ email, action: "send" })
     });
-    const data = await res.json();
-    if (data.success) setOtpSent(true);
-    setMessage(data.message);
+    setStep(2);
   };
 
-  const verifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setMessage("");
-    const res = await fetch("/api/verify-otp", {
+  const verifyOTP = async () => {
+    const res = await fetch("/api/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, otp })
+      body: JSON.stringify({ email, otp, action: "verify" })
     });
-    const data = await res.json();
-    if (data.success) setIsVerified(true);
-    setMessage(data.message);
+    if (res.ok) {
+
+      router.push("/components/homepage/homepage");
+    }
+
   };
-
-
 
 
   return (
@@ -142,7 +236,9 @@ const Signup: React.FC = () => {
       {/* Right Side */}
       <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center">
         <h2 className="text-2xl font-bold mb-6 text-gray-600">Sign Up</h2>
-        <form className="w-80" onSubmit={sendOtp}>
+        {/* <form className="w-80"
+        // onSubmit={(e) => handleAuth(e)}
+        >
           <input
             type="email"
             placeholder="Email"
@@ -160,7 +256,7 @@ const Signup: React.FC = () => {
             className="border border-gray-300 rounded p-2 mb-4 w-full"
           />
           {!otpSent ? (
-            <button type="submit" className="bg-black text-white py-2 rounded w-full hover:bg-gray-700">
+            <button type="submit" className="bg-black text-white py-2 rounded w-full hover:bg-gray-700" onClick={sendOTP}>
               SEND OTP
             </button>
           ) : (
@@ -173,17 +269,64 @@ const Signup: React.FC = () => {
                 onChange={(e) => setOtp(e.target.value)}
                 className="border border-gray-300 rounded p-2 mb-4 w-full"
               />
-              <button onClick={verifyOtp} className="bg-green-600 text-white py-2 rounded w-full hover:bg-green-700">
+              <button
+                // onClick={(e) => handleAuth(e, true)}
+                className="bg-green-600 text-white py-2 rounded w-full hover:bg-green-700"
+                onClick={verifyOTP}>
                 VERIFY OTP
               </button>
             </>
           )}
           {message && <p className="mt-4 text-red-500">{message}</p>}
-        </form>
+        </form> */}
+
+
+        {/* <div className="bg-white p-6 rounded shadow-md w-96">
+          {step === 1 ? (
+            <>
+              <h2 className="text-xl font-semibold mb-4">Sign In</h2>
+              <input className="border p-2 w-full mb-2" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <button className="bg-blue-500 text-white p-2 w-full" onClick={sendOTP}>Send OTP</button>
+            </>
+          ) : (
+            <>
+              <h2 className="text-xl font-semibold mb-4">Enter OTP</h2>
+              <input className="border p-2 w-full mb-2" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
+              <button className="bg-green-500 text-white p-2 w-full" onClick={verifyOTP}>Verify</button>
+            </>
+          )}
+        </div> */}
+
+
+
+
+        <div className="bg-white p-6 rounded shadow-md w-96">
+          {step === 1 ? (
+            <>
+              <h2 className="text-xl font-semibold mb-4">Sign In</h2>
+              <input className="border p-2 w-full mb-2" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <button className="bg-blue-500 text-white p-2 w-full" onClick={sendOTP}>Send OTP</button>
+            </>
+          ) : (
+            <>
+              <h2 className="text-xl font-semibold mb-4">Enter OTP</h2>
+              <input className="border p-2 w-full mb-2" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
+              <button className="bg-green-500 text-white p-2 w-full" onClick={verifyOTP}>Verify</button>
+            </>
+          )}
+        </div>
+
+
+
       </div>
     </div>
   );
 };
 
 export default Signup;
+
+
+function setStep(arg0: number) {
+  throw new Error("Function not implemented.");
+}
 
