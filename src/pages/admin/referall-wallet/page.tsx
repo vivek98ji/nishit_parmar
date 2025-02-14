@@ -1,21 +1,26 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import mongoose from 'mongoose';
 
 interface User {
-    id: string;
+    _id: string;
     name: string;
     email: string;
-    walletBalance: number;
+    wallet: number;
     referralCode: string;
     referralCount: number;
     avatar: string;
 }
 
 interface Transaction {
-    id: string;
-    userId: string;
+    _id: string;
+    userId: {
+        _id: string;
+        name: string;
+        email: string;
+    };
     type: 'credit' | 'debit';
     amount: number;
     description: string;
@@ -23,39 +28,8 @@ interface Transaction {
 }
 
 export default function ReferralWallet() {
-    // Initialize with more mock data for testing
-    const [users, setUsers] = useState<User[]>([
-        {
-            id: '1',
-            name: 'John Doe',
-            email: 'john@example.com',
-            walletBalance: 500,
-            referralCode: 'JOHN500',
-            referralCount: 5,
-            avatar: '/images/avatar-placeholder.jpg'
-        },
-        {
-            id: '2',
-            name: 'Jane Smith',
-            email: 'jane@example.com',
-            walletBalance: 300,
-            referralCode: 'JANE300',
-            referralCount: 3,
-            avatar: '/images/avatar-placeholder.jpg'
-        }
-    ]);
-
-    const [transactions, setTransactions] = useState<Transaction[]>([
-        {
-            id: '1',
-            userId: '1',
-            type: 'credit',
-            amount: 100,
-            description: 'Referral bonus',
-            date: '2024-01-20'
-        }
-    ]);
-
+    const [users, setUsers] = useState<User[]>([]);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [activeTab, setActiveTab] = useState<'users' | 'transactions'>('users');
     const [isAddFundsModalOpen, setIsAddFundsModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -63,7 +37,35 @@ export default function ReferralWallet() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    // Function to show notification
+    useEffect(() => {
+        fetchUsers();
+        fetchTransactions();
+    }, []);
+
+    const fetchUsers = async () => {
+        try {
+            const response = await fetch('/api/users');
+            const data = await response.json();
+            if (data.success) {
+                setUsers(data.users);
+            }
+        } catch (error) {
+            showNotification('Failed to fetch users', true);
+        }
+    };
+
+    const fetchTransactions = async () => {
+        try {
+            const response = await fetch('/api/transactions');
+            const data = await response.json();
+            if (data.success) {
+                setTransactions(data.transactions);
+            }
+        } catch (error) {
+            showNotification('Failed to fetch transactions', true);
+        }
+    };
+
     const showNotification = (message: string, isError: boolean = false) => {
         if (isError) {
             setError(message);
@@ -74,56 +76,56 @@ export default function ReferralWallet() {
         }
     };
 
-    const handleAddFunds = (e: React.FormEvent) => {
+    const handleAddFunds = async (e: React.FormEvent) => {
         e.preventDefault();
-
+    
         if (!selectedUser) return;
-
+    
         const numAmount = parseFloat(amount);
-
+    
         if (isNaN(numAmount) || numAmount <= 0) {
             showNotification('Please enter a valid amount', true);
             return;
         }
-
-        // Update user's wallet balance
-        setUsers(users.map(user => {
-            if (user.id === selectedUser.id) {
-                return {
-                    ...user,
-                    walletBalance: user.walletBalance + numAmount
-                };
+    
+        try {
+            console.log(`Adding funds to user ID: ${selectedUser._id}`);
+            const response = await fetch(`/api/users/${selectedUser._id}/add-funds`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: numAmount }),
+            });
+    
+            const data = await response.json();
+            console.log(`Response from server: ${JSON.stringify(data)}`);
+    
+            if (data.success) {
+                await fetchUsers();
+                await fetchTransactions();
+                showNotification(`Successfully added $${numAmount} to ${selectedUser.name}'s wallet`);
+                setIsAddFundsModalOpen(false);
+                setAmount('');
+                setSelectedUser(null);
+            } else {
+                throw new Error(data.error);
             }
-            return user;
-        }));
-
-        // Add transaction record
-        const newTransaction: Transaction = {
-            id: Date.now().toString(),
-            userId: selectedUser.id,
-            type: 'credit',
-            amount: numAmount,
-            description: 'Admin added funds',
-            date: new Date().toISOString()
-        };
-
-        setTransactions([newTransaction, ...transactions]);
-
-        showNotification(`Successfully added $${numAmount} to ${selectedUser.name}'s wallet`);
-        setIsAddFundsModalOpen(false);
-        setAmount('');
-        setSelectedUser(null);
+        } catch (error) {
+            console.log(`Error adding funds: ${(error as Error).message}`);
+            showNotification(`Failed to add funds: ${(error as Error).message}`, true);
+        }
     };
 
     // Function to generate new referral code
     const generateNewReferralCode = (userId: string) => {
-        const user = users.find(u => u.id === userId);
+        const user = users.find(u => u._id === userId);
         if (!user) return;
 
         const newCode = `${user.name.substring(0, 4).toUpperCase()}${Math.floor(Math.random() * 1000)}`;
 
         setUsers(users.map(u => {
-            if (u.id === userId) {
+            if (u._id === userId) {
                 return { ...u, referralCode: newCode };
             }
             return u;
@@ -199,7 +201,7 @@ export default function ReferralWallet() {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {users.map((user) => (
-                                    <tr key={user.id}>
+                                    <tr key={user._id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
                                                 <div className="h-10 w-10 flex-shrink-0">
@@ -220,7 +222,7 @@ export default function ReferralWallet() {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-900 font-bold">${user.walletBalance}</div>
+                                            <div className="text-sm text-gray-900 font-bold">${user.wallet}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className="px-2 inline-flex text-xs leading-5 font-bold rounded-full bg-blue-100 text-gray-800">
@@ -241,7 +243,7 @@ export default function ReferralWallet() {
                                                 Add Funds
                                             </button>
                                             <button
-                                                onClick={() => generateNewReferralCode(user.id)}
+                                                onClick={() => generateNewReferralCode(user._id)}
                                                 className="bg-black text-white p-2 rounded-md"
                                             >
                                                 New Referral Code
@@ -276,7 +278,7 @@ export default function ReferralWallet() {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {transactions.map((transaction) => (
-                                    <tr key={transaction.id}>
+                                    <tr key={transaction._id}>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm  font-semibold">
                                             {new Date(transaction.date).toLocaleDateString()}
                                         </td>
@@ -309,7 +311,7 @@ export default function ReferralWallet() {
                         <div className="bg-white rounded-lg p-8 max-w-md w-full">
                             <h2 className="text-2xl font-bold mb-4">Add Funds to Wallet</h2>
                             <p className="text-gray-600 mb-4">
-                                Current balance: ${selectedUser.walletBalance}
+                                Current balance: ${selectedUser.wallet}
                             </p>
                             <form onSubmit={handleAddFunds}>
                                 <div className="mb-4">

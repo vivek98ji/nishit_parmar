@@ -20,6 +20,7 @@ interface ApiService extends Omit<Service, 'id'> {
     image: string;
     longDescription: string;
     price: string;
+    category: string; // Add category field
 }
 
 export default function ManageServices() {
@@ -34,7 +35,8 @@ export default function ManageServices() {
         description: '',
         image: '',
         price: '',
-        longDescription: ''
+        longDescription: '',
+        category: '' // Add category field
     });
 
     const handleOpenAddModal = () => {
@@ -43,7 +45,8 @@ export default function ManageServices() {
             description: '',
             image: '',
             price: '',
-            longDescription: ''
+            longDescription: '',
+            category: '' // Add category field
         });
         setIsAddModalOpen(true);
     };
@@ -71,6 +74,8 @@ export default function ManageServices() {
 
     const handleAddService = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log('Adding service with data:', formData); // Log form data
+
         try {
             const response = await fetch('/api/services', {
                 method: 'POST',
@@ -79,7 +84,10 @@ export default function ManageServices() {
                 },
                 body: JSON.stringify(formData),
             });
+
             const data = await response.json();
+            console.log('Response from server:', data); // Log server response
+
             if (data.success) {
                 setServices([...services, data.service]);
                 setIsAddModalOpen(false);
@@ -88,10 +96,14 @@ export default function ManageServices() {
                     description: '',
                     image: '',
                     price: '',
-                    longDescription: ''
+                    longDescription: '',
+                    category: '' // Reset category field
                 });
+            } else {
+                setError(data.message || 'Error adding service');
             }
         } catch (err) {
+            console.error('Error adding service:', err);
             setError('Error adding service');
         }
     };
@@ -249,75 +261,86 @@ export default function ManageServices() {
 
                 {/* Add Service Modal */}
                 {isAddModalOpen && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-lg p-8 max-w-md w-full">
-                            <h2 className="text-2xl font-bold mb-4">Add New Service</h2>
-                            <form onSubmit={handleAddService}>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Title</label>
-                                        <input
-                                            type="text"
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Description</label>
-                                        <textarea
-                                            name="description"
-                                            value={formData.description}
-                                            onChange={handleInputChange}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                            rows={3}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Image URL</label>
-                                        <input
-                                            type="text"
-                                            name="image"
-                                            value={formData.image}
-                                            onChange={handleInputChange}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Price</label>
-                                        <input
-                                            type="text"
-                                            name="price"
-                                            value={formData.price}
-                                            onChange={handleInputChange}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="mt-6 flex justify-end space-x-3">
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsAddModalOpen(false)}
-                                        className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                                    >
-                                        Add Service
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 className="text-2xl font-bold mb-4">Add New Service</h2>
+            <form onSubmit={handleAddService}>
+                <div className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Title</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            required
+                        />
                     </div>
-                )}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Description</label>
+                        <textarea
+                            name="description"
+                            value={formData.description}
+                            onChange={handleInputChange}
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            rows={3}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Image URL</label>
+                        <input
+                            type="text"
+                            name="image"
+                            value={formData.image}
+                            onChange={handleInputChange}
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Price</label>
+                        <input
+                            type="text"
+                            name="price"
+                            value={formData.price}
+                            onChange={handleInputChange}
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">Category</label>
+                        <input
+                            type="text"
+                            name="category"
+                            value={formData.category}
+                            onChange={handleInputChange}
+                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            required
+                        />
+                    </div>
+                </div>
+                <div className="mt-6 flex justify-end space-x-3">
+                    <button
+                        type="button"
+                        onClick={() => setIsAddModalOpen(false)}
+                        className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                    >
+                        Add Service
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+)}
 
                 {/* Edit Service Modal */}
                 {isEditModalOpen && selectedService && (
@@ -393,4 +416,4 @@ export default function ManageServices() {
             </div>
         </div>
     );
-} 
+}
