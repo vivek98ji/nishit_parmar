@@ -17,18 +17,15 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.20",
-<<<<<<< HEAD
+    "bcryptjs": "^3.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-=======
-    "bcryptjs": "^3.0.0",
->>>>>>> c24ce2abbfb7d71cfb31a96ce05f92fb54f501c9
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "framer-motion": "^10.18.0",
     "lucide-react": "^0.474.0",
     "mongodb": "^6.13.0",
-    "mongoose": "^8.10.0",
+    "mongoose": "^8.10.1",
     "motion": "^12.4.1",
     "next": "15.1.6",
     "razorpay": "^2.9.5",
@@ -36,14 +33,12 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.4.0",
     "react-multi-carousel": "^2.8.5",
+    "react-toastify": "^11.0.3",
     "rechart": "^0.0.1",
     "recharts": "^2.15.1",
     "resend": "^4.1.2",
-<<<<<<< HEAD
-    "tailwind-merge": "^3.0.1"
-=======
+    "tailwind-merge": "^3.0.1",
     "uuid": "^11.0.5"
->>>>>>> c24ce2abbfb7d71cfb31a96ce05f92fb54f501c9
   },
   "devDependencies": {
     "@types/d3-color": "^3.1.3",
