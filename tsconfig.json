@@ -26,6 +26,9 @@
       {
         "name": "next"
       }
+    ],
+    "types": [
+      "d3-array"
     ]
   },
   "include": [
