@@ -7,6 +7,7 @@ export interface IIncome extends Document {
   customerId: string;
   orders: number;
   avgOrderValue: number;
+  createdAt: Date;
 }
 
 const IncomeSchema = new Schema<IIncome>(
@@ -18,7 +19,8 @@ const IncomeSchema = new Schema<IIncome>(
     orders: { type: Number, required: true },
     avgOrderValue: { type: Number, required: true },
   },
-  { timestamps: true }
+  { timestamps: { createdAt: true, updatedAt: false } } // Ensures `createdAt` is included, but not `updatedAt`
 );
 
 export default mongoose.models.Income || mongoose.model<IIncome>("Income", IncomeSchema);
+
