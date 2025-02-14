@@ -69,30 +69,30 @@ const ProductPage = () => {
                 <div className="w-full md:w-1/2 p-8">
                     <h1 className="text-4xl font-bold">{productData.title}</h1>
                     <div className="flex items-center my-4">
-                        <p className="text-2xl font-semibold text-gray-500 line-through mr-4">
+                        {/* <p className="text-2xl font-semibold text-gray-500 line-through mr-4">
                             ₹{productData.originalPrice.toFixed(2)}
-                        </p>
-                        <p className="text-3xl font-bold text-green-600">
+                        </p> */}
+                        <p className="text-2xl font-bold text-gray-600">
                             ₹{productData.discountedPrice.toFixed(2)}
                         </p>
                     </div>
 
                     {/* Quantity Counter */}
-                    <div className="flex items-center mb-4">
+                    {/* <div className="flex items-center mb-4">
                         <button
                             onClick={decrementQuantity}
                             className="px-4 py-2 bg-gray-300 text-black rounded-l-lg"
                         >
                             -
-                        </button>
-                        <span className="px-6 py-2 text-lg">{quantity}</span>
+                        </button> */}
+                    {/* <span className="px-6 py-2 text-lg">{quantity}</span>
                         <button
                             onClick={incrementQuantity}
                             className="px-4 py-2 bg-gray-300 text-black rounded-r-lg"
                         >
                             +
-                        </button>
-                    </div>
+                        </button> */}
+                    {/* </div> */}
 
                     {/* Add Service Button */}
                     <button
@@ -112,7 +112,7 @@ const ProductPage = () => {
                         ))}
                     </ul>
                 </div>
-            </div>
+            </div >
         </>
     );
 };

@@ -78,3 +78,5 @@ export function TabsContent({ value, children }: TabsContentProps) {
   
   return <div>{children}</div>;
 }
+
+export default Tabs;

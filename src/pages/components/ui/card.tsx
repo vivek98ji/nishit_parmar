@@ -21,3 +21,5 @@ export function CardContent({ children, className = '' }: CardProps) {
     </div>
   );
 }
+
+export default Card;
