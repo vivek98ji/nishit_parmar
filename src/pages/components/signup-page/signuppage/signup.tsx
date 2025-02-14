@@ -157,57 +157,57 @@ const Signup: React.FC = () => {
      
 
       {/* Right Side */}
-      <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center">
-        <div className="bg-white p-8 rounded-xl shadow-xl w-96">
+      <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center w-full">
+        <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-[500px]">
           {step === 1 ? (
             <>
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Create Account</h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
+              <form onSubmit={handleSubmit} className="space-y-4 w-full">
+                <div className="w-full">
                   <input
                     type="email"
                     name="email"
                     placeholder="Email address"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                    className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
                   />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
 
-                <div>
+                <div className="w-full">
                   <input
                     type="password"
                     name="password"
                     placeholder="Password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                    className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
                   />
                   {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
                 </div>
 
-                <div>
+                <div className="w-full">
                   <input
                     type="password"
                     name="confirmPassword"
                     placeholder="Confirm password"
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                    className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
                   />
                   {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02]"
+                  className="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02] text-lg font-semibold"
                 >
                   Sign Up
                 </button>
               </form>
 
-              <div className="mt-6 text-center">
+              <div className="mt-8 text-center">
                 <p className="text-gray-600">
                   Already have an account?{" "}
                   <button
@@ -222,17 +222,17 @@ const Signup: React.FC = () => {
           ) : (
             <>
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Verify Email</h2>
-              <div className="space-y-4">
+              <div className="space-y-4 w-full">
                 <input
                   type="text"
                   placeholder="Enter OTP"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                  className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
                 />
                 <button
                   onClick={verifyOTP}
-                  className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02]"
+                  className="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02] text-lg font-semibold"
                 >
                   Verify OTP
                 </button>
