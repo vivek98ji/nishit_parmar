@@ -13,9 +13,9 @@ export default function Product() {
 
     return (
         <div className="max-w-7xl mx-auto">
-            <SearchBar 
-                searchQuery={searchQuery} 
-                setSearchQuery={setSearchQuery} 
+            <SearchBar
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
             />
 
             {/* Products Grid */}
@@ -31,5 +31,5 @@ export default function Product() {
                 )}
             </div>
         </div>
-    )
+    );
 }
