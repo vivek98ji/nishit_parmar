@@ -11,15 +11,14 @@ const Header = () => {
     { label: 'Home', href: '/components/homepage/homepage' },
     { label: 'Services', href: '/components/Product/page' },
     { label: 'Blog', href: '/components/blog/blog' },
-    // { label: 'Signup', href: '/signuppage/signup' },
     { label: 'Signup', href: '/components/signup-page/signuppage/signup' },
-    { label: 'About', href: '/components/About/about'  },
-
+    { label: 'About', href: '/components/About/about' },
   ];
   const router = useRouter();
 
-  const handleIconClick = () => {
-    window.open('/service-page', '_blank');
+  const handleIconClick = async () => {
+    // First navigate to signup page
+    router.push('/components/signup-page/signuppage/serviceprovidersignin');
   };
 
   return (
@@ -48,7 +47,11 @@ const Header = () => {
 
           {/* Icons on the right */}
           <div className="flex items-center space-x-4">
-            <FaReact onClick={handleIconClick} className="cursor-pointer h-6 w-6" />
+            <FaReact 
+              onClick={handleIconClick} 
+              className="cursor-pointer h-6 w-6 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110" 
+              title="Service Provider Portal"
+            />
             <div className="hidden md:flex items-center">
               <button className="text-white p-2">
                 <ShoppingBag className="h-6 w-6" />

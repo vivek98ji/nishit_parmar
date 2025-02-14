@@ -26,14 +26,21 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules"
+    ],
+    "types": ["node"]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
-, "src/scripts/seed.mjs", "src/pages/api/users.js"  ],
+    ".next/types/**/*.ts",
+    "src/scripts/seed.mjs",
+    "src/pages/api/users.js"
+  ],
   "exclude": [
     "node_modules"
   ]
