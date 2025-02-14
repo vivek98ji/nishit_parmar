@@ -34,7 +34,8 @@ const ServiceProviderSignin: React.FC = () => {
   };
 
   const handleLogin = () => {
-    router.push('/components/signup-page/login');
+    // Redirect to login page and set service provider flag
+    router.push('/components/signup-page/signuppage/login?isServiceProvider=true');
   };
 
   const handleCategoryChange = (category: string) => {

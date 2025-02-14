@@ -4,12 +4,16 @@ import { FaSearch, FaCheckCircle, FaUserPlus, FaCalendarCheck, FaShieldAlt, FaHa
 
 const Signup: React.FC = () => {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: ""
   });
   const [errors, setErrors] = useState({
+    name: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: ""
   });
@@ -20,6 +24,11 @@ const Signup: React.FC = () => {
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^\d{10}$/;
+    return phoneRegex.test(phone);
   };
 
   const validatePassword = (password: string) => {
@@ -33,7 +42,6 @@ const Signup: React.FC = () => {
       [name]: value
     }));
 
-    // Clear errors when user types
     setErrors(prev => ({
       ...prev,
       [name]: ""
@@ -43,13 +51,25 @@ const Signup: React.FC = () => {
   const validateForm = () => {
     let isValid = true;
     const newErrors = {
+      name: "",
       email: "",
+      phone: "",
       password: "",
       confirmPassword: ""
     };
 
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+      isValid = false;
+    }
+
     if (!validateEmail(formData.email)) {
       newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    if (!validatePhone(formData.phone)) {
+      newErrors.phone = "Please enter a valid 10-digit phone number";
       isValid = false;
     }
 
@@ -72,7 +92,23 @@ const Signup: React.FC = () => {
     
     if (validateForm()) {
       try {
-        await sendOTP();
+        const response = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password
+          })
+        });
+
+        if (response.ok) {
+          await sendOTP();
+        } else {
+          const data = await response.json();
+          throw new Error(data.message || "Signup failed");
+        }
       } catch (error) {
         console.error("Error during signup:", error);
       }
@@ -157,12 +193,24 @@ const Signup: React.FC = () => {
      
 
       {/* Right Side */}
-      <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center">
-        <div className="bg-white p-8 rounded-xl shadow-xl w-96">
+      <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center w-full">
+        <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-[500px]">
           {step === 1 ? (
             <>
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Create Account</h2>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4 w-full">
+                <div className="w-full">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Full Name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                  />
+                  {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                </div>
+
                 <div>
                   <input
                     type="email"
@@ -170,9 +218,21 @@ const Signup: React.FC = () => {
                     placeholder="Email address"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                    className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
                   />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                </div>
+
+                <div className="w-full">
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone Number"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                  />
+                  {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
                 </div>
 
                 <div>
@@ -182,32 +242,32 @@ const Signup: React.FC = () => {
                     placeholder="Password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                    className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
                   />
                   {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
                 </div>
 
-                <div>
+                <div className="w-full">
                   <input
                     type="password"
                     name="confirmPassword"
                     placeholder="Confirm password"
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                    className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
                   />
                   {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02]"
+                  className="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02] text-lg font-semibold"
                 >
                   Sign Up
                 </button>
               </form>
 
-              <div className="mt-6 text-center">
+              <div className="mt-8 text-center">
                 <p className="text-gray-600">
                   Already have an account?{" "}
                   <button
@@ -222,17 +282,17 @@ const Signup: React.FC = () => {
           ) : (
             <>
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Verify Email</h2>
-              <div className="space-y-4">
+              <div className="space-y-4 w-full">
                 <input
                   type="text"
                   placeholder="Enter OTP"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                  className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
                 />
                 <button
                   onClick={verifyOTP}
-                  className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02]"
+                  className="w-full bg-black text-white py-4 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02] text-lg font-semibold"
                 >
                   Verify OTP
                 </button>
