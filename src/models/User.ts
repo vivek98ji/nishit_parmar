@@ -1,18 +1,32 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const UserSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    phone: { type: String, required: true, unique: true },
-    wallet: { type: Number, default: 100 }, // Bonus on signup
-    referralCode: { type: String, unique: true },
-    referredBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null }, // Reference to another user
-    role: { type: String, enum: ["admin", "client", "service"], default: "client" }, // User roles
-    isActive: { type: Boolean, default: true }, // Status flag
+const userSchema = new mongoose.Schema({
+  businessName: {
+    type: String,
+    required: [true, 'Business name is required']
   },
-  { timestamps: true }
-);
+  email: {
+    type: String,
+    required: [true, 'Email is required'],
+    unique: true,
+    lowercase: true
+  },
+  phoneNumber: {
+    type: String,
+    required: [true, 'Phone number is required']
+  },
+  password: {
+    type: String,
+    required: [true, 'Password is required']
+  },
+  serviceCategories: [{
+    type: String,
+    required: [true, 'At least one service category is required']
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
 
-export default mongoose.models.User || mongoose.model("User", UserSchema);
+export default mongoose.models.User || mongoose.model('User', userSchema); 
