@@ -21,6 +21,10 @@ const Header = () => {
     router.push('/components/signup-page/signuppage/serviceprovidersignin');
   };
 
+  const handleCartClick = () => {
+    router.push('/components/Cart');
+  };
+
   return (
     <header className="w-full bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,7 +57,11 @@ const Header = () => {
               title="Service Provider Portal"
             />
             <div className="hidden md:flex items-center">
-              <button className="text-white p-2">
+              <button 
+                onClick={handleCartClick}
+                className="text-white p-2 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110"
+                title="Shopping Cart"
+              >
                 <ShoppingBag className="h-6 w-6" />
               </button>
             </div>
@@ -88,12 +96,16 @@ const Header = () => {
                   {item.label}
                 </a>
               ))}
-              {/* <a href="/components/Cart" > */}
-              <button className="block w-full text-left px-3 py-2 text-white" onClick={() => router.push('/components/Cart')}>
+              <button 
+                className="block w-full text-left px-3 py-2 text-white hover:text-gray-300 transition-colors duration-200" 
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  router.push('/components/Cart');
+                }}
+              >
                 <ShoppingBag className="h-6 w-6 inline mr-2" />
                 Cart
               </button>
-              {/* </a> */}
             </div>
           </div>
         )}
