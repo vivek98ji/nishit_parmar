@@ -122,44 +122,44 @@ const ServiceProviderSignin: React.FC = () => {
       <div className="flex-1 bg-black text-white p-10 flex flex-col justify-between">
              <div>
                <h1 className="text-5xl font-bold mb-2">HelperBuddy</h1>
-               <h2 className="text-3xl mb-12">Join Our Service Provider Network</h2>
+               <h2 className="text-3xl mb-10">Join Our Service Provider Network</h2>
                
-               <p className="text-xl mb-8">Become a part of our growing network of professional service providers and:</p>
+               <p className="text-xl  mb-8">Become a part of our growing network of professional service providers and:</p>
                
-               <div className="space-y-6">
+               <div className="space-y-12">
                  <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
                    <div className="bg-white/10 p-3 rounded-full">
                      <FaUserPlus className="w-6 h-6" />
                    </div>
-                   <p className="text-lg">Grow your business</p>
+                   <p className="text-xl">Grow your business</p>
                  </div>
                  
                  <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
                    <div className="bg-white/10 p-3 rounded-full">
                      <FaHandshake className="w-6 h-6" />
                    </div>
-                   <p className="text-lg">Get more clients</p>
+                   <p className="text-xl">Get more clients</p>
                  </div>
                  
                  <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
                    <div className="bg-white/10 p-3 rounded-full">
                      <FaCalendarCheck className="w-6 h-6" />
                    </div>
-                   <p className="text-lg">Manage bookings easily</p>
+                   <p className="text-xl">Manage bookings easily</p>
                  </div>
                  
                  <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
                    <div className="bg-white/10 p-3 rounded-full">
                      <FaShieldAlt className="w-6 h-6" />
                    </div>
-                   <p className="text-lg">Receive secure payments</p>
+                   <p className="text-xl">Receive secure payments</p>
                  </div>
                  
                  <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
                    <div className="bg-white/10 p-3 rounded-full">
                      <FaCheckCircle className="w-6 h-6" />
                    </div>
-                   <p className="text-lg">Build your reputation</p>
+                   <p className="text-xl">Build your reputation</p>
                  </div>
                </div>
              </div>
