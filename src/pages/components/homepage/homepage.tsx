@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { FaSearch, FaStar, FaCheckCircle } from "react-icons/fa";
 
 // Define types for service and modal items
 interface ServiceItem {
@@ -18,6 +19,13 @@ interface ModalContent {
   title: string;
   items: ModalItem[];
 }
+
+const responsive = {
+  superLargeDesktop: { breakpoint: { max: 4000, min: 1024 }, items: 3 },
+  desktop: { breakpoint: { max: 1024, min: 768 }, items: 3 },
+  tablet: { breakpoint: { max: 768, min: 464 }, items: 2 },
+  mobile: { breakpoint: { max: 464, min: 0 }, items: 1 },
+};
 
 const HomeServices: React.FC = () => {
   const [activeModal, setActiveModal] = useState<number | null>(null);
@@ -72,6 +80,18 @@ const HomeServices: React.FC = () => {
       category: "home" 
     }
   ];
+
+  // Add search functionality
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredServices, setFilteredServices] = useState(services);
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    const filtered = services.filter(service => 
+      service.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredServices(filtered);
+  };
 
   const fadeIn = {
     hidden: { opacity: 0 },
@@ -301,14 +321,26 @@ const HomeServices: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6  mt-12">
+    <div className="max-w-7xl mx-auto p-6 mt-12">
+      {/* Add search bar */}
+      <div className="relative mb-8">
+        <input
+          type="text"
+          placeholder="Search for services..."
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          className="w-full p-4 pl-12 rounded-lg border-2 border-gray-300 focus:border-black focus:outline-none"
+        />
+        <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      </div>
+
       <div className="flex space-x-24 mt-8">
         <div className='flex flex-col justify-center'>
           <h1 className="text-4xl font-bold mb-8 text-black">Home services at your doorstep</h1>
           <div className="w-4/5 bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl text-gray-600 mb-6">What are you looking for?</h2>
             <div className="grid grid-cols-3 gap-4">
-              {services.map((service) => (
+              {filteredServices.map((service) => (
                 <div 
                   key={service.id}
                   className="bg-gray-50 p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
@@ -360,6 +392,33 @@ const HomeServices: React.FC = () => {
           onClose={() => setActiveModal(null)} 
         />
       )}
+
+      {/* Keep your existing Popular Services Carousel */}
+      <section className="py-16 text-center">
+        <h2 className="text-3xl font-semibold mb-6">Popular Services</h2>
+        {/* <Carousel responsive={responsive} infinite autoPlay arrows={false}> */}
+          {/* Your carousel items */}
+        {/* </Carousel> */}
+      </section>
+
+      {/* Keep your existing How It Works section */}
+      <section className="py-16 text-center bg-gray-100">
+        {/* ... your existing steps section ... */}
+      </section>
+
+      {/* Keep your existing Testimonials section */}
+      <div className="mt-16 bg-gray-50 p-10 rounded-lg shadow-lg text-center">
+        {/* ... your existing testimonials code ... */}
+      </div>
+
+      {/* Add a CTA section */}
+      <section className="py-16 text-center bg-black text-white mt-16 rounded-lg">
+        <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
+        <p className="text-xl mb-8">Book your service today and experience the difference!</p>
+        <button className="bg-white text-black px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+          Book Now
+        </button>
+      </section>
     </div>
   );
 };
