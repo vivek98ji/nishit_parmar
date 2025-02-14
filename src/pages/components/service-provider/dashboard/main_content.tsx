@@ -1,13 +1,14 @@
 import Link from "next/link"
 import Image from "next/image"
 import { User, Star } from "lucide-react"
-
+import { Reviews } from "../Review/Review"
 import { Workspace } from "../workspace/workspace"
 import { Income } from "../income/income"
 import { MailInbox } from "../Mail/mail"
-import { ContractsSection} from "../contracts/contracts"
+import { ContractsSection } from "../contracts/contracts"
 import { PromotePlans } from "../promote/promote"
-import Reviews from "../Review/Review"
+import AddServiceForm from "../addService/addService"
+import { Settings } from "../settings/settings"
 
 interface MainContentProps {
   activeTab: string
@@ -18,7 +19,7 @@ export default function MainContent({ activeTab }: MainContentProps) {
   if (activeTab === "Reviews") {
     return <Reviews />
   }
-  else if (activeTab === "Workspace") {
+  if (activeTab === "Workspace") {
     return <Workspace />
   }
   if (activeTab === "Income") {
@@ -32,6 +33,16 @@ export default function MainContent({ activeTab }: MainContentProps) {
   }
   if (activeTab === "Promote") {
     return <PromotePlans />
+  }
+  if (activeTab === "addservice") {
+    return <AddServiceForm onClose={() => {}} />
+  }
+  if (activeTab === "Settings") {
+    return (
+      <div className="p-6">
+        <Settings />
+      </div>
+    )
   }
 
   const stats = [

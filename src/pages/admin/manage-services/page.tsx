@@ -11,8 +11,6 @@ interface Service {
     longDescription: string;
 }
 
-
-
 interface ApiService extends Omit<Service, 'id'> {
     _id: string;
     name: string;  // Changed from title to name
