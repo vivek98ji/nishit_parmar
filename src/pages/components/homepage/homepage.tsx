@@ -6,6 +6,10 @@ import { FaStar } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import SearchBar from '../common/SearchBar';
+import ProductData from '../../../data/ProductData';
+import { useRouter } from 'next/navigation';
+
 // Define types for service and modal items
 interface ServiceItem {
   id: number;
@@ -47,6 +51,9 @@ const responsive = {
 
 const HomeServices: React.FC = () => {
   const [activeModal, setActiveModal] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const router = useRouter();
 
   const services: ServiceItem[] = [
     { 
@@ -98,6 +105,31 @@ const HomeServices: React.FC = () => {
       category: "home" 
     }
   ];
+
+  // Filter services from ProductData
+  const filteredProducts = searchQuery ? ProductData.filter(product =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  ) : [];
+
+  // Filter local services
+  const filteredServices = services.filter(service =>
+    service.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleSearchFocus = () => {
+    setShowSearchResults(true);
+  };
+
+  const handleSearchBlur = () => {
+    // Small delay to allow clicking on results
+    setTimeout(() => setShowSearchResults(false), 200);
+  };
+
+  const handleProductClick = (productId: number) => {
+    setShowSearchResults(false); // Hide search results
+    setSearchQuery(''); // Clear search query
+    router.push(`/components/Product/${productId}/page`); // Updated path to match your file structure
+  };
 
   const fadeIn = {
     hidden: { opacity: 0 },
@@ -326,14 +358,72 @@ const HomeServices: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6  mt-12">
+    <div className="max-w-7xl mx-auto p-6 mt-12">
+      <div className="mb-8 relative">
+        <SearchBar 
+          searchQuery={searchQuery} 
+          setSearchQuery={setSearchQuery} 
+          placeholder="Search for home services..."
+          onFocus={handleSearchFocus}
+          onBlur={handleSearchBlur}
+        />
+        
+        {/* Search Results Dropdown */}
+        {showSearchResults && searchQuery && (
+          <div className="absolute w-full bg-white mt-3 rounded-2xl shadow-2xl z-50 max-h-[70vh] overflow-y-auto
+                        border border-gray-100 backdrop-blur-sm backdrop-filter
+                        transition-all duration-300 ease-in-out">
+            {filteredProducts.length > 0 ? (
+              <div className="p-4">
+                <h3 className="text-sm font-semibold text-gray-500 mb-4 px-2">Available Services</h3>
+                <div className="space-y-2">
+                  {filteredProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="flex items-center gap-4 p-4 hover:bg-gray-50 cursor-pointer rounded-xl
+                                 transition-all duration-200 ease-in-out group"
+                      onClick={() => handleProductClick(product.id)}
+                    >
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden group-hover:shadow-md
+                                    transition-all duration-200">
+                        <img 
+                          src={product.imageUrl} 
+                          alt={product.title}
+                          className="w-full h-full object-cover transform group-hover:scale-105
+                                   transition-transform duration-200"
+                        />
+                      </div>
+                      <div className="flex-grow">
+                        <h4 className="font-medium text-gray-900 group-hover:text-black">{product.title}</h4>
+                        <p className="text-sm text-gray-500">₹{product.discountedPrice}</p>
+                      </div>
+                      <span className="text-sm text-blue-600 group-hover:text-blue-700 font-medium
+                                    opacity-0 group-hover:opacity-100 transform translate-x-2 
+                                    group-hover:translate-x-0 transition-all duration-200">
+                        View Details →
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="p-8 text-center text-gray-500">
+                <FaSearch className="w-6 h-6 mx-auto mb-3 text-gray-300" />
+                <p className="text-lg">No services found matching your search</p>
+                <p className="text-sm text-gray-400 mt-1">Try searching with different keywords</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       <div className="flex space-x-24 mt-8">
         <div className='flex flex-col justify-center'>
           <h1 className="text-4xl font-bold mb-8 text-black">Home services at your doorstep</h1>
           <div className="w-4/5 bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl text-gray-600 mb-6">What are you looking for?</h2>
             <div className="grid grid-cols-3 gap-4">
-              {services.map((service) => (
+              {filteredServices.map((service) => (
                 <div
                   key={service.id}
                   className="bg-gray-50 p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
@@ -349,6 +439,11 @@ const HomeServices: React.FC = () => {
                   </div>
                 </div>
               ))}
+              {filteredServices.length === 0 && (
+                <div className="col-span-3 text-center py-4">
+                  <p className="text-gray-500">No services found matching your search.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
