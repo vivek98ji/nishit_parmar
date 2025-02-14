@@ -1,85 +1,85 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { ArrowLeft, LogOut } from "lucide-react"
-import { Card, CardContent } from "../.././ui/card"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../.././ui/Tabs"
-import { Button } from "../.././ui/button"
-import { Input } from "../.././ui/input"
-import { useRouter } from "next/navigation"
-import  {Skeleton} from "../.././ui/skeleton"
+import { useState, useEffect } from "react";
+import { ArrowLeft, LogOut } from "lucide-react";
+import { Card, CardContent } from "../.././ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../.././ui/Tabs";
+import Button from "../.././ui/button";
+import Input from "../.././ui/input";
+import { useRouter } from "next/navigation";
+import Skeleton from "../.././ui/skeleton";
 
 interface UserInfo {
-  name: string
-  category: string
-  owner_name: string
+  name: string;
+  category: string;
+  owner_name: string;
   contact: {
-    phone: string
-    email: string
-  }
+    phone: string;
+    email: string;
+  };
   location: {
-    address: string
-    city: string
-    state: string
-    zip_code: string
-  }
+    address: string;
+    city: string;
+    state: string;
+    zip_code: string;
+  };
   bank_info: {
-    bank_name: string
-    branch_name: string
-    branch_address: string
-    swift_code: string
-    account_number: string
-  }
+    bank_name: string;
+    branch_name: string;
+    branch_address: string;
+    swift_code: string;
+    account_number: string;
+  };
   user_info: {
-    user_id: string
-    username: string
-    email: string
-  }
+    user_id: string;
+    username: string;
+    email: string;
+  };
 }
 
 export function Settings() {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
-  const [editedInfo, setEditedInfo] = useState<UserInfo | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const router = useRouter()
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [editedInfo, setEditedInfo] = useState<UserInfo | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const userId = "usr123456" // Example, replace dynamically
-        const response = await fetch(`/api/provider?user_id=${userId}`)
-        const data = await response.json()
+        const userId = "usr123456"; // Example, replace dynamically
+        const response = await fetch(`/api/provider?user_id=${userId}`);
+        const data = await response.json();
         if (data.success) {
-          setUserInfo(data.provider)
-          setEditedInfo(data.provider)
+          setUserInfo(data.provider);
+          setEditedInfo(data.provider);
         } else {
-          console.error("Failed to fetch user info:", data.error)
+          console.error("Failed to fetch user info:", data.error);
         }
       } catch (error) {
-        console.error("Error fetching user info:", error)
+        console.error("Error fetching user info:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchUserInfo()
-  }, [])
+    fetchUserInfo();
+  }, []);
 
   const handleInputChange = (section: string, field: string, value: string) => {
-    if (!editedInfo) return
+    if (!editedInfo) return;
 
-    setEditedInfo(prev => {
-      if (!prev) return prev
+    setEditedInfo((prev) => {
+      if (!prev) return prev;
 
       if (section === "root") {
-        return { ...prev, [field]: value }
+        return { ...prev, [field]: value };
       }
 
       // Ensure that `prev[section]` is treated as an object
-      const sectionData = prev[section as keyof typeof prev]
-      if (typeof sectionData !== 'object' || sectionData === null) {
-        return prev // or handle the error case appropriately
+      const sectionData = prev[section as keyof typeof prev];
+      if (typeof sectionData !== "object" || sectionData === null) {
+        return prev; // or handle the error case appropriately
       }
 
       return {
@@ -88,39 +88,39 @@ export function Settings() {
           ...sectionData,
           [field]: value,
         },
-      }
-    })
-  }
+      };
+    });
+  };
 
   const handleSaveChanges = async () => {
-    if (!editedInfo) return
+    if (!editedInfo) return;
 
-    setSaving(true)
+    setSaving(true);
     try {
-      const response = await fetch('/api/provider', {
-        method: 'PUT',
+      const response = await fetch("/api/provider", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(editedInfo),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
       if (data.success) {
-        setUserInfo(editedInfo)
-        alert('Changes saved successfully!')
+        setUserInfo(editedInfo);
+        alert("Changes saved successfully!");
       } else {
-        alert('Failed to save changes: ' + data.message)
+        alert("Failed to save changes: " + data.message);
       }
     } catch (error) {
-      console.error('Error saving changes:', error)
-      alert('Error saving changes')
+      console.error("Error saving changes:", error);
+      alert("Error saving changes");
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
-  const hasChanges = JSON.stringify(userInfo) !== JSON.stringify(editedInfo)
+  const hasChanges = JSON.stringify(userInfo) !== JSON.stringify(editedInfo);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
@@ -148,7 +148,7 @@ export function Settings() {
                 disabled={saving}
                 className="bg-green-600 hover:bg-green-700 text-white"
               >
-                {saving ? 'Saving...' : 'Save Changes'}
+                {saving ? "Saving..." : "Save Changes"}
               </Button>
             )}
           </div>
@@ -173,47 +173,47 @@ export function Settings() {
                     <EditableField
                       label="Business Name"
                       value={editedInfo.name}
-                      onChange={(value) => handleInputChange('root', 'name', value)}
+                      onChange={(value) => handleInputChange("root", "name", value)}
                     />
                     <EditableField
                       label="Category"
                       value={editedInfo.category}
-                      onChange={(value) => handleInputChange('root', 'category', value)}
+                      onChange={(value) => handleInputChange("root", "category", value)}
                     />
                     <EditableField
                       label="Owner"
                       value={editedInfo.owner_name}
-                      onChange={(value) => handleInputChange('root', 'owner_name', value)}
+                      onChange={(value) => handleInputChange("root", "owner_name", value)}
                     />
                     <EditableField
                       label="Email"
                       value={editedInfo.contact.email}
-                      onChange={(value) => handleInputChange('contact', 'email', value)}
+                      onChange={(value) => handleInputChange("contact", "email", value)}
                     />
                     <EditableField
                       label="Phone"
                       value={editedInfo.contact.phone}
-                      onChange={(value) => handleInputChange('contact', 'phone', value)}
+                      onChange={(value) => handleInputChange("contact", "phone", value)}
                     />
                     <EditableField
                       label="Address"
                       value={editedInfo.location.address}
-                      onChange={(value) => handleInputChange('location', 'address', value)}
+                      onChange={(value) => handleInputChange("location", "address", value)}
                     />
                     <EditableField
                       label="City"
                       value={editedInfo.location.city}
-                      onChange={(value) => handleInputChange('location', 'city', value)}
+                      onChange={(value) => handleInputChange("location", "city", value)}
                     />
                     <EditableField
                       label="State"
                       value={editedInfo.location.state}
-                      onChange={(value) => handleInputChange('location', 'state', value)}
+                      onChange={(value) => handleInputChange("location", "state", value)}
                     />
                     <EditableField
                       label="ZIP Code"
                       value={editedInfo.location.zip_code}
-                      onChange={(value) => handleInputChange('location', 'zip_code', value)}
+                      onChange={(value) => handleInputChange("location", "zip_code", value)}
                     />
                   </div>
                 ) : (
@@ -232,27 +232,27 @@ export function Settings() {
                     <EditableField
                       label="Bank Name"
                       value={editedInfo.bank_info.bank_name}
-                      onChange={(value) => handleInputChange('bank_info', 'bank_name', value)}
+                      onChange={(value) => handleInputChange("bank_info", "bank_name", value)}
                     />
                     <EditableField
                       label="Branch Name"
                       value={editedInfo.bank_info.branch_name}
-                      onChange={(value) => handleInputChange('bank_info', 'branch_name', value)}
+                      onChange={(value) => handleInputChange("bank_info", "branch_name", value)}
                     />
                     <EditableField
                       label="Branch Address"
                       value={editedInfo.bank_info.branch_address}
-                      onChange={(value) => handleInputChange('bank_info', 'branch_address', value)}
+                      onChange={(value) => handleInputChange("bank_info", "branch_address", value)}
                     />
                     <EditableField
                       label="SWIFT Code"
                       value={editedInfo.bank_info.swift_code}
-                      onChange={(value) => handleInputChange('bank_info', 'swift_code', value)}
+                      onChange={(value) => handleInputChange("bank_info", "swift_code", value)}
                     />
                     <EditableField
                       label="Account Number"
                       value={editedInfo.bank_info.account_number}
-                      onChange={(value) => handleInputChange('bank_info', 'account_number', value)}
+                      onChange={(value) => handleInputChange("bank_info", "account_number", value)}
                       type="password"
                     />
                   </div>
@@ -265,14 +265,14 @@ export function Settings() {
         </div>
       </Card>
     </div>
-  )
+  );
 }
 
 interface EditableFieldProps {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  type?: string
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: string;
 }
 
 function EditableField({ label, value, onChange, type = "text" }: EditableFieldProps) {
@@ -286,7 +286,7 @@ function EditableField({ label, value, onChange, type = "text" }: EditableFieldP
         className="max-w-md"
       />
     </div>
-  )
+  );
 }
 
 function SettingsSkeleton() {
@@ -299,7 +299,7 @@ function SettingsSkeleton() {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
-export default Settings
+export default Settings;
