@@ -93,20 +93,89 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+
 const Signup: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const [message, setMessage] = useState("");
-  const [isVerified, setIsVerified] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
   const [step, setStep] = useState(1);
+  const [otp, setOtp] = useState("");
   const router = useRouter();
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    return password.length >= 8;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    // Clear errors when user types
+    setErrors(prev => ({
+      ...prev,
+      [name]: ""
+    }));
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {
+      email: "",
+      password: "",
+      confirmPassword: ""
+    };
+
+    if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    if (!validatePassword(formData.password)) {
+      newErrors.password = "Password must be at least 8 characters long";
+      isValid = false;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (validateForm()) {
+      try {
+        await sendOTP();
+      } catch (error) {
+        console.error("Error during signup:", error);
+      }
+    }
+  };
+
   const sendOTP = async () => {
     await fetch("/api/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, action: "send" })
+      body: JSON.stringify({ email: formData.email, action: "send" })
     });
     setStep(2);
   };
@@ -115,15 +184,17 @@ const Signup: React.FC = () => {
     const res = await fetch("/api/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, otp, action: "verify" })
+      body: JSON.stringify({ 
+        email: formData.email, 
+        password: formData.password,
+        otp, 
+        action: "verify" 
+      })
     });
     if (res.ok) {
-
       router.push("/components/homepage/homepage");
     }
-
   };
-
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -136,89 +207,88 @@ const Signup: React.FC = () => {
 
       {/* Right Side */}
       <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center">
-        <h2 className="text-2xl font-bold mb-6 text-gray-600">Sign Up</h2>
-        {/* <form className="w-80"
-        // onSubmit={(e) => handleAuth(e)}
-        >
-          <input
-            type="email"
-            placeholder="Email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border border-gray-300 rounded p-2 mb-4 w-full"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border border-gray-300 rounded p-2 mb-4 w-full"
-          />
-          {!otpSent ? (
-            <button type="submit" className="bg-black text-white py-2 rounded w-full hover:bg-gray-700" onClick={sendOTP}>
-              SEND OTP
-            </button>
-          ) : (
-            <>
-              <input
-                type="text"
-                placeholder="Enter OTP"
-                required
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                className="border border-gray-300 rounded p-2 mb-4 w-full"
-              />
-              <button
-                // onClick={(e) => handleAuth(e, true)}
-                className="bg-green-600 text-white py-2 rounded w-full hover:bg-green-700"
-                onClick={verifyOTP}>
-                VERIFY OTP
-              </button>
-            </>
-          )}
-          {message && <p className="mt-4 text-red-500">{message}</p>}
-        </form> */}
-
-
-        {/* <div className="bg-white p-6 rounded shadow-md w-96">
+        <div className="bg-white p-8 rounded-xl shadow-xl w-96">
           {step === 1 ? (
             <>
-              <h2 className="text-xl font-semibold mb-4">Sign In</h2>
-              <input className="border p-2 w-full mb-2" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <button className="bg-blue-500 text-white p-2 w-full" onClick={sendOTP}>Send OTP</button>
+              <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Create Account</h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email address"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                  />
+                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                </div>
+
+                <div>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                  />
+                  {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+                </div>
+
+                <div>
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm password"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                  />
+                  {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02]"
+                >
+                  Sign Up
+                </button>
+              </form>
+
+              <div className="mt-6 text-center">
+                <p className="text-gray-600">
+                  Already have an account?{" "}
+                  <button
+                    onClick={() => router.push('/components/signup-page/signuppage/login')}
+                    className="text-black font-semibold hover:underline"
+                  >
+                    Log In
+                  </button>
+                </p>
+              </div>
             </>
           ) : (
             <>
-              <h2 className="text-xl font-semibold mb-4">Enter OTP</h2>
-              <input className="border p-2 w-full mb-2" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
-              <button className="bg-green-500 text-white p-2 w-full" onClick={verifyOTP}>Verify</button>
-            </>
-          )}
-        </div> */}
-
-
-
-
-        <div className="bg-white p-6 rounded shadow-md w-96">
-          {step === 1 ? (
-            <>
-              <h2 className="text-xl font-semibold mb-4">Sign In</h2>
-              <input className="border p-2 w-full mb-2" placeholder="Enter email" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <button className="bg-blue-500 text-white p-2 w-full" onClick={sendOTP}>Send OTP</button>
-            </>
-          ) : (
-            <>
-              <h2 className="text-xl font-semibold mb-4">Enter OTP</h2>
-              <input className="border p-2 w-full mb-2" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
-              <button className="bg-green-500 text-white p-2 w-full" onClick={verifyOTP}>Verify</button>
+              <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Verify Email</h2>
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Enter OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                />
+                <button
+                  onClick={verifyOTP}
+                  className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-all duration-300 transform hover:scale-[1.02]"
+                >
+                  Verify OTP
+                </button>
+              </div>
             </>
           )}
         </div>
-
-
-
       </div>
     </div>
   );
