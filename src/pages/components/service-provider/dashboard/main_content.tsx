@@ -14,7 +14,7 @@ interface MainContentProps {
   activeTab: string
 }
 
-export function MainContent({ activeTab }: MainContentProps) {
+export default function MainContent({ activeTab }: MainContentProps) {
   // If the activeTab is Reviews, show the Reviews component
   if (activeTab === "Reviews") {
     return <Reviews />
