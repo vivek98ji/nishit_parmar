@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { FaSearch, FaCheckCircle, FaUserPlus, FaCalendarCheck, FaShieldAlt, FaHandshake } from "react-icons/fa";
@@ -110,26 +107,54 @@ const Signup: React.FC = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Left Side */}
-       <div className="flex-1 bg-black text-white p-10 flex flex-col justify-center">
-         <div className="flex items-center mb-4">
-           {/* <Image src={logo} alt="HelperBuddy Logo" width={50} height={50} /> */}
-           <h1 className="text-5xl font-bold ml-2">HelperBuddy</h1>
-         </div>
-         <h2 className="text-3xl mt-2 mb-6">Your Home Service Partner</h2>
-         <p className="mt-4 text-lg leading-relaxed">
-           Streamline your home services, increase convenience, and improve your living experience with:
-         </p>
-         <ul className="list-disc list-inside mt-4 space-y-2">
-           <li className="text-lg">Home cleaning services</li>
-           <li className="text-lg">Plumbing and electrical repairs</li>
-           <li className="text-lg">Gardening and landscaping</li>
-           <li className="text-lg">Handyman services</li>
-           <li className="text-lg">And much more!</li>
-         </ul>
-         <a href="#" className="inline-block mt-6 bg-white text-black py-3 px-6 rounded-lg shadow hover:bg-gray-200 transition">
-           LEARN MORE
-         </a>
+      <div className="flex-1 bg-black text-white p-16 flex flex-col justify-center">
+        <div className="flex items-center mb-8">
+          <h1 className="text-6xl font-bold ml-2">HelperBuddy</h1>
+        </div>
+        <h2 className="text-4xl mt-4 mb-10">Your Home Service Partner</h2>
+        <p className="mt-8 text-xl leading-relaxed text-gray-300">
+          Streamline your home services, increase convenience, and improve your living experience with:
+        </p>
+        <ul className="list-none mt-8 space-y-6">
+          <li className="flex items-center space-x-4">
+            <div className="bg-white/10 p-3 rounded-full">
+              <FaUserPlus className="w-6 h-6" />
+            </div>
+            <span className="text-xl">Home cleaning services</span>
+          </li>
+          <li className="flex items-center space-x-4">
+            <div className="bg-white/10 p-3 rounded-full">
+              <FaShieldAlt className="w-6 h-6" />
+            </div>
+            <span className="text-xl">Plumbing and electrical repairs</span>
+          </li>
+          <li className="flex items-center space-x-4">
+            <div className="bg-white/10 p-3 rounded-full">
+              <FaHandshake className="w-6 h-6" />
+            </div>
+            <span className="text-xl">Gardening and landscaping</span>
+          </li>
+          <li className="flex items-center space-x-4">
+            <div className="bg-white/10 p-3 rounded-full">
+              <FaCalendarCheck className="w-6 h-6" />
+            </div>
+            <span className="text-xl">Handyman services</span>
+          </li>
+          <li className="flex items-center space-x-4">
+            <div className="bg-white/10 p-3 rounded-full">
+              <FaCheckCircle className="w-6 h-6" />
+            </div>
+            <span className="text-xl">And much more!</span>
+          </li>
+        </ul>
+        <button className="mt-12 bg-gradient-to-r from-white via-gray-200 to-white text-black py-4 px-8 rounded-lg 
+                          hover:from-gray-200 hover:to-white transition-all duration-300 transform hover:scale-[1.02] 
+                          font-semibold text-lg shadow-lg w-fit">
+          LEARN MORE
+        </button>
       </div>
+
+     
 
       {/* Right Side */}
       <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center">
