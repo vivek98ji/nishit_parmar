@@ -110,10 +110,10 @@ const HomeServices: React.FC = () => {
 
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <motion.div 
-          initial={{ scale: 0.8, opacity: 0 }} 
-          animate={{ scale: 1, opacity: 1 }} 
-          transition={{ duration: 0.3 }} 
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="bg-white p-6 rounded-lg w-1/3"
         >
           <div className="flex justify-between items-center mb-4">
@@ -123,10 +123,10 @@ const HomeServices: React.FC = () => {
           <div className="grid grid-cols-4 gap-4">
             {content.items.map((item, index) => (
               <div key={index} className="text-center">
-                <img 
-                  src={item.icon} 
-                  alt={item.title} 
-                  className="w-12 h-12 mx-auto" 
+                <img
+                  src={item.icon}
+                  alt={item.title}
+                  className="w-12 h-12 mx-auto"
                 />
                 <p className="text-sm">{item.title}</p>
               </div>
@@ -146,7 +146,7 @@ const HomeServices: React.FC = () => {
             <h2 className="text-xl text-gray-600 mb-6">What are you looking for?</h2>
             <div className="grid grid-cols-3 gap-4">
               {services.map((service) => (
-                <div 
+                <div
                   key={service.id}
                   className="bg-gray-50 p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
                   onClick={() => setActiveModal(service.id)}
@@ -190,11 +190,11 @@ const HomeServices: React.FC = () => {
           </motion.div>
         </div>
       </div>
-      
+
       {activeModal !== null && (
-        <ServiceModal 
-          modalId={activeModal} 
-          onClose={() => setActiveModal(null)} 
+        <ServiceModal
+          modalId={activeModal}
+          onClose={() => setActiveModal(null)}
         />
       )}
     </div>

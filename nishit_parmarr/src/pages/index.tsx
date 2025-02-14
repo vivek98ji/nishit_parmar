@@ -27,9 +27,10 @@ const geistMono = Geist_Mono({
 export default function Home() {
   return (
     <>
-      <Header />
-      <HomeServices />
-      <Footer />
+      {/* <Header /> */}
+      {/* <HomeServices /> */}
+      <Cart />
+      {/* <Footer /> */}
     </>
   );
 }

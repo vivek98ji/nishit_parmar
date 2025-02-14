@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CartItem from "./CartItem";
 import { Divider, Button } from "@mui/material";
 import { useRouter } from "next/router"; // Corrected import
@@ -11,6 +11,76 @@ const Cart: React.FC = () => {
   }
 
   const [cartItems, setCartItems] = useState<CartItemData[]>([]);
+
+
+
+  const [loading, setLoading] = useState(false);
+  const [razorpayLoaded, setRazorpayLoaded] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const loadRazorpayScript = () => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      script.onload = () => setRazorpayLoaded(true);
+      document.body.appendChild(script);
+    };
+
+    loadRazorpayScript();
+  }, []);
+
+
+
+  // Handle Checkout and Razorpay Payment
+  const handleCheckout = async () => {
+    if (!razorpayLoaded) {
+      alert("Razorpay SDK is still loading. Please wait.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch("/api/razorpay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: 20, currency: "INR" }),
+      });
+
+      const order = await response.json();
+      if (!order.id) throw new Error("Order creation failed");
+
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Helper Buddy",
+        description: "Service Payment",
+        order_id: order.id,
+        handler: function (response: any) {
+          alert("Payment Successful!");
+          console.log(response);
+          router.push("/success"); // Redirect on success
+        },
+        prefill: {
+          name: "Manisha",
+          email: "manisha@example.com",
+          contact: "9876543210",
+        },
+        theme: { color: "#3399cc" },
+      };
+
+      const razorpayInstance = new (window as any).Razorpay(options);
+      razorpayInstance.open();
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Payment failed!");
+    }
+    setLoading(false);
+  };
+
+
+
 
   const handleRemoveItem = (itemId: number) => {
     const updatedItems = cartItems.filter((item) => item.id !== itemId);
@@ -42,14 +112,23 @@ const Cart: React.FC = () => {
 
               <div className="flex justify-between pt-3 font-bold">
                 <span>Total Amount</span>
-                <span className="text-green-600">1278</span>
+                <span className="text-green-600">1</span>
               </div>
             </div>
-            <Button
+            {/* <Button
               variant="contained"
               sx={{ width: "100%", px: "2rem", py: "0.7rem", bgcolor: "#000" }}
             >
               Check Out
+            </Button> */}
+
+            <Button
+              variant="contained"
+              sx={{ width: "100%", px: "2rem", py: "0.7rem", bgcolor: "#000" }}
+              onClick={handleCheckout}
+              disabled={loading || !razorpayLoaded}
+            >
+              {loading ? "Processing..." : "Check Out"}
             </Button>
           </div>
         </div>
