@@ -105,12 +105,17 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 <div className="flex items-center">
                     <p className="mr-2 text-lg font-semibold text-black dark:text-black">₹{product.price}</p>
                 </div>
+                <div className="space-x-4">
                 {/* <Link href={`/ProductDetail/${product._id}`}> */}
                 <Link href={`/product/${product._id}`}>
                     <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
                         View Details
                     </button>
                 </Link>
+                <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
+                        Add Service
+                    </button>
+                    </div>
             </div>
         </div>
     );
