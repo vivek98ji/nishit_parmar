@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import AdminLayout from '@/pages/components/admin/AdminLayout';
+import AdminLayout from '../AdminLayout';
 
 interface Service {
     id: string;

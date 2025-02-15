@@ -99,7 +99,6 @@ const Header = () => {
             <UserPlus 
               onClick={handleSignupClick}
               className="cursor-pointer h-6 w-6 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110"
-              title="Sign Up"
             />
             <FaReact 
               onClick={handleIconClick} 

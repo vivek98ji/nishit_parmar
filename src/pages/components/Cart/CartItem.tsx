@@ -14,6 +14,10 @@ interface CartItemProps {
 }
 
 const CartItem: React.FC<CartItemProps> = ({ productId, item, onRemove }) => {
+    if (!item) {
+        return <div>Loading...</div>;
+    }
+
     const handleRemove = (id: string) => {
         onRemove(id);
         // Update cart in localStorage
@@ -29,8 +33,8 @@ const CartItem: React.FC<CartItemProps> = ({ productId, item, onRemove }) => {
             <div className="flex items-center">
                 <div className="w-[5rem] h-[7rem] lg:w-[15rem] lg:h-[15rem]">
                     <Image
-                        src={item.imageUrl}// Replace with your actual image URL or placeholder
-                        alt={item.name}
+                        src={item.imageUrl || '/placeholder-image.jpg'}
+                        alt={item.name || 'Product image'}
                         width={574}
                         height={322}
                         priority
