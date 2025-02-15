@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { FC, useState } from "react";
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 interface Product {
     _id: string;
@@ -91,13 +92,6 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                             View Details
                         </button>
                     </Link>
-                    <button 
-                        onClick={handleAddToCart}
-                        disabled={isAdding}
-                        className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px] disabled:opacity-50"
-                    >
-                        View Details
-                    </button>
                     <button
                         onClick={handleAddToCart}
                         disabled={isAdding}
