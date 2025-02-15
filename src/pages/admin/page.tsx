@@ -6,6 +6,7 @@ import React from 'react';
 import ManageServices from './manage-services/page';
 import AdminServiceRequests from './service-partners/page';
 import ReferralWallet from './referall-wallet/page';
+import AdminLayout from '@/pages/components/admin/AdminLayout';
 
 export default function Admin() {
     const [activeTab, setActiveTab] = useState('service-partners');
@@ -24,8 +25,8 @@ export default function Admin() {
     };
 
     return (
-        <div className="p-8">
+        <AdminLayout>
             {renderContent()}
-        </div>
+        </AdminLayout>
     );
 }

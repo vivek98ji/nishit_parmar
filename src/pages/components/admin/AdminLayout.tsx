@@ -4,7 +4,6 @@ import { FaUsers, FaCog, FaWallet } from 'react-icons/fa';
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
-    const currentPath = router.pathname;
 
     const menuItems = [
         {
@@ -24,25 +23,27 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         }
     ];
 
+    const handleNavigation = (path: string) => {
+        router.push(path);
+    };
+
     return (
-        <div className="flex h-screen bg-gray-100">
-            {/* Sidebar */}
-            <div className="w-64 bg-black text-white">
-                {/* Logo */}
+        <div className="flex min-h-screen">
+            {/* Single Sidebar */}
+            <div className="w-64 bg-black text-white fixed h-full">
                 <div className="p-6">
                     <h1 className="text-2xl font-bold">Admin Panel</h1>
                 </div>
 
-                {/* Navigation */}
                 <nav className="mt-6">
                     {menuItems.map((item) => (
                         <div
                             key={item.path}
                             className={`p-4 cursor-pointer flex items-center space-x-3 
-                                ${currentPath === item.path 
+                                ${router.pathname.includes(item.path)
                                     ? 'bg-gray-800 border-l-4 border-white' 
                                     : 'hover:bg-gray-800'}`}
-                            onClick={() => router.push(item.path)}
+                            onClick={() => handleNavigation(item.path)}
                         >
                             {item.icon}
                             <span>{item.name}</span>
@@ -52,7 +53,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 overflow-auto">
+            <div className="flex-1 ml-64">
                 {children}
             </div>
         </div>
