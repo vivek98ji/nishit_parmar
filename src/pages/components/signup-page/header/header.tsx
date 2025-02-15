@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, ShoppingBag, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -8,7 +8,25 @@ import { FaReact } from "react-icons/fa";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const router = useRouter();
+
+  useEffect(() => {
+    // Fetch cart count when component mounts
+    fetchCartCount();
+  }, []);
+
+  const fetchCartCount = async () => {
+    try {
+      const response = await fetch('/api/cart/count');
+      if (response.ok) {
+        const data = await response.json();
+        setCartCount(data.count);
+      }
+    } catch (error) {
+      console.error('Error fetching cart count:', error);
+    }
+  };
 
   const navItems = [
     { label: 'Home', href: '/components/homepage/homepage' },
@@ -34,6 +52,16 @@ const Header = () => {
     setIsMenuOpen(false);
   };
 
+  // Subscribe to cart updates
+  useEffect(() => {
+    const handleStorageChange = () => {
+      fetchCartCount();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   return (
     <header className="w-full bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,7 +74,7 @@ const Header = () => {
           </div>
 
           {/* Centered Navigation */}
-          <nav className="flex-grow flex justify-center space-x-8">
+          <nav className="hidden md:flex flex-grow justify-center space-x-8">
             {navItems.map((item) => (
               <Link
                 key={item.label}
@@ -70,13 +98,19 @@ const Header = () => {
               className="cursor-pointer h-6 w-6 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110" 
               title="Service Provider Portal"
             />
-            <div className="hidden md:flex items-center">
+            <div className="hidden md:flex items-center relative">
               <button 
                 onClick={handleCartClick}
                 className="text-white p-2 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110"
                 title="Shopping Cart"
               >
                 <ShoppingBag className="h-6 w-6" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs 
+                                 w-5 h-5 flex items-center justify-center rounded-full">
+                    {cartCount}
+                  </span>
+                )}
               </button>
             </div>
           </div>
@@ -126,7 +160,15 @@ const Header = () => {
                   handleCartClick();
                 }}
               >
-                <ShoppingBag className="h-6 w-6 inline mr-2" />
+                <div className="relative inline-block">
+                  <ShoppingBag className="h-6 w-6 inline mr-2" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs 
+                                   w-5 h-5 flex items-center justify-center rounded-full">
+                      {cartCount}
+                    </span>
+                  )}
+                </div>
                 Cart
               </button>
             </div>

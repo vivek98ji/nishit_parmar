@@ -1,8 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { FC, useState } from "react";
 import { useRouter } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
 
 interface Product {
     _id: string;
@@ -19,6 +21,7 @@ interface ProductCardProps {
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
     const router = useRouter();
     const [isAdding, setIsAdding] = useState(false);
+    const { incrementCartCount } = useCart();
 
     if (!product) return null;
 
@@ -49,6 +52,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
             const data = await response.json();
             if (data.success) {
+                incrementCartCount();
                 alert('Service added to cart successfully!');
             }
         } catch (error) {
@@ -85,19 +89,16 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                         ₹{product.price.toLocaleString('en-IN')}
                     </p>
                 </div>
-                <div className="space-x-4">
-                    <Link href={`/product/${product._id}`}>
-                        <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
-                            View Details
-                        </button>
-                    </Link>
-                    <button 
-                        onClick={handleAddToCart}
-                        disabled={isAdding}
-                        className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px] disabled:opacity-50"
+                <div className="flex gap-2">
+                    <Link 
+                        href={`/product/${product._id}`}
+                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg
+                                 hover:bg-gray-800 transition-colors duration-200
+                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black
+                                 text-center"
                     >
                         View Details
-                    </button>
+                    </Link>
                     <button
                         onClick={handleAddToCart}
                         disabled={isAdding}
