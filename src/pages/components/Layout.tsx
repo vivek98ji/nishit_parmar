@@ -3,6 +3,7 @@ import Header from "./signup-page/header/header"
 import Footer from "./signup-page/footer/footer";
 import { useRouter } from 'next/router';
 import AdminLayout from "./admin/AdminLayout";
+import { CartProvider } from '@/context/CartContext';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();

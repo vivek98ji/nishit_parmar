@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { FC, useState } from "react";
 import { useRouter } from 'next/navigation';
-import Link from "next/link";
+import { useCart } from '@/context/CartContext';
 
 interface Product {
     _id: string;
@@ -20,6 +21,7 @@ interface ProductCardProps {
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
     const router = useRouter();
     const [isAdding, setIsAdding] = useState(false);
+    const { incrementCartCount } = useCart();
 
     if (!product) return null;
 
@@ -36,11 +38,13 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    productId: product._id,
                     name: product.name,
                     description: product.description,
                     price: product.price,
                     category: 'service',
-                    available: true
+                    available: true,
+                    imageUrl: product.imageUrl || "/logo.png",
                 }),
             });
 
@@ -50,6 +54,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
             const data = await response.json();
             if (data.success) {
+                incrementCartCount();
                 alert('Service added to cart successfully!');
             }
         } catch (error) {
