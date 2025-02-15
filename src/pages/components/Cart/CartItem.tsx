@@ -14,6 +14,16 @@ interface CartItemProps {
 }
 
 const CartItem: React.FC<CartItemProps> = ({ productId, item, onRemove }) => {
+    const handleRemove = (id: string) => {
+        onRemove(id);
+        // Update cart in localStorage
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const updatedCart = cart.filter((item: any) => item.id !== id);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        // Dispatch custom event to update cart count
+        window.dispatchEvent(new Event('cartUpdated'));
+    };
+
     return (
         <div className="p-3 shadow-lg border rounded-[20px] m-[30px]">
             <div className="flex items-center">
@@ -37,7 +47,7 @@ const CartItem: React.FC<CartItemProps> = ({ productId, item, onRemove }) => {
                     <div className="lg:flex items-center lg:space-x-10 pt-4">
                         <div>
                             <button
-                                onClick={() => onRemove(productId)}
+                                onClick={() => handleRemove(productId)}
                                 className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-700 focus:outline-none"
                             >
                                 Remove

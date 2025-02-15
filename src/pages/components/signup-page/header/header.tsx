@@ -11,22 +11,40 @@ const Header = () => {
   const [cartCount, setCartCount] = useState(0);
   const router = useRouter();
 
-  useEffect(() => {
-    // Fetch cart count when component mounts
-    fetchCartCount();
-  }, []);
-
-  const fetchCartCount = async () => {
+  const updateCartCount = () => {
     try {
-      const response = await fetch('/api/cart/count');
-      if (response.ok) {
-        const data = await response.json();
-        setCartCount(data.count);
-      }
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      setCartCount(cart.length);
     } catch (error) {
-      console.error('Error fetching cart count:', error);
+      console.error('Error updating cart count:', error);
+      setCartCount(0);
     }
   };
+
+  useEffect(() => {
+    // Initial cart count
+    updateCartCount();
+
+    // Listen for storage changes
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'cart') {
+        updateCartCount();
+      }
+    };
+
+    // Listen for custom cart update events
+    const handleCartUpdate = () => {
+      updateCartCount();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('cartUpdated', handleCartUpdate);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('cartUpdated', handleCartUpdate);
+    };
+  }, []);
 
   const navItems = [
     { label: 'Home', href: '/components/homepage/homepage' },
@@ -51,16 +69,6 @@ const Header = () => {
     router.push(href);
     setIsMenuOpen(false);
   };
-
-  // Subscribe to cart updates
-  useEffect(() => {
-    const handleStorageChange = () => {
-      fetchCartCount();
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
 
   return (
     <header className="w-full bg-black text-white">
