@@ -8,7 +8,7 @@ import ManageServices from './manage-services/page';
 import AdminServiceRequests from './service-partners/page';
 import ReferralWallet from './referall-wallet/page';
 import AdminLayout from './AdminLayout';
-import Income from './referall-wallet/page';
+import Income from './admin-income/page';
 
 export default function Admin() {
     const router = useRouter();
