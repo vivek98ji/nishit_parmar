@@ -50,6 +50,14 @@ const BlogsAdmin = () => {
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if blog count is at limit
+    if (blogs.length >= 10) {
+      setError('Maximum limit of 10 blogs reached. Please delete some blogs before adding new ones.');
+      setShowForm(false);
+      return;
+    }
+
     try {
       const response = await fetch('/api/blog', {
         method: 'POST',
@@ -115,10 +123,17 @@ const BlogsAdmin = () => {
   return (
     <div className="max-w-7xl mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Manage Blogs</h1>
+        <h1 className="text-3xl font-bold">Manage Blogs ({blogs.length}/10)</h1>
         <button
-          onClick={() => setShowForm(!showForm)}
-          className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-md hover:bg-blue-700"
+          onClick={() => {
+            if (blogs.length >= 10) {
+              setError('Maximum limit of 10 blogs reached. Please delete some blogs before adding new ones.');
+            } else {
+              setShowForm(!showForm);
+              setError(null);
+            }
+          }}
+          className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors duration-200"
         >
           <Plus size={20} />
           Add New Blog
@@ -126,7 +141,7 @@ const BlogsAdmin = () => {
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 text-red-600 mb-4 p-4 bg-red-50 rounded-md">
+        <div className="flex items-center gap-2 text-red-600 mb-4 p-4 bg-gray-50 border border-red-200 rounded-md">
           <AlertCircle size={20} />
           <p>{error}</p>
         </div>

@@ -43,8 +43,6 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     name: product.name,
                     description: product.description,
                     price: product.price,
-                    category: 'service',
-                    available: true,
                     imageUrl: product.imageUrl || "/logo.png",
                 }),
             });
@@ -93,7 +91,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                         ₹{product.price.toLocaleString('en-IN')}
                     </p>
                 </div>
-                <div className="space-x-4">
+                <div className="space-x-2">
                     <Link href={`/product/${product._id}`}>
                         <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
                             View Details

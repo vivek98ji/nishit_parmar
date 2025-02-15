@@ -9,6 +9,8 @@ import AdminServiceRequests from './service-partners/page';
 import ReferralWallet from './referall-wallet/page';
 import AdminLayout from './AdminLayout';
 import Income from './admin-income/page';
+import BlogsAdmin from './blogs/page';
+import Mails from './mails/page';
 
 export default function Admin() {
     const router = useRouter();
@@ -40,6 +42,10 @@ export default function Admin() {
                 return <ReferralWallet />;
             case currentPath.includes('admin-income'):
                 return <Income />;
+            case currentPath.includes('mails'):
+                return <Mails />;
+            case currentPath.includes('blogs'):
+                return <BlogsAdmin />;
             default:
                 return <AdminServiceRequests />;
         }

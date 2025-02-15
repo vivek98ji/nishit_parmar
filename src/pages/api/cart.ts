@@ -90,23 +90,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'POST') {
     try {
-      const { productId, name, imageUrl, price } = req.body;
-      console.log(req.body)
-      if (!productId || !name || !imageUrl || !price) {
+      const { productId, name, description, imageUrl, price } = req.body;
+      
+      if (!productId || !name || !description || !imageUrl || !price) {
         return res.status(400).json({ success: false, error: "Missing required fields" });
       }
+
       // Check if the product already exists in the cart
       const existingCartItem = await Cart.findOne({ productId });
 
       if (existingCartItem) {
-        // If exists, update the quantity
-        await existingCartItem.save();
         return res.status(200).json({ success: true, data: existingCartItem });
       } else {
-        // If not, create a new cart item
-        // removed quantity
-        console.log(productId, name, price)
-        const cartItem = await Cart.create({ productId, name, imageUrl, price });
+        const cartItem = await Cart.create({ 
+          productId, 
+          name, 
+          description,
+          imageUrl, 
+          price 
+        });
         return res.status(201).json({ success: true, data: cartItem });
       }
     } catch (error) {
