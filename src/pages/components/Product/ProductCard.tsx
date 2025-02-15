@@ -107,7 +107,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                 </div>
                 <div className="space-x-4">
                 {/* <Link href={`/ProductDetail/${product._id}`}> */}
-                <Link href={`../ProductDetail/ProductDetail`}>
+                <Link href={`/product/${product._id}`}>
                     <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
                         View Details
                     </button>
