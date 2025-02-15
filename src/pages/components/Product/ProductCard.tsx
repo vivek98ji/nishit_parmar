@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { FC, useState } from "react";
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 interface Product {
     _id: string;
@@ -17,7 +17,14 @@ interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
+    const router = useRouter();
     const [isAdding, setIsAdding] = useState(false);
+
+    if (!product) return null;
+
+    const handleViewDetails = () => {
+        router.push(`/product/${product._id}`);
+    };
 
     const handleAddToCart = async () => {
         setIsAdding(true);
@@ -31,7 +38,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     name: product.name,
                     description: product.description,
                     price: product.price,
-                    category: 'service', // You might want to make this dynamic
+                    category: 'service',
                     available: true
                 }),
             });
@@ -52,19 +59,9 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
         }
     };
 
-    if (!product) return null;
-
-    const handleViewDetails = () => {
-        router.push(`/components/ProductDetail/${product._id}`);
-    };
-
-    const handleAddService = () => {
-        console.log('Adding service to cart:', product._id);
-    };
-
     return (
         <div className="mx-auto mt-11 h-[400px] w-80 transform overflow-hidden rounded-[5px] 
-                      bg-gray-200 shadow-lg duration-300 hover:scale-105 hover:shadow-lg">
+                      bg-gray-100 shadow-lg duration-300 hover:scale-105 hover:shadow-lg">
             <div className="relative h-[200px] w-full">
                 <Image
                     className="object-cover"
@@ -88,16 +85,22 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                         ₹{product.price.toLocaleString('en-IN')}
                     </p>
                 </div>
-                <div className="space-x-4">
-                    <Link href={`/product/${product._id}`}>
-                        <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
-                            View Details
-                        </button>
-                    </Link>
-                    <button 
+                <div className="flex gap-2">
+                    <button
+                        onClick={handleViewDetails}
+                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg
+                                 hover:bg-gray-800 transition-colors duration-200
+                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                    >
+                        View Details
+                    </button>
+                    <button
                         onClick={handleAddToCart}
                         disabled={isAdding}
-                        className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px] disabled:opacity-50"
+                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg
+                                 hover:bg-gray-800 transition-colors duration-200
+                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black
+                                 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isAdding ? 'Adding...' : 'Add Service'}
                     </button>

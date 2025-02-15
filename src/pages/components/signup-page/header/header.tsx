@@ -1,28 +1,37 @@
+"use client";
+
 import React, { useState } from 'react';
-import { Menu, X, ShoppingBag } from 'lucide-react';
+import { Menu, X, ShoppingBag, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link'
+import Link from 'next/link';
 import { FaReact } from "react-icons/fa";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
 
   const navItems = [
     { label: 'Home', href: '/components/homepage/homepage' },
     { label: 'Services', href: '/components/Product/page' },
     { label: 'Blog', href: '/components/blog/blog' },
-    { label: 'Signup', href: '/components/signup-page/signuppage/signup' },
     { label: 'About', href: '/components/About/about' },
   ];
-  const router = useRouter();
 
-  const handleIconClick = async () => {
-    // First navigate to signup page
+  const handleIconClick = () => {
     router.push('/components/signup-page/signuppage/serviceprovidersignin');
   };
 
   const handleCartClick = () => {
     router.push('/components/Cart/Cart');
+  };
+
+  const handleSignupClick = () => {
+    router.push('/components/signup-page/signuppage/signup');
+  };
+
+  const handleNavigation = (href: string) => {
+    router.push(href);
+    setIsMenuOpen(false);
   };
 
   return (
@@ -31,26 +40,31 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="/" className="text-2xl font-bold">
+            <Link href="/" className="text-2xl font-bold">
               HB
-            </a>
+            </Link>
           </div>
 
           {/* Centered Navigation */}
           <nav className="flex-grow flex justify-center space-x-8">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className="text-white hover:text-gray-300 transition-colors duration-200"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* Icons on the right */}
           <div className="flex items-center space-x-4">
+            <UserPlus 
+              onClick={handleSignupClick}
+              className="cursor-pointer h-6 w-6 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110"
+              title="Sign Up"
+            />
             <FaReact 
               onClick={handleIconClick} 
               className="cursor-pointer h-6 w-6 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110" 
@@ -87,20 +101,29 @@ const Header = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
-                <a
+                <button
                   key={item.label}
-                  href={item.href}
-                  className="block px-3 py-2 text-white hover:text-gray-300 transition-colors duration-200"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => handleNavigation(item.href)}
+                  className="block w-full text-left px-3 py-2 text-white hover:text-gray-300 transition-colors duration-200"
                 >
                   {item.label}
-                </a>
+                </button>
               ))}
+              <button 
+                className="block w-full text-left px-3 py-2 text-white hover:text-gray-300 transition-colors duration-200"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  handleSignupClick();
+                }}
+              >
+                <UserPlus className="h-6 w-6 inline mr-2" />
+                Sign Up
+              </button>
               <button 
                 className="block w-full text-left px-3 py-2 text-white hover:text-gray-300 transition-colors duration-200" 
                 onClick={() => {
                   setIsMenuOpen(false);
-                  router.push('/components/Cart');
+                  handleCartClick();
                 }}
               >
                 <ShoppingBag className="h-6 w-6 inline mr-2" />
