@@ -37,11 +37,36 @@ const AdminServiceRequests: React.FC = () => {
         fetchServiceRequests();
     }, []);
 
-    const handleAccept = (id: string): void => {
-        alert(`Service request ${id} accepted`);
-    };
+    // Updated handleAccept function
+const handleAccept = async (id: string): Promise<void> => {
+    try {
+      const response = await fetch('/api/serviceRequest/accept', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+  
+      if (!response.ok) throw new Error('Accept failed');
+      
+      // Update UI by removing the accepted request
+      setServiceRequests(prev => prev.filter(req => req._id !== id));
+      alert('Service request accepted!');
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Failed to accept');
+    }
+  };
 
-    const handleDecline = (id: string): void => {
+    const handleDecline = async (id: string): void => {
+        try {
+            const response = await fetch('/api/serviceRequest/decline', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+              });
+        } catch (error) {
+            
+        }
+        setServiceRequests(prev => prev.filter(req => req._id !== id));
         alert(`Service request ${id} declined`);
     };
 
