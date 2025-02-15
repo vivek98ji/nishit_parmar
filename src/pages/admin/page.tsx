@@ -8,11 +8,24 @@ import AdminServiceRequests from './service-partners/page';
 import ReferralWallet from './referall-wallet/page';
 
 export default function Admin() {
-    return(
-        <div>
-            <ManageServices></ManageServices>
-            <AdminServiceRequests/>
-            <ReferralWallet/>
+    const [activeTab, setActiveTab] = useState('service-partners');
+
+    const renderContent = () => {
+        switch (activeTab) {
+            case 'service-partners':
+                return <AdminServiceRequests />;
+            case 'manage-services':
+                return <ManageServices />;
+            case 'referall-wallet':
+                return <ReferralWallet />;
+            default:
+                return <AdminServiceRequests />;
+        }
+    };
+
+    return (
+        <div className="p-8">
+            {renderContent()}
         </div>
-    )
+    );
 }
