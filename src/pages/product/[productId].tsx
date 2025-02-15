@@ -49,17 +49,19 @@ const ProductPage = ({ product }: { product: Product | null }) => {
     }
 
 
-
-    // const incrementQuantity = () => setQuantity((prev) => prev + 1);
-    // const decrementQuantity = () => setQuantity((prev) => Math.max(prev - 1, 1));
-
-    // const handleAddService = () => {
-    //     setShowPopup(true);
-    //     setTimeout(() => setShowPopup(false), 3000);
-    // };
     // const handleAddService = async () => {
     //     try {
-    //         const response = await fetch("http://localhost:3000/api/cart", {
+
+    //         const productData = {
+    //             productId: product._id,
+    //             name: product.name,
+    //             imageUrl: product.imageUrl,
+    //             price: product.price,
+    //             description: product.description
+    //         };
+
+    //         console.log("Sending Data:", productData);
+    //         const response = await fetch("/api/cart", {
     //             method: "POST",
     //             headers: {
     //                 "Content-Type": "application/json",
@@ -69,11 +71,15 @@ const ProductPage = ({ product }: { product: Product | null }) => {
     //                 name: product.name,
     //                 imageUrl: product.imageUrl,
     //                 price: product.price,
-
+    //                 // description: product.description,  // ✅ Added
+    //                 // category: product.category,        // ✅ Added
+    //                 available: product.available || true,  // ✅ Optional field
     //             }),
     //         });
+
     //         const data = await response.json();
     //         console.log("Response:", data);
+
     //         if (!response.ok) {
     //             throw new Error("Failed to add service to cart");
     //         }
@@ -87,30 +93,24 @@ const ProductPage = ({ product }: { product: Product | null }) => {
 
     const handleAddService = async () => {
         try {
-
             const productData = {
                 productId: product._id,
                 name: product.name,
                 imageUrl: product.imageUrl,
                 price: product.price,
-                description: product.description
+                description: product.description, // Include description
+                category: product.category,       // Include category
+                available: product.available || true, // Include available (default to true if not provided)
             };
 
             console.log("Sending Data:", productData);
+
             const response = await fetch("/api/cart", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    productId: product._id,
-                    name: product.name,
-                    imageUrl: product.imageUrl,
-                    price: product.price,
-                    // description: product.description,  // ✅ Added
-                    // category: product.category,        // ✅ Added
-                    available: product.available || true,  // ✅ Optional field
-                }),
+                body: JSON.stringify(productData), // Send all required fields
             });
 
             const data = await response.json();
@@ -126,8 +126,6 @@ const ProductPage = ({ product }: { product: Product | null }) => {
             console.error("Error adding service:", error);
         }
     };
-
-
 
     return (
         <>

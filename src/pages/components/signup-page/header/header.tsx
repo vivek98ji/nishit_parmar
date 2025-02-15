@@ -51,13 +51,13 @@ const Header = () => {
 
           {/* Icons on the right */}
           <div className="flex items-center space-x-4">
-            <FaReact 
-              onClick={handleIconClick} 
-              className="cursor-pointer h-6 w-6 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110" 
+            <FaReact
+              onClick={handleIconClick}
+              className="cursor-pointer h-6 w-6 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110"
               title="Service Provider Portal"
             />
             <div className="hidden md:flex items-center">
-              <button 
+              <button
                 onClick={handleCartClick}
                 className="text-white p-2 hover:text-gray-300 transition-colors duration-300 transform hover:scale-110"
                 title="Shopping Cart"
@@ -65,6 +65,10 @@ const Header = () => {
                 <ShoppingBag className="h-6 w-6" />
               </button>
             </div>
+
+
+
+
           </div>
 
           {/* Mobile Menu Button */}
@@ -96,8 +100,8 @@ const Header = () => {
                   {item.label}
                 </a>
               ))}
-              <button 
-                className="block w-full text-left px-3 py-2 text-white hover:text-gray-300 transition-colors duration-200" 
+              <button
+                className="block w-full text-left px-3 py-2 text-white hover:text-gray-300 transition-colors duration-200"
                 onClick={() => {
                   setIsMenuOpen(false);
                   router.push('/components/Cart');
