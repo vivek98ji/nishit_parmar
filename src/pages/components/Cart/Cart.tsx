@@ -8,6 +8,7 @@ interface CartItemData {
   name: string;
   description: string;
   price: number;
+  imageUrl: string
 }
 
 const Cart: React.FC = () => {
