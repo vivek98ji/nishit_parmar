@@ -38,11 +38,13 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    productId: product._id,
                     name: product.name,
                     description: product.description,
                     price: product.price,
                     category: 'service',
-                    available: true
+                    available: true,
+                    imageUrl: product.imageUrl || "/logo.png",
                 }),
             });
 
