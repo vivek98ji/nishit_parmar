@@ -14,65 +14,53 @@ export default async function handler(
   try {
     await connectDB();
 
-    const {
-      businessName,
-      email,
-      phone,
-      password,
-      categories,
-      otp, // OTP verification should be handled before this
-      user_id, // This should be generated after successful authentication
-    } = req.body;
+    const { name, categories, owner_name, contact, location, bank_info, user_info } = req.body;
 
-    // Basic validation
-    if (!businessName || !email || !phone || !password || !categories || categories.length === 0) {
+    // ✅ Validate only required fields
+    if (!name || !categories || !Array.isArray(categories) || categories.length === 0 || !contact?.phone || !contact?.email || !user_info?.email || !user_info?.password) {
       return res.status(400).json({
         success: false,
-        message: "Missing required fields",
+        message: "Missing required fields"
       });
     }
 
-    // Check if provider already exists with this email
-    const existingProvider = await Provider.findOne({ "contact.email": email });
+    // Check if provider already exists
+    const existingProvider = await Provider.findOne({
+      $or: [
+        { "contact.email": contact.email },
+        { "user_info.email": user_info.email }
+      ]
+    });
+
     if (existingProvider) {
       return res.status(400).json({
         success: false,
-        message: "A provider with this email already exists",
+        message: "A provider with this email already exists"
       });
     }
 
     // Hash the password
-    const hashedPassword = await hash(password, 12);
+    const hashedPassword = await hash(user_info.password, 10);
+
+    console.log("Received Request Body:", req.body);
 
     // Create new provider
     const provider = new Provider({
-      name: businessName,
-      category: categories[0], // Primary category
-      owner_name: businessName, // Can be updated later
-      contact: {
-        phone,
-        email,
-      },
-      location: {
-        address: "", // These can be filled out later
-        city: "",
-        state: "",
-        zip_code: "",
-      },
+      name,
+      categories, // Updated to handle array of strings
+      owner_name: owner_name || "",  // Allow empty optional fields
+      contact,
+      location: location || {},
       bank_info: {
-        bank_name: "", // These can be filled out later
-        account_number: "",
-        swift_code: "",
-        branch_name: "",
-        branch_address: "",
-        identifier_code: "",
-        code_number: "",
+        ...bank_info,
+        code_number: bank_info.code_number || "", // Provide default empty string if not present
+        identifier_code: bank_info.identifier_code || "" // Provide default empty string if not present
       },
       user_info: {
-        user_id: user_id || Date.now().toString(), // Temporary ID if not provided
-        username: email.split("@")[0], // Default username
-        email,
-      },
+        ...user_info,
+        username: name, // Set username to the same value as name
+        password: hashedPassword // Use hashed password
+      }
     });
 
     await provider.save();
@@ -80,18 +68,15 @@ export default async function handler(
     return res.status(201).json({
       success: true,
       message: "Provider account created successfully",
-      provider: {
-        id: provider._id,
-        businessName: provider.name,
-        email: provider.contact.email,
-      },
+      provider
     });
+
   } catch (error) {
     console.error("Error in provider signup:", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",
-      error: error instanceof Error ? error.message : String(error),
+      error: error instanceof Error ? error.message : String(error)
     });
   }
 }
