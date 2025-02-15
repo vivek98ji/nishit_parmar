@@ -1,7 +1,8 @@
 // @ts-ignore
 import Image from "next/image";
 import Product from "./components/Product/page";
-import Cart from "./components/Cart/index";
+import ProductPage from "./components/ProductDetail/ProductDetail";
+import Cart from "./components/Cart/Cart";
 import ProductData from '../data/ProductData'
 import Header from "./components/signup-page/header/header";
 import Footer from "./components/signup-page/footer/footer";
@@ -18,7 +19,8 @@ export default function Home() {
 
       <main className="flex-grow">
 
-        <HomeServices />
+        {/* <HomeServices /> */}
+        <Cart />
       </main>
 
     </div>

@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { FC } from "react";
-import { useRouter } from 'next/navigation';
+import { FC, useState } from "react";
+import Link from "next/link";
 
 interface Product {
     _id: string;
@@ -17,7 +17,40 @@ interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
-    const router = useRouter();
+    const [isAdding, setIsAdding] = useState(false);
+
+    const handleAddToCart = async () => {
+        setIsAdding(true);
+        try {
+            const response = await fetch('/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: product.name,
+                    description: product.description,
+                    price: product.price,
+                    category: 'service', // You might want to make this dynamic
+                    available: true
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add to cart');
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                alert('Service added to cart successfully!');
+            }
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            alert('Failed to add service to cart. Please try again.');
+        } finally {
+            setIsAdding(false);
+        }
+    };
 
     if (!product) return null;
 
@@ -55,22 +88,18 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                         ₹{product.price.toLocaleString('en-IN')}
                     </p>
                 </div>
-                <div className="flex gap-2">
-                    <button
-                        onClick={handleViewDetails}
-                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg
-                                 hover:bg-gray-800 transition-colors duration-200
-                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                <div className="space-x-4">
+                    <Link href={`/product/${product._id}`}>
+                        <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
+                            View Details
+                        </button>
+                    </Link>
+                    <button 
+                        onClick={handleAddToCart}
+                        disabled={isAdding}
+                        className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px] disabled:opacity-50"
                     >
-                        View Details
-                    </button>
-                    <button
-                        onClick={handleAddService}
-                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg
-                                 hover:bg-gray-800 transition-colors duration-200
-                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-                    >
-                        Add Service
+                        {isAdding ? 'Adding...' : 'Add Service'}
                     </button>
                 </div>
             </div>
@@ -79,4 +108,3 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
 };
 
 export default ProductCard;
-
