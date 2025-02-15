@@ -1,4 +1,3 @@
-import { Phone } from 'lucide-react';
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
@@ -6,9 +5,9 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, required: true },
-  phone: { type: String },
+  phone: { type: String, sparse: true }, // ❌ Removed unique constraint
   wallet: { type: Number, default: 0 },
-  referralCode: { type: String },
+  referralCode: { type: String, unique: true, sparse: true },
   refferedBy: { type: String },
   referralCount: { type: Number, default: 0 },
   avatar: { type: String },

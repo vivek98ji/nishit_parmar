@@ -1,8 +1,7 @@
 // @ts-ignore
 import Image from "next/image";
 import Product from "./components/Product/page";
-
-import Cart from "./components/Cart";
+import Cart from "./components/Cart/index";
 import ProductData from '../data/ProductData'
 import Header from "./components/signup-page/header/header";
 import Footer from "./components/signup-page/footer/footer";
