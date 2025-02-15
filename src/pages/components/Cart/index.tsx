@@ -93,11 +93,11 @@ const Cart: React.FC = () => {
   return (
     <div>
       <div className="lg:grid grid-cols-3 lg:px-10 relative">
-        <div className="col-span-2">
+        {/* <div className="col-span-2">
           {[1, 2, 3].map((item, index) => (
             <CartItem key={index} productId={item} onRemove={handleRemoveItem} />
           ))}
-        </div>
+        </div> */}
 
         <div className="px-5 sticky top-0 h-[100vh] lg:mt-0">
           <div className="p-5 border shadow-lg rounded-[20px] mt-[30px]">

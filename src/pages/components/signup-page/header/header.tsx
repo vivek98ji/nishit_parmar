@@ -22,7 +22,7 @@ const Header = () => {
   };
 
   const handleCartClick = () => {
-    router.push('/components/Cart');
+    router.push('/components/Cart/Cart');
   };
 
   return (
