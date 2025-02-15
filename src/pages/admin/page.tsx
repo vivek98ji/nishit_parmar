@@ -7,7 +7,7 @@ import ManageServices from './manage-services/page';
 import AdminServiceRequests from './service-partners/page';
 import ReferralWallet from './referall-wallet/page';
 import AdminLayout from '@/pages/components/admin/AdminLayout';
-import { AdminIncome } from './incomee/page';
+//import { AdminIncome } from './incomee';
 
 export default function Admin() {
     const [activeTab, setActiveTab] = useState('service-partners');
@@ -20,8 +20,8 @@ export default function Admin() {
                 return <ManageServices />;
             case 'referall-wallet':
                 return <ReferralWallet />;
-            case 'incomee':
-                return <AdminIncome />
+            //case 'incomee':
+                //return <AdminIncome />
             default:
                 return <AdminServiceRequests />;
         }
