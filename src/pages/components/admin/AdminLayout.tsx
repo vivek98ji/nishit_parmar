@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { FaUsers, FaCog, FaWallet } from 'react-icons/fa';
+import { FaUsers, FaCog, FaWallet, FaMoneyBill, FaBlog } from 'react-icons/fa';
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
@@ -20,7 +20,18 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             path: '/admin/referall-wallet/page',
             name: 'Referral & Wallet',
             icon: <FaWallet className="w-5 h-5" />
-        }
+        },
+        {
+            path: '/admin/admin-income/page',
+            name: 'Income',
+            icon: <FaMoneyBill className="w-5 h-5" />
+        },
+        {
+            path: '/admin/blogs/page',
+            name: 'Blogs',
+            icon: <FaBlog className="w-5 h-5" />
+        },
+        
     ];
 
     const handleNavigation = (path: string) => {

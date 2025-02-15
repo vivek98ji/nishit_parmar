@@ -38,11 +38,13 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
+                    productId: product._id,
                     name: product.name,
                     description: product.description,
                     price: product.price,
                     category: 'service',
-                    available: true
+                    available: true,
+                    imageUrl: product.imageUrl || "/logo.png",
                 }),
             });
 
@@ -90,15 +92,11 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                         ₹{product.price.toLocaleString('en-IN')}
                     </p>
                 </div>
-                <div className="flex gap-2">
-                    <Link 
-                        href={`/product/${product._id}`}
-                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg
-                                 hover:bg-gray-800 transition-colors duration-200
-                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black
-                                 text-center"
-                    >
-                        View Details
+                <div className="space-x-4">
+                    <Link href={`/product/${product._id}`}>
+                        <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
+                            View Details
+                        </button>
                     </Link>
                     <button
                         onClick={handleAddToCart}
