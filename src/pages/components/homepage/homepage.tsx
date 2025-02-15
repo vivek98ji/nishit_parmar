@@ -480,54 +480,39 @@ const HomeServices: React.FC = () => {
         {/* Showcase Section */}
         <div className="w-3/5 grid grid-cols-2 gap-6">
           <div className="flex flex-col gap-6">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={fadeIn}
-            >
+            <div>
               <img
                 src="/img/showcase/service1.jpg"
                 alt="Pedicure Service"
                 className="w-full h-[200px] rounded-lg object-cover"
               />
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={fadeIn}
+            </div>
+            <div
             >
               <img
                 src="/img/showcase/service2.jpg"
                 alt="Massage Service"
                 className="w-full h-[200px] rounded-lg object-cover"
               />
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={fadeIn}
+            </div>
+            <div
             >
               <img
                 src="/img/showcase/service3.jpg"
                 alt="AC Service"
                 className="w-full h-[200px] rounded-lg object-cover"
               />
-            </motion.div>
+            </div>
           </div>
           
           {/* Single image in second column */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-            // className="h-full"
-          >
+          <div>
             <img
               src="/img/showcase/service4.jpg"
               alt="Massage Service"
               className="w-full h-full rounded-lg object-cover"
             />
-          </motion.div>
+          </div>
         </div>
       </div>
 

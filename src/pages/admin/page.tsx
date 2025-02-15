@@ -16,11 +16,16 @@ export default function Admin() {
 
     useEffect(() => {
         setMounted(true);
-    }, []);
+        // Redirect from /admin/page to /admin/service-partners/page if needed
+        if (router.pathname === '/admin/page') {
+            router.push('/admin/service-partners/page');
+        }
+    }, [router]);
 
     if (!mounted) {
         return null;
     }
+
 
     // Extract the current path to determine active content
     const currentPath = router.pathname;
