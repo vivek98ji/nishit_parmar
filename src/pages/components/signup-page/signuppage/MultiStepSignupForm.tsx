@@ -48,7 +48,8 @@ const MultiStepSignupForm = () => {
     );
   };
 
-  const nextStep = () => {
+  const nextStep = (e) => {
+    e.preventDefault();
     if (step === 1 && (!formData.password || !formData.confirmPassword)) {
       setPasswordError('Please fill in both password fields');
       return;
@@ -94,7 +95,7 @@ const MultiStepSignupForm = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.businessName,
-          category: selectedCategories,
+          categories: selectedCategories,
           owner_name: formData.ownerName,
           contact: {
             phone: formData.phone,
@@ -356,7 +357,7 @@ const MultiStepSignupForm = () => {
             {step < 4 ? (
               <button
                 type="button"
-                onClick={nextStep}
+                onClick={(e) => nextStep(e)}
                 className="ml-auto px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-all"
                 disabled={isSubmitting}
               >

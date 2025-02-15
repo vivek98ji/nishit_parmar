@@ -53,6 +53,7 @@ const HomeServices: React.FC = () => {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [filteredServices, setFilteredServices] = useState<any[]>([]);
   const router = useRouter();
 
   const services: ServiceItem[] = [
@@ -112,7 +113,7 @@ const HomeServices: React.FC = () => {
   ) : [];
 
   // Filter local services
-  const filteredServices = services.filter(service =>
+  const filteredServicesLocal = services.filter(service =>
     service.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -121,8 +122,15 @@ const HomeServices: React.FC = () => {
   };
 
   const handleSearchBlur = () => {
-    // Small delay to allow clicking on results
     setTimeout(() => setShowSearchResults(false), 200);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    const filtered = services.filter((service) =>
+      service.title.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredServices(filtered);
   };
 
   const handleProductClick = (productId: number) => {
@@ -359,15 +367,18 @@ const HomeServices: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto p-6 mt-12">
+      {/* Search Section */}
       <div className="mb-8 relative">
-        <SearchBar 
-          searchQuery={searchQuery} 
-          setSearchQuery={setSearchQuery} 
-          placeholder="Search for home services..."
-          onFocus={handleSearchFocus}
-          onBlur={handleSearchBlur}
-        />
-        
+        <div className="max-w-2xl mx-auto">
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={handleSearch}
+            placeholder="Search for home services..."
+            onFocus={handleSearchFocus}
+            onBlur={handleSearchBlur}
+          />
+        </div>
+
         {/* Search Results Dropdown */}
         {showSearchResults && searchQuery && (
           <div className="absolute w-full bg-white mt-3 rounded-2xl shadow-2xl z-50 max-h-[70vh] overflow-y-auto
@@ -381,7 +392,7 @@ const HomeServices: React.FC = () => {
                     <div
                       key={product.id}
                       className="flex items-center gap-4 p-4 hover:bg-gray-50 cursor-pointer rounded-xl
-                                 transition-all duration-200 ease-in-out group"
+                                transition-all duration-200 ease-in-out group"
                       onClick={() => handleProductClick(product.id)}
                     >
                       <div className="relative w-16 h-16 rounded-lg overflow-hidden group-hover:shadow-md
@@ -423,7 +434,7 @@ const HomeServices: React.FC = () => {
           <div className="w-4/5 bg-white rounded-lg shadow-lg p-6">
             <h2 className="text-xl text-gray-600 mb-6">What are you looking for?</h2>
             <div className="grid grid-cols-3 gap-4">
-              {filteredServices.map((service) => (
+              {filteredServicesLocal.map((service) => (
                 <div
                   key={service.id}
                   className="bg-gray-50 p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
@@ -439,7 +450,7 @@ const HomeServices: React.FC = () => {
                   </div>
                 </div>
               ))}
-              {filteredServices.length === 0 && (
+              {filteredServicesLocal.length === 0 && (
                 <div className="col-span-3 text-center py-4">
                   <p className="text-gray-500">No services found matching your search.</p>
                 </div>
@@ -496,10 +507,7 @@ const HomeServices: React.FC = () => {
         />
       )}
 
-
       {/* Popular Services Carousel */}
-
-
       <section className="py-16 text-center">
         <h2 className="text-3xl font-semibold mb-6">Popular Services</h2>
         <Carousel responsive={responsive} infinite autoPlay arrows={false}>
@@ -532,7 +540,6 @@ const HomeServices: React.FC = () => {
       </section>
 
       {/* steps */}
-
       <section className="py-16 text-center bg-gray-100">
         <h2 className="text-4xl font-bold mb-10 text-primary">How It Works</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -566,9 +573,6 @@ const HomeServices: React.FC = () => {
           ))}
         </div>
       </div>
-
-
-
     </div>
   );
 };
