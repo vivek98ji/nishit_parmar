@@ -21,6 +21,10 @@ const BookingSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Service",
       required: true
+    },
+    providerId: {
+      type: String,
+      required: true
     }
   },
   { timestamps: true }

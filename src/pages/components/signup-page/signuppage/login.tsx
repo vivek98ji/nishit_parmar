@@ -69,32 +69,26 @@ const Login: React.FC = () => {
     
     if (validateForm()) {
       try {
-        // Here you would typically make an API call to verify credentials
-        const res = await fetch("/api/auth/login", {
+        // Directly check provider credentials
+        const res = await fetch(`/api/provider/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-            email: formData.email, 
-            password: formData.password,
-            isServiceProvider: formData.isServiceProvider
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password
           })
         });
-
-        if (res.ok) {
-          // Redirect based on user type
-          if (formData.isServiceProvider) {
-            router.push("/service-page");
-          } else {
-            router.push("/components/homepage/homepage");
-          }
+  
+        const data = await res.json();
+        
+        if (data.success) {
+          // Redirect with provider ID in URL
+          router.push(`/service-page?providerId=${data.providerId}`);
         } else {
-          setErrors({
-            email: "Invalid credentials",
-            password: "Invalid credentials"
-          });
+          setErrors({ email: "Invalid credentials", password: "Invalid credentials" });
         }
       } catch (error) {
-        console.error("Error during login:", error);
+        console.error("Login error:", error);
       }
     }
   };

@@ -1,11 +1,14 @@
 "use client"
 
+import { useSearchParams } from "next/navigation";
 import { useState } from "react"
 import Sidebar from "./components/service-provider/sidebar/sidebar"
 import Header from "./components/service-provider/header/header"
 import MainContent from "./components/service-provider/dashboard/main_content"
 
 export default function Dashboard() {
+  const searchParams = useSearchParams();
+  const providerId = searchParams.get("providerId");
   const [isSidebarOpen, setSidebarOpen] = useState(true)
   const [activeTab, setActiveTab] = useState("Home")
 

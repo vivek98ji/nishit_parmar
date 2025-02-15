@@ -7,7 +7,10 @@ const ServiceSchema = new mongoose.Schema(
     price: { type: Number, required: true },
     category: { type: String, required: true },
     available: { type: Boolean, default: true },
-    providerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // Service provider (Partner)
+    providerId: {
+      type: String,
+      required: true
+    }
   },
   { timestamps: true }
 );

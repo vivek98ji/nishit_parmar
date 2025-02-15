@@ -16,32 +16,25 @@ interface Service {
   collections?: number; // Optional field
 }
 
-export function Workspace() {
+export function Workspace({ providerId }: { providerId: string }) {
   const [services, setServices] = useState<Service[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch('/api/services');
+        const response = await fetch(`/api/servicess?providerId=${providerId}`);
         const data = await response.json();
-
-        if (!response.ok || !data.success) {
-          throw new Error(data.error || "Failed to fetch services");
+        
+        if (data.success) {
+          setServices(data.services);
         }
-
-        // Set the services from the API response
-        setServices(data.services || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to fetch services");
-      } finally {
-        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching services:", error);
       }
     };
 
     fetchServices();
-  }, []);
+  }, [providerId]);
 
   if (isLoading) {
     return (

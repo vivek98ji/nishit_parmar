@@ -4,17 +4,21 @@ import { User, Star } from "lucide-react"
 import { Reviews } from "../Review/Review"
 import { Workspace } from "../workspace/workspace"
 import { Income } from "../income/income"
-import { MailInbox } from "../Mail/mail"
+import  MailInbox  from "../Mail/mail"
 import { ContractsSection } from "../contracts/contracts"
 import { PromotePlans } from "../promote/promote"
 import AddServiceForm from "../addService/addService"
 import { Settings } from "../settings/settings"
+import { useSearchParams } from "next/navigation";
 
 interface MainContentProps {
   activeTab: string
 }
 
 export default function MainContent({ activeTab }: MainContentProps) {
+
+  const searchParams = useSearchParams();
+  const providerId = searchParams.get("providerId");
   // If the activeTab is Reviews, show the Reviews component
   if (activeTab === "Reviews") {
     return <Reviews />
@@ -26,7 +30,7 @@ export default function MainContent({ activeTab }: MainContentProps) {
     return <Income />
   }
   if (activeTab === "Mail") {
-    return <MailInbox />
+    return <MailInbox providerId={providerId}/>
   }
   if (activeTab === "Contracts") {
     return <ContractsSection />

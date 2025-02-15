@@ -23,6 +23,10 @@ const MailSchema = new Schema<IMail>(
     isStarred: { type: Boolean, default: false },
     priority: { type: String, enum: ["low", "medium", "high"], required: false },
     orderID: { type: String, required: false },
+    providerId: {
+      type: String,
+      required: true, index: true
+    },
   },
   { timestamps: true }
 );
