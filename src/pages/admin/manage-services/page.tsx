@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import AdminLayout from '@/pages/components/admin/AdminLayout';
 
 interface Service {
     id: string;
@@ -171,247 +172,249 @@ export default function ManageServices() {
     // Rest of your JSX remains the same, just update the service.id references to service._id
     // ... (keep all the existing JSX for the table and modals)
     return (
-        <div className="min-h-screen bg-gray-100 py-8">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Manage Services</h1>
-                    <button
-                        onClick={handleOpenAddModal}
-                        className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors"
-                    >
-                        Add New Service
-                    </button>
-                </div>
+        
+            <div className="min-h-screen bg-gray-100 py-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center mb-8">
+                        <h1 className="text-3xl font-bold text-gray-900">Manage Services</h1>
+                        <button
+                            onClick={handleOpenAddModal}
+                            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors"
+                        >
+                            Add New Service
+                        </button>
+                    </div>
 
-                {/* Services List */}
-                <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Image
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Title
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Description
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Price
-                                </th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {services.map((service) => (
-                                <tr key={service._id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="relative w-20 h-20">
-                                            <Image
-                                                src={service.image}
-                                                alt={service.title}
-                                                fill
-                                                className="object-cover rounded-md"
-                                            />
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{service.name}</td>
-                                    <td className="px-6 py-4">
-                                        <div className="max-w-xs truncate">{service.description}</div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">{service.price}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        {/* <button
-                                            onClick={() => {
-                                                setSelectedService(service);
-                                                setFormData(service);
-                                                setIsEditModalOpen(true);
-                                            }}
-                                            className="text-indigo-600 hover:text-indigo-900 mr-4 "
-                                        >
-                                            Edit
-                                        </button> */}
-                                        <button
-                                            onClick={() => {
-                                                setSelectedService(service);
-                                                setFormData(service);
-                                                setIsEditModalOpen(true);
-                                            }}
-                                            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors mr-[20px]"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => handleDeleteService(service._id)}
-                                            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
-                                        >
-                                            Delete
-                                        </button>
-                                    </td>
+                    {/* Services List */}
+                    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Image
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Title
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Description
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Price
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {services.map((service) => (
+                                    <tr key={service._id}>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="relative w-20 h-20">
+                                                <Image
+                                                    src={service.image}
+                                                    alt={service.title}
+                                                    fill
+                                                    className="object-cover rounded-md"
+                                                />
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{service.name}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="max-w-xs truncate">{service.description}</div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{service.price}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {/* <button
+                                                onClick={() => {
+                                                    setSelectedService(service);
+                                                    setFormData(service);
+                                                    setIsEditModalOpen(true);
+                                                }}
+                                                className="text-indigo-600 hover:text-indigo-900 mr-4 "
+                                            >
+                                                Edit
+                                            </button> */}
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedService(service);
+                                                    setFormData(service);
+                                                    setIsEditModalOpen(true);
+                                                }}
+                                                className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors mr-[20px]"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteService(service._id)}
+                                                className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
+                                            >
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
 
-                {/* Add Service Modal */}
-                {isAddModalOpen && (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div className="bg-white rounded-lg p-8 max-w-md w-full">
-            <h2 className="text-2xl font-bold mb-4">Add New Service</h2>
-            <form onSubmit={handleAddService}>
-                <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Title</label>
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Description</label>
-                        <textarea
-                            name="description"
-                            value={formData.description}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            rows={3}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Image URL</label>
-                        <input
-                            type="text"
-                            name="image"
-                            value={formData.image}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Price</label>
-                        <input
-                            type="text"
-                            name="price"
-                            value={formData.price}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Category</label>
-                        <input
-                            type="text"
-                            name="category"
-                            value={formData.category}
-                            onChange={handleInputChange}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            required
-                        />
-                    </div>
-                </div>
-                <div className="mt-6 flex justify-end space-x-3">
-                    <button
-                        type="button"
-                        onClick={() => setIsAddModalOpen(false)}
-                        className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="submit"
-                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-                    >
-                        Add Service
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-)}
-
-                {/* Edit Service Modal */}
-                {isEditModalOpen && selectedService && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                        <div className="bg-white rounded-lg p-8 max-w-md w-full">
-                            <h2 className="text-2xl font-bold mb-4">Edit Service</h2>
-                            <form onSubmit={handleEditService}>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Title</label>
-                                        <input
-                                            type="text"
-                                            name="title"
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Description</label>
-                                        <textarea
-                                            name="description"
-                                            value={formData.description}
-                                            onChange={handleInputChange}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                            rows={3}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Image URL</label>
-                                        <input
-                                            type="text"
-                                            name="image"
-                                            value={formData.image}
-                                            onChange={handleInputChange}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700">Price</label>
-                                        <input
-                                            type="text"
-                                            name="price"
-                                            value={formData.price}
-                                            onChange={handleInputChange}
-                                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="mt-6 flex justify-end space-x-3">
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsEditModalOpen(false)}
-                                        className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
-                                    >
-                                        Save Changes
-                                    </button>
-                                </div>
-                            </form>
+                    {/* Add Service Modal */}
+                    {isAddModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg p-8 max-w-md w-full">
+                <h2 className="text-2xl font-bold mb-4">Add New Service</h2>
+                <form onSubmit={handleAddService}>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Title</label>
+                            <input
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea
+                                name="description"
+                                value={formData.description}
+                                onChange={handleInputChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                rows={3}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Image URL</label>
+                            <input
+                                type="text"
+                                name="image"
+                                value={formData.image}
+                                onChange={handleInputChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Price</label>
+                            <input
+                                type="text"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleInputChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">Category</label>
+                            <input
+                                type="text"
+                                name="category"
+                                value={formData.category}
+                                onChange={handleInputChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                required
+                            />
                         </div>
                     </div>
-                )}
+                    <div className="mt-6 flex justify-end space-x-3">
+                        <button
+                            type="button"
+                            onClick={() => setIsAddModalOpen(false)}
+                            className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                        >
+                            Add Service
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
+    )}
+
+                    {/* Edit Service Modal */}
+                    {isEditModalOpen && selectedService && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                            <div className="bg-white rounded-lg p-8 max-w-md w-full">
+                                <h2 className="text-2xl font-bold mb-4">Edit Service</h2>
+                                <form onSubmit={handleEditService}>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Title</label>
+                                            <input
+                                                type="text"
+                                                name="title"
+                                                value={formData.name}
+                                                onChange={handleInputChange}
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Description</label>
+                                            <textarea
+                                                name="description"
+                                                value={formData.description}
+                                                onChange={handleInputChange}
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                rows={3}
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Image URL</label>
+                                            <input
+                                                type="text"
+                                                name="image"
+                                                value={formData.image}
+                                                onChange={handleInputChange}
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Price</label>
+                                            <input
+                                                type="text"
+                                                name="price"
+                                                value={formData.price}
+                                                onChange={handleInputChange}
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="mt-6 flex justify-end space-x-3">
+                                        <button
+                                            type="button"
+                                            onClick={() => setIsEditModalOpen(false)}
+                                            className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
+                                        >
+                                            Save Changes
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        
     );
 }
