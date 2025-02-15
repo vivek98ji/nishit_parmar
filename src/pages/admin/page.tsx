@@ -1,30 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import React from 'react';
 import ManageServices from './manage-services/page';
 import AdminServiceRequests from './service-partners/page';
 import ReferralWallet from './referall-wallet/page';
-import AdminLayout from '@/pages/components/admin/AdminLayout';
+import AdminLayout from './AdminLayout';
 import Income from './referall-wallet/page';
 
-
 export default function Admin() {
-    const [activeTab, setActiveTab] = useState('service-partners');
+    const router = useRouter();
+    const [mounted, setMounted] = useState(false);
 
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return null;
+    }
+
+    // Extract the current path to determine active content
+    const currentPath = router.pathname;
+    
     const renderContent = () => {
-        switch (activeTab) {
-            case 'service-partners':
+        switch (true) {
+            case currentPath.includes('service-partners'):
                 return <AdminServiceRequests />;
-            case 'manage-services':
+            case currentPath.includes('manage-services'):
                 return <ManageServices />;
-            case 'referall-wallet':
+            case currentPath.includes('referall-wallet'):
                 return <ReferralWallet />;
-            case 'admin-income':
-                return <Income />
-            //case 'blog':
-                //return <Blog />
+            case currentPath.includes('admin-income'):
+                return <Income />;
             default:
                 return <AdminServiceRequests />;
         }
