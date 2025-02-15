@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import CartItem from './CartItem'
 import { Divider, Button } from '@mui/material'
-import { useRouter } from "next/navigation";
+import {useRouter}  from "next/navigation";
 // import {  } from '@headlessui/react'
 
 const Cart: React.FC = () => {
