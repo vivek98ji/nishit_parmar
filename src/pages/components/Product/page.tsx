@@ -12,6 +12,7 @@ export default function Product() {
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 9;
     const [selectedPriceRange, setSelectedPriceRange] = useState<string>('all');
+    const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
     const priceRanges = [
         { label: 'All', value: 'all' },
@@ -19,6 +20,14 @@ export default function Product() {
         { label: '₹100 - ₹500', value: '100-500' },
         { label: '₹1000 - ₹2000', value: '1000-2000' },
         { label: 'Above ₹2000', value: 'above2000' },
+    ];
+
+    const categories = [
+        { label: 'All', value: 'all' },
+        { label: 'SERVICE', value: 'service' },
+        { label: 'REPAIR', value: 'REPAIR' },
+        { label: 'Cleaning', value: 'cleaning' },
+        { label: 'Furniture', value: 'furniture' },
     ];
 
     useEffect(() => {
@@ -61,10 +70,10 @@ export default function Product() {
     };
 
     // Combined search and price filter
-    const applyFilters = (searchTerm: string, priceRange: string) => {
+    const applyFilters = (searchTerm: string, priceRange: string, category: string) => {
         let filtered = products;
 
-        // Apply search filter if there's a search term
+        // Apply search filter
         if (searchTerm) {
             filtered = filtered.filter((product) =>
                 product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -78,18 +87,30 @@ export default function Product() {
             filtered = filterByPrice(filtered);
         }
 
+        // Apply category filter
+        if (category !== 'all') {
+            filtered = filtered.filter((product) =>
+                product.category?.toLowerCase() === category.toLowerCase()
+            );
+        }
+
         setFilteredProducts(filtered);
-        setCurrentPage(1); // Reset to first page when filters change
+        setCurrentPage(1);
     };
 
     const handleSearch = (query: string) => {
         setSearchQuery(query);
-        applyFilters(query, selectedPriceRange);
+        applyFilters(query, selectedPriceRange, selectedCategory);
     };
 
     const handlePriceRangeChange = (range: string) => {
         setSelectedPriceRange(range);
-        applyFilters(searchQuery, range);
+        applyFilters(searchQuery, range, selectedCategory);
+    };
+
+    const handleCategoryChange = (category: string) => {
+        setSelectedCategory(category);
+        applyFilters(searchQuery, selectedPriceRange, category);
     };
 
     // Calculate pagination values
@@ -137,6 +158,23 @@ export default function Product() {
                                     }`}
                             >
                                 {range.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Category Filters */}
+                    <div className="flex flex-wrap justify-center gap-2 mt-4">
+                        {categories.map((category) => (
+                            <button
+                                key={category.value}
+                                onClick={() => handleCategoryChange(category.value)}
+                                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200
+                                    ${selectedCategory === category.value
+                                    ? 'bg-black text-white'
+                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                    }`}
+                            >
+                                {category.label}
                             </button>
                         ))}
                     </div>
