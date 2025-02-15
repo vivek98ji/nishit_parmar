@@ -1,78 +1,8 @@
-// "use client";
-
-// import Image from 'next/image';
-// import { useRouter } from 'next/navigation';
-// import { FC } from 'react';
-// import Link from "next/link";
-// import ProductPage from '../ProductDetail/ProductDetail';
-// interface Product {
-//     id: number;
-//     imageUrl: string;
-//     Brand: string;
-//     title: string;
-//     discountedPrice: number;
-
-// }
-
-// interface ProductCardProps {
-//     product: Product;
-// }
-
-// const ProductCard: FC<ProductCardProps> = ({ product }) => {
-//     const router = useRouter();
-
-//     const handleNavigation = () => {
-//         // router.push(`/product/${5}`) // Update dynamic id logic as needed
-//         console.log(product.id)
-//     };
-
-//     if (!product) {
-//         return null; // or you can return a fallback UI
-//     }
-
-//     return (
-//         // <div onClick={handleNavigation}>
-//         <div>
-//             <div className="mx-auto mt-11 h-[400px] w-80 transform overflow-hidden rounded-[5px] bg-white dark:bg-white shadow-lg duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
-//                 <Image
-//                     className="h-[200px] w-full object-cover object-left-right"
-//                     src={product.imageUrl || "/logo.png"}
-//                     alt="Product Image"
-//                     width={320}
-//                     height={300}
-//                     loading="lazy"
-//                 />
-//                 <div className="p-3">
-//                     <h2 className="mb-2 text-lg font-medium dark:text-black text-black">{product.Brand}</h2>
-//                     <p className="mb-2 text-base dark:black text-white-700">Product {product.title}</p>
-//                     <div className="flex items-center">
-//                         <p className="mr-2 text-lg font-semibold text-black dark:text-black">₹{product.discountedPrice}</p>
-//                         {/* <p className="text-base font-medium text-black line-through dark:text:black">₹{product.price}</p> */}
-//                     </div>
-//                     <div>
-//                         {/* <Link href={`Product${5}`} key={product.id}> */}
-//                         <Link href={`../ProductDetail/ProductDetail`}>
-//                             <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
-//                                 View Details
-//                             </button>
-//                         </Link>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default ProductCard;
-
-
-
-
-
+"use client";
 
 import Image from "next/image";
 import { FC } from "react";
-import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 interface Product {
     _id: string;
@@ -87,35 +17,62 @@ interface ProductCardProps {
 }
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
+    const router = useRouter();
+
     if (!product) return null;
 
+    const handleViewDetails = () => {
+        router.push(`/components/ProductDetail/${product._id}`);
+    };
+
+    const handleAddService = () => {
+        console.log('Adding service to cart:', product._id);
+    };
+
     return (
-        <div className="mx-auto mt-11 h-[400px] w-80 transform overflow-hidden rounded-[5px] bg-white dark:bg-white shadow-lg duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
-            <Image
-                className="h-[200px] w-full object-cover object-left-right"
-                src={product.imageUrl || "/logo.png"}
-                alt="Product Image"
-                width={320}
-                height={300}
-                loading="lazy"
-            />
-            <div className="p-3">
-                <h2 className="mb-2 text-lg font-medium dark:text-black text-black">{product.name}</h2>
-                <p className="mb-2 text-base text-black">{product.description}</p>
-                <div className="flex items-center">
-                    <p className="mr-2 text-lg font-semibold text-black dark:text-black">₹{product.price}</p>
+        <div className="mx-auto mt-11 h-[400px] w-80 transform overflow-hidden rounded-[5px] 
+                      bg-gray-200 shadow-lg duration-300 hover:scale-105 hover:shadow-lg">
+            <div className="relative h-[200px] w-full">
+                <Image
+                    className="object-cover"
+                    src={product.imageUrl || "/logo.png"}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 320px) 100vw"
+                    priority
+                    quality={75}
+                />
+            </div>
+            <div className="p-4">
+                <h2 className="mb-2 text-lg font-medium text-gray-900 line-clamp-1">
+                    {product.name}
+                </h2>
+                <p className="mb-3 text-sm text-gray-600 line-clamp-2">
+                    {product.description}
+                </p>
+                <div className="flex items-center mb-4">
+                    <p className="text-lg font-semibold text-gray-900">
+                        ₹{product.price.toLocaleString('en-IN')}
+                    </p>
                 </div>
-                <div className="space-x-4">
-                {/* <Link href={`/ProductDetail/${product._id}`}> */}
-                <Link href={`/product/${product._id}`}>
-                    <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
+                <div className="flex gap-2">
+                    <button
+                        onClick={handleViewDetails}
+                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg
+                                 hover:bg-gray-800 transition-colors duration-200
+                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                    >
                         View Details
                     </button>
-                </Link>
-                <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
+                    <button
+                        onClick={handleAddService}
+                        className="flex-1 bg-black text-white py-2 px-4 rounded-lg
+                                 hover:bg-gray-800 transition-colors duration-200
+                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                    >
                         Add Service
                     </button>
-                    </div>
+                </div>
             </div>
         </div>
     );
