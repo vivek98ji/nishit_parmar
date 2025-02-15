@@ -12,4 +12,4 @@ const ServiceRequestSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export default mongoose.models.ServiceRequest || mongoose.model("Service", ServiceRequestSchema);
+export default mongoose.models.ServiceRequest || mongoose.model("ServiceRequest", ServiceRequestSchema);
