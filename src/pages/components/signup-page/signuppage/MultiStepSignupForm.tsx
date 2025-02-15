@@ -23,7 +23,7 @@ const MultiStepSignupForm = () => {
     code_number:'',
     identifier_code:'',
   });
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [passwordError, setPasswordError] = useState('');
   const [submitError, setSubmitError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,12 +35,12 @@ const MultiStepSignupForm = () => {
     { value: 'gardening', label: 'Gardening' },
   ];
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCategoryChange = (category) => {
+  const handleCategoryChange = (category: string) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
@@ -48,7 +48,7 @@ const MultiStepSignupForm = () => {
     );
   };
 
-  const nextStep = (e) => {
+  const nextStep = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (step === 1 && (!formData.password || !formData.confirmPassword)) {
       setPasswordError('Please fill in both password fields');
@@ -66,14 +66,14 @@ const MultiStepSignupForm = () => {
     setStep((prev) => prev - 1);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent default form submission
     setSubmitError('');
     setIsSubmitting(true);
   
     try {
       const userId = `usr${Math.floor(Math.random() * 1000)}`;
-      const generateRandomString = (length) => {
+      const generateRandomString = (length: number) => {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         let result = '';
         for (let i = 0; i < length; i++) {
@@ -134,7 +134,11 @@ const MultiStepSignupForm = () => {
         throw new Error(error.message);
       }
     } catch (error) {
-      setSubmitError(error.message || 'An error occurred during signup. Please try again.');
+      if (error instanceof Error) {
+        setSubmitError(error.message || 'An error occurred during signup. Please try again.');
+      } else {
+        setSubmitError('An error occurred during signup. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }

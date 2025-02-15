@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Remove the original request
       await ServiceRequest.findByIdAndDelete(id);
 
-      res.status(200).json({ success: true, service: newService });
+      
     } catch (error) {
       res.status(500).json({ success: false, error: (error as Error).message });
     }

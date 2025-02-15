@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import connectDB from "@/lib/mongodb";
-import User from "@/models/User";
+import User from "@/models/User1";
 import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from 'uuid'; // Add this import at the top
 

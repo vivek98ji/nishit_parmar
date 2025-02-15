@@ -56,7 +56,7 @@ const handleAccept = async (id: string): Promise<void> => {
     }
   };
 
-    const handleDecline = async (id: string): void => {
+    const handleDecline = async (id: string): Promise<void> => {
         try {
             const response = await fetch('/api/serviceRequest/decline', {
                 method: 'DELETE',

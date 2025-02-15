@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import connectDB from "@/lib/mongodb";
 import Provider from "@/models/provider";
+import { hash } from "bcryptjs";
 
 export default async function handler(
   req: NextApiRequest,
