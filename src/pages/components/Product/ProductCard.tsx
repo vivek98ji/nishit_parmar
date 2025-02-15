@@ -106,7 +106,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     <p className="mr-2 text-lg font-semibold text-black dark:text-black">₹{product.price}</p>
                 </div>
                 {/* <Link href={`/ProductDetail/${product._id}`}> */}
-                <Link href={`../ProductDetail/ProductDetail`}>
+                <Link href={`/product/${product._id}`}>
                     <button className="bg-black text-white hover:bg-black text-blackfont-bold py-2 px-4 rounded mt-[10px]">
                         View Details
                     </button>
