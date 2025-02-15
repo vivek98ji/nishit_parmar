@@ -1,7 +1,6 @@
 // @ts-ignore
 import Image from "next/image";
 import Product from "./components/Product/page";
-import ProductPage from "./components/ProductDetail/ProductDetail";
 import Cart from "./components/Cart/Cart";
 import ProductData from '../data/ProductData'
 import Header from "./components/signup-page/header/header";

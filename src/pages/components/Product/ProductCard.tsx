@@ -66,8 +66,9 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
     };
 
     return (
-        <div className="mx-auto mt-11 h-[400px] w-80 transform overflow-hidden rounded-[5px] 
-                      bg-gray-100 shadow-lg duration-300 hover:scale-105 hover:shadow-lg">
+        <div className="mx-auto mt-11 h-[400px] w-80 transform overflow-hidden rounded-[10px] 
+                      bg-gray-100 border-2 border-gray-200 shadow-lg duration-300 
+                      hover:scale-105 hover:shadow-xl hover:border-gray-300">
             <div className="relative h-[200px] w-full">
                 <Image
                     className="object-cover"
@@ -79,7 +80,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
                     quality={75}
                 />
             </div>
-            <div className="p-4">
+            <div className="p-4 bg-gray-100">
                 <h2 className="mb-2 text-lg font-medium text-gray-900 line-clamp-1">
                     {product.name}
                 </h2>

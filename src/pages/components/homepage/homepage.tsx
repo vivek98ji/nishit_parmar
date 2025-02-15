@@ -49,6 +49,16 @@ const responsive = {
   },
 } as const;
 
+// Add these testimonials data near the top with other interfaces
+const testimonials = [
+  { id: 1, text: "Excellent service! Very professional team.", author: "Sarah M." },
+  { id: 2, text: "Best home service I've ever experienced!", author: "John D." },
+  { id: 3, text: "Quick response and great work quality.", author: "Michael R." },
+  { id: 4, text: "Very reliable and trustworthy service.", author: "Emma W." },
+  { id: 5, text: "Highly recommend their cleaning service!", author: "David L." },
+  { id: 6, text: "Outstanding customer service!", author: "Lisa P." },
+];
+
 const HomeServices: React.FC = () => {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -365,6 +375,14 @@ const HomeServices: React.FC = () => {
     );
   };
 
+  // Add this CSS to create the continuous scrolling animation
+  const marqueeStyles = `
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  `;
+
   return (
     <div className="max-w-7xl mx-auto p-6 mt-12">
       {/* Search Section */}
@@ -570,20 +588,35 @@ const HomeServices: React.FC = () => {
           ))}
         </div>
       </section>
-      <div className="mt-16 bg-gray-200 p-10 rounded-lg shadow-lg text-center">
-        <h2 className="text-3xl font-bold mb-6">What People Say</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[1, 2, 3].map((review) => (
-            <div key={review} className="bg-black p-6 rounded-lg shadow">
-              <div className="flex justify-center mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-yellow-400 text-xl">★</span>
-                ))}
+      <div className="mt-16 overflow-hidden bg-gray-200 py-10">
+        <style>{marqueeStyles}</style>
+        <h2 className="text-3xl font-bold text-center mb-10">What Our Customers Say</h2>
+        
+        <div className="relative overflow-hidden">
+          <div 
+            className="flex space-x-8 whitespace-nowrap"
+            style={{
+              animation: 'scroll 30s linear infinite',
+              display: 'flex',
+              width: 'fit-content'
+            }}
+          >
+            {/* Double the testimonials for seamless loop */}
+            {[...testimonials, ...testimonials].map((review, index) => (
+              <div
+                key={index}
+                className="w-[350px] inline-flex flex-none flex-col rounded-lg bg-black p-6 shadow-lg mx-4"
+              >
+                <div className="flex justify-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar key={i} className="text-yellow-400 text-xl" />
+                  ))}
+                </div>
+                <p className="text-white italic mb-4">"{review.text}"</p>
+                <p className="text-white font-semibold">- {review.author}</p>
               </div>
-              <p className="text-white">"Amazing service! Highly recommend."</p>
-              <h3 className="mt-4 font-bold text-white">- Happy Customer</h3>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
