@@ -17,29 +17,26 @@ const SearchBar: React.FC<SearchBarProps> = ({
     onBlur
 }) => {
     return (
-        <div className="w-full relative">
-            <div className="relative flex items-center group w-full">
-                <div className="absolute left-4 text-gray-400 transition-transform duration-300 group-hover:scale-110">
-                    <FaSearch className="w-5 h-5" />
-                </div>
+        <div className="relative w-full max-w-3xl mx-auto">
+            <div className="relative">
                 <input
                     type="text"
-                    placeholder={placeholder}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onFocus={onFocus}
                     onBlur={onBlur}
-                    className="w-full pl-14 pr-6 py-4 bg-white border-2 border-gray-300
-                             rounded-full text-gray-700 placeholder-gray-400 text-lg
-                             transition-all duration-300 ease-in-out
-                             focus:outline-none focus:border-black focus:ring-2 focus:ring-black/5
-                             hover:border-gray-400 hover:shadow-md"
+                    placeholder={placeholder}
+                    className="w-full px-4 py-4 pl-12 pr-10 text-gray-900 
+                             bg-gray-100 border-2 border-black rounded-full
+                             focus:outline-none focus:border-black focus:ring-1 focus:ring-black
+                             transition-all duration-200 text-lg"
                 />
+                <FaSearch className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
                 {searchQuery && (
                     <button
-                        onClick={() => setSearchQuery('')}
-                        className="absolute right-4 text-gray-400 hover:text-gray-600 
-                                 transition-colors duration-200 focus:outline-none"
+                        onClick={() => setSearchQuery("")}
+                        className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400 
+                                 hover:text-gray-600 focus:outline-none text-xl"
                     >
                         ×
                     </button>
