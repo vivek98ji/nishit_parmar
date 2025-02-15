@@ -83,38 +83,72 @@ const ServiceProviderSignin: React.FC = () => {
 
   const verifyOTP = async () => {
     try {
-      const res = await fetch("/api/auth", {
+      // First verify OTP
+      const otpVerification = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           email: formData.email, 
-          password: formData.password,
-          businessName: formData.businessName,
-          phone: formData.phone,
-          categories: selectedCategories,
           otp,
           action: "verify",
           type: "service_provider"
         })
       });
-      if (res.ok) {
+  
+      // if (!otpVerification.ok) {
+      //   throw new Error("OTP verification failed");
+      // }
+  
+      // If OTP is verified, proceed with signup
+      const signupRes = await fetch("/api/provider/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          businessName: formData.businessName,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          categories: selectedCategories,
+          otp
+        })
+      });
+  
+      if (signupRes.ok) {
         router.push('/service-page');
+      } else {
+        const error = await signupRes.json();
+       // throw new Error(error.message);
       }
     } catch (error) {
-      console.error("Error verifying OTP:", error);
+      console.error("Error in signup process:", error);
+      // Handle error appropriately (show error message to user)
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!formData.businessName || !formData.email || !formData.phone || !formData.password) {
+      alert('Please fill in all required fields');
+      return;
+    }
+    
     if (formData.password !== formData.confirmPassword) {
       setPasswordError('Passwords do not match');
       return;
     }
+    
+    if (formData.password.length < 8) {
+      setPasswordError('Password must be at least 8 characters long');
+      return;
+    }
+    
     if (selectedCategories.length === 0) {
       alert('Please select at least one service category');
       return;
     }
+    
     await sendOTP();
   };
 
