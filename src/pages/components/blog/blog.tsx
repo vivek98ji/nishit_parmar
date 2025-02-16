@@ -111,7 +111,7 @@ const Blog = () => {
           {blogPosts.map((post) => (
             <article 
               key={post._id} 
-              className="bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 
+              className="bg-gray-200 rounded-xl overflow-hidden shadow-lg transition-all duration-300 
                        hover:shadow-2xl hover:-translate-y-1"
             >
               <div className="relative h-64 overflow-hidden">
