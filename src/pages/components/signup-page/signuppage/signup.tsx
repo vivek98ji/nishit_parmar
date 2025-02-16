@@ -142,8 +142,8 @@ const Signup: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Left Side */}
-      <div className="flex-1 bg-black text-white p-16 flex flex-col justify-center">
+      {/* Left Side - Hidden on mobile, visible on md and up */}
+      <div className="hidden md:flex flex-1 bg-black text-white p-16 flex-col justify-center">
         <div className="flex items-center mb-8">
           <h1 className="text-6xl font-bold ml-2">HelperBuddy</h1>
         </div>
@@ -190,11 +190,16 @@ const Signup: React.FC = () => {
         </button>
       </div>
 
-     
+      {/* Mobile Header - Only visible on mobile */}
+      <div className="md:hidden bg-black text-white p-6 text-center fixed top-0 w-full z-10">
+        <h1 className="text-3xl font-bold">HelperBuddy</h1>
+        <p className="text-gray-300 mt-2">Your Home Service Partner</p>
+      </div>
 
-      {/* Right Side */}
-      <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center w-full">
-        <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-[500px]">
+      {/* Right Side - Full width on mobile */}
+      <div className="flex-1 bg-white p-2 sm:p-10 flex flex-col justify-center items-center w-full">
+        {/* Increased width on mobile, max-width on larger screens */}
+        <div className="bg-white p-3 sm:p-8 rounded-xl shadow-xl w-[98%] sm:w-full sm:max-w-[500px] mt-[100px] md:mt-0">
           {step === 1 ? (
             <>
               <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Create Account</h2>
@@ -206,7 +211,7 @@ const Signup: React.FC = () => {
                     placeholder="Full Name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
+                    className="w-full px-3 sm:px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all"
                   />
                   {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
                 </div>
