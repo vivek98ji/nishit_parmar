@@ -1,6 +1,6 @@
 "use client"; // Not necessary with getServerSideProps
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { GetServerSideProps } from "next";
@@ -33,12 +33,57 @@ interface Product {
     serviceDetails?: string[];
     description: string;
     category: string,
-    available: boolean
+    available: boolean,
+    product: string
 }
+
+
 
 const ProductPage = ({ product }: { product: Product | null }) => {
     const [quantity, setQuantity] = useState(1);
     const [showPopup, setShowPopup] = useState(false);
+    interface Review {
+        name: string;
+        rating: number;
+        comment: string;
+    }
+
+    const [reviews, setReviews] = useState<Review[]>([]);
+
+    // useEffect(() => {
+    //     const fetchReviews = async () => {
+    //         try {
+    //             const response = await fetch(`http://localhost:3000/api/reviews/${product?._id}`);
+
+    //             // const res = await fetch(`/api/reviews/${product._id}`);
+    //             if (!response.ok) throw new Error("Failed to fetch reviews");
+    //             const data = await response.json();
+    //             setReviews(data);
+    //         } catch (error) {
+    //             console.error("Error fetching reviews:", error);
+    //         }
+    //     };
+
+    //     fetchReviews();
+    // }, [product]);
+
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/api/reviews/${product?._id}`);
+                console.log(`Fetching reviews for productId: ${product?._id}`); // Log the productId
+                if (!response.ok) throw new Error("Failed to fetch reviews");
+                const data = await response.json();
+                console.log(`Reviews fetched: ${data.length}`); // Log the number of reviews fetched
+                setReviews(data);
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            }
+        };
+
+        fetchReviews();
+    }, [product]);
 
     if (!product) {
         return (
@@ -130,7 +175,7 @@ const ProductPage = ({ product }: { product: Product | null }) => {
     return (
         <>
             {showPopup && (
-                <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
+                <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center ">
                     <div className="bg-white p-10 rounded-2xl text-center shadow-2xl w-96">
                         <CheckCircleIcon className="w-20 h-20 text-green-500 mx-auto mb-4" />
                         <h2 className="text-2xl font-bold text-gray-800">Service Added!</h2>
@@ -205,6 +250,47 @@ const ProductPage = ({ product }: { product: Product | null }) => {
                     )}
                 </div>
             </div>
+
+
+
+
+
+
+
+            <div className="max-w-5xl mx-auto p-6 bg-white shadow-xl rounded-2xl">
+                <h1 className="text-2xl font-bold text-gray-900 text-center">Customer Reviews</h1>
+
+
+                <div className="flex gap-6 mt-6 overflow-x-auto p-4">
+                    {reviews.map((review, index) => (
+                        <div key={index} className="min-w-[300px] border bg-gray-800 p-6 rounded-lg shadow-lg text-center">
+                            {/* <img src={review.image} alt={review.name} className="w-16 h-16 mx-auto rounded-full mb-3" /> */}
+                            <p className="font-bold text-white text-lg">{review.name}</p>
+                            <p className="text-yellow-500 text-lg">{"⭐".repeat(review.rating)}</p>
+                            <p className="text-white mt-2">{review.comment}</p>
+                        </div>
+                    ))}
+                </div>
+
+                <h4 className="mt-6 font-semibold text-gray-700 text-center">Write a Review</h4>
+                <div className="max-w-lg mx-auto mt-4">
+                    <input
+                        type="number"
+                        min="1"
+                        max="5"
+                        className="block w-full p-2 border rounded-lg shadow-sm"
+                        placeholder="Rating (1-5)"
+                    />
+                    <textarea
+                        placeholder="Write your review here..."
+                        className="block w-full p-2 border mt-2 rounded-lg shadow-sm"
+                    />
+                    <button className="mt-3 px-6 py-3 bg-black text-white rounded-xl shadow-lg hover:bg-gray-800 transition w-full text-lg">
+                        Submit Review
+                    </button>
+                </div>
+            </div>
+
 
         </>
     )
