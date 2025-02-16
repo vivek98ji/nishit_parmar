@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router"; // Corrected import
+import { useRouter } from "next/router";
 import { Button } from "@mui/material";
-// import { Button } from "@/components/ui/button";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 const AddressPage = () => {
     const [formData, setFormData] = useState({
         name: "",
@@ -10,10 +12,13 @@ const AddressPage = () => {
         state: "",
         zip: "",
         phone: "",
-        email: " "
+        email: ""
     });
     const [loading, setLoading] = useState(false);
     const [razorpayLoaded, setRazorpayLoaded] = useState(false);
+    const router = useRouter();
+    const { totalAmount } = router.query;
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
@@ -21,7 +26,6 @@ const AddressPage = () => {
             [name]: value,
         });
     };
-    const router = useRouter();
 
     useEffect(() => {
         const loadRazorpayScript = () => {
@@ -35,9 +39,25 @@ const AddressPage = () => {
         loadRazorpayScript();
     }, []);
 
+    const validateForm = () => {
+        const requiredFields = ["name", "street", "city", "state", "zip", "phone", "email"];
+        for (const field of requiredFields) {
+            if (!formData[field as keyof typeof formData]) {
+                return false; // Return false if any required field is empty
+            }
+        }
+        return true; // Return true if all fields are filled
+    };
+
     const handlepayment = async () => {
         if (!razorpayLoaded) {
-            alert("Razorpay SDK is still loading. Please wait.");
+            toast.warning("Razorpay SDK is still loading. Please wait.");
+            return;
+        }
+
+        // Validate form fields
+        if (!validateForm()) {
+            toast.error("Please fill out all the address details before proceeding to payment.");
             return;
         }
 
@@ -46,7 +66,7 @@ const AddressPage = () => {
             const response = await fetch("/api/razorpay", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount: 20, currency: "INR" }),
+                body: JSON.stringify({ amount: totalAmount ? parseFloat(totalAmount as string) : 2000, currency: "INR" }), // Convert to paise
             });
 
             const order = await response.json();
@@ -60,14 +80,14 @@ const AddressPage = () => {
                 description: "Service Payment",
                 order_id: order.id,
                 handler: function (response: any) {
-                    alert("Payment Successful!");
+                    toast.success("Payment Successful!");
                     console.log(response);
                     router.push("/success"); // Redirect on success
                 },
                 prefill: {
-                    name: "Manisha",
-                    email: "manisha@example.com",
-                    contact: "9876543210",
+                    name: formData.name,
+                    email: formData.email,
+                    contact: formData.phone,
                 },
                 theme: { color: "#3399cc" },
             };
@@ -76,17 +96,31 @@ const AddressPage = () => {
             razorpayInstance.open();
         } catch (error) {
             console.error("Payment error:", error);
-            alert("Payment failed!");
+            toast.error("Payment failed!");
         }
         setLoading(false);
     };
 
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Address submitted:", formData);
-    };
 
+        // Validate form fields
+        if (!validateForm()) {
+            toast.error("Please fill out all the address details before saving.");
+            return;
+        }
+
+        console.log("Address submitted:", formData);
+        toast.success("Address saved successfully!");
+
+        Swal.fire({
+            title: "Success!",
+            text: "Your address has been saved.",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#000",
+        })
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
@@ -192,27 +226,34 @@ const AddressPage = () => {
                         </div>
                     </div>
 
-                    <button className="bg-black hover:bg-black text-white font-bold py-2 px-4 rounded mt-[10px]">
+                    <button
+                        type="submit"
+                        className="bg-black hover:bg-black text-white font-bold py-2 px-4 rounded mt-[10px]"
+                    >
                         Save Address
                     </button>
                     <br />
-                    {/* <button className="bg-black hover:bg-black text-white font-bold py-2 px-4 rounded mt-[10px]"
-                        onClick={handlepayment}
-                        disabled={loading || !razorpayLoaded}
-                    > */}
-                    {/* {loading ? "Processing..." : "Proceed for payment"} */}
-                    {/* Proceed for payment */}
-                    {/* </button> */}
                     <Button
                         variant="contained"
                         sx={{ width: "100%", px: "2rem", py: "0.7rem", bgcolor: "#000" }}
                         onClick={handlepayment}
-                    // disabled={loading || !razorpayLoaded}
+                        disabled={loading || !razorpayLoaded}
                     >
                         {loading ? "Processing..." : "Proceed for Payment"}
                     </Button>
                 </form>
             </div>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
     );
 };
