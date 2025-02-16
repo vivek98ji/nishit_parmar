@@ -21,19 +21,23 @@ const Cart: React.FC = () => {
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
+        // Get cart items from localStorage
+        const cartData = localStorage.getItem('cart');
+        const localCartItems = cartData ? JSON.parse(cartData) : [];
+        
+        // Fetch additional product details if needed
         const response = await fetch("/api/cart");
         if (!response.ok) {
           throw new Error("Failed to fetch cart items");
         }
-        const data = await response.json();
-        if (data.success && Array.isArray(data.data)) {
-          setCartItems(data.data);
-        } else {
-          throw new Error("Invalid data format");
-        }
+        
+        setCartItems(localCartItems);
       } catch (err) {
         console.error("Error fetching cart items:", err);
-        setError("Failed to load cart items");
+        // If API fails, still show localStorage items
+        const cartData = localStorage.getItem('cart');
+        const localCartItems = cartData ? JSON.parse(cartData) : [];
+        setCartItems(localCartItems);
       } finally {
         setLoading(false);
       }
@@ -44,6 +48,13 @@ const Cart: React.FC = () => {
 
   const handleRemoveItem = async (_id: string) => {
     try {
+      // Update localStorage first
+      const cartData = localStorage.getItem('cart');
+      const localCartItems = cartData ? JSON.parse(cartData) : [];
+      const updatedCart = localCartItems.filter((item: CartItemData) => item._id !== _id);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+      // Then try to update server
       const response = await fetch(`/api/cart?id=${_id}`, {
         method: "DELETE",
       });
@@ -52,10 +63,12 @@ const Cart: React.FC = () => {
         throw new Error("Failed to remove item");
       }
 
-      setCartItems((prevItems) => prevItems.filter((item) => item._id !== _id));
+      setCartItems(updatedCart);
+      // Dispatch custom event to update cart count
+      window.dispatchEvent(new Event('cartUpdated'));
     } catch (err) {
       console.error("Error removing item:", err);
-      // For demo purposes, still remove from local state even if API fails
+      // If API fails, still update local state
       setCartItems((prevItems) => prevItems.filter((item) => item._id !== _id));
     }
   };

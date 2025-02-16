@@ -63,7 +63,7 @@ const HomeServices: React.FC = () => {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
-  const [filteredServices, setFilteredServices] = useState<any[]>([]);
+  const [filteredServices, setFilteredServices] = useState<ServiceItem[]>([]);
   const router = useRouter();
 
   const services: ServiceItem[] = [
@@ -144,9 +144,9 @@ const HomeServices: React.FC = () => {
   };
 
   const handleProductClick = (productId: number) => {
-    setShowSearchResults(false); // Hide search results
-    setSearchQuery(''); // Clear search query
-    router.push(`/components/Product/${productId}/page`); // Updated path to match your file structure
+    setShowSearchResults(false);
+    setSearchQuery('');
+    router.push(`/components/Product/${productId}`);
   };
 
   const fadeIn = {
@@ -306,7 +306,7 @@ const HomeServices: React.FC = () => {
       title: "Wall Panels",
       items: [
         { 
-          icon: "https://cdn-icons-png.flaticon.com/512/8068/8068項.png", 
+          icon: "https://cdn-icons-png.flaticon.com/512/8068/8068123.png", 
           title: "PVC Panels" 
         },
         { 
@@ -384,10 +384,10 @@ const HomeServices: React.FC = () => {
   `;
 
   return (
-    <div className="max-w-7xl mx-auto p-6 mt-12">
-      {/* Search Section */}
-      <div className="mb-8 relative">
-        <div className="max-w-2xl mx-auto">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 mt-8 sm:mt-12">
+      {/* Search Section - Moved to top */}
+      <div className="mb-12 relative">
+        <div className="max-w-xl sm:max-w-2xl mx-auto">
           <SearchBar
             searchQuery={searchQuery}
             setSearchQuery={handleSearch}
@@ -399,7 +399,7 @@ const HomeServices: React.FC = () => {
 
         {/* Search Results Dropdown */}
         {showSearchResults && searchQuery && (
-          <div className="absolute w-full bg-white mt-3 rounded-2xl shadow-2xl z-50 max-h-[70vh] overflow-y-auto
+          <div className="absolute w-full bg-white mt-3 rounded-2xl shadow-2xl z-50 max-h-[60vh] sm:max-h-[70vh] overflow-y-auto
                         border border-gray-100 backdrop-blur-sm backdrop-filter
                         transition-all duration-300 ease-in-out">
             {filteredProducts.length > 0 ? (
@@ -446,71 +446,64 @@ const HomeServices: React.FC = () => {
         )}
       </div>
 
-      <div className="flex space-x-24 mt-8">
-        <div className='flex flex-col justify-center'>
-          <h1 className="text-4xl font-bold mb-8 text-black">Home services at your doorstep</h1>
-          <div className="w-4/5 bg-gray-800 rounded-lg shadow-lg p-6 border-4 border-black">
-            <h2 className="text-xl text-gray-100 mb-6">What are you looking for?</h2>
-            <div className="grid grid-cols-3 gap-4">
+      {/* Main content section */}
+      <div className="flex flex-col md:flex-row md:space-x-24">
+        {/* Left column - Text and search */}
+        <div className='flex flex-col justify-center mb-8 md:mb-0'>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8 text-black text-center md:text-left">
+            Home services at your doorstep
+          </h1>
+          <div className="w-full md:w-4/5 bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 border-4 border-black">
+            <h2 className="text-lg sm:text-xl text-gray-100 mb-4 sm:mb-6">What are you looking for?</h2>
+            {/* Service grid - Responsive columns */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
               {filteredServicesLocal.map((service) => (
                 <div
                   key={service.id}
-                  className="bg-gray-300 p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
+                  className="bg-gray-300 p-3 sm:p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
                   onClick={() => setActiveModal(service.id)}
                 >
                   <div className="flex flex-col items-center text-center">
                     <img
                       src={service.icon}
                       alt={service.title}
-                      className="w-8 h-8 mb-2 object-contain"
+                      className="w-6 h-6 sm:w-8 sm:h-8 mb-2 object-contain"
                     />
-                    <span className="text-sm">{service.title}</span>
+                    <span className="text-xs sm:text-sm">{service.title}</span>
                   </div>
                 </div>
               ))}
-              {filteredServicesLocal.length === 0 && (
-                <div className="col-span-3 text-center py-4">
-                  <p className="text-gray-500">No services found matching your search.</p>
-                </div>
-              )}
             </div>
           </div>
         </div>
 
-        {/* Showcase Section */}
-        <div className="w-3/5 grid grid-cols-2 gap-6">
-          <div className="flex flex-col gap-6">
-            <div>
-              <img
-                src="/img/showcase/service1.jpg"
-                alt="Pedicure Service"
-                className="w-full h-[200px] rounded-lg object-cover"
-              />
-            </div>
-            <div
-            >
-              <img
-                src="/img/showcase/service2.jpg"
-                alt="Massage Service"
-                className="w-full h-[200px] rounded-lg object-cover"
-              />
-            </div>
-            <div
-            >
-              <img
-                src="/img/showcase/service3.jpg"
-                alt="AC Service"
-                className="w-full h-[200px] rounded-lg object-cover"
-              />
-            </div>
+        {/* Right column - Images */}
+        <div className="hidden md:flex gap-4">
+          {/* First column - 3 images */}
+          <div className="flex flex-col gap-4">
+            <img
+              src="/img/showcase/service1.jpg"
+              alt="Service 1"
+              className="w-full h-48 object-cover rounded-lg shadow-md"
+            />
+            <img
+              src="/img/showcase/service2.jpg"
+              alt="Service 2"
+              className="w-full h-48 object-cover rounded-lg shadow-md"
+            />
+            <img
+              src="/img/showcase/service3.jpg"
+              alt="Service 3"
+              className="w-full h-48 object-cover rounded-lg shadow-md"
+            />
           </div>
-          
-          {/* Single image in second column */}
+
+          {/* Second column - 1 image */}
           <div>
             <img
               src="/img/showcase/service4.jpg"
-              alt="Massage Service"
-              className="w-full h-full rounded-lg object-cover"
+              alt="Service 4"
+              className="w-full h-[calc(3*12rem+2rem)] object-cover rounded-lg shadow-md"
             />
           </div>
         </div>
