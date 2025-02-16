@@ -101,8 +101,8 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      {/* Left Side */}
-      <div className="flex-1 bg-black text-white p-16 flex flex-col justify-center">
+      {/* Left Side - hidden on mobile */}
+      <div className="hidden md:flex md:flex-1 bg-black text-white p-16 flex-col justify-center">
         <div className="flex items-center mb-8">
           <h1 className="text-6xl font-bold ml-2">HelperBuddy</h1>
         </div>
@@ -144,7 +144,7 @@ const Login: React.FC = () => {
         </ul>
       </div>
 
-      {/* Right Side */}
+      {/* Right Side - full width on mobile */}
       <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center w-full">
         <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-[500px]">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login to Your Account</h2>
