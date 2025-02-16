@@ -190,59 +190,61 @@ const ServiceProviderSignin: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <div className="flex-1 bg-black text-white p-10 flex flex-col justify-between">
-             <div>
-               <h1 className="text-5xl font-bold mb-2">HelperBuddy</h1>
-               <h2 className="text-3xl mb-10">Join Our Service Provider Network</h2>
-               
-               <p className="text-xl  mb-8">Become a part of our growing network of professional service providers and:</p>
-               
-               <div className="space-y-12">
-                 <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
-                   <div className="bg-white/10 p-3 rounded-full">
-                     <FaUserPlus className="w-6 h-6" />
-                   </div>
-                   <p className="text-xl">Grow your business</p>
-                 </div>
-                 
-                 <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
-                   <div className="bg-white/10 p-3 rounded-full">
-                     <FaHandshake className="w-6 h-6" />
-                   </div>
-                   <p className="text-xl">Get more clients</p>
-                 </div>
-                 
-                 <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
-                   <div className="bg-white/10 p-3 rounded-full">
-                     <FaCalendarCheck className="w-6 h-6" />
-                   </div>
-                   <p className="text-xl">Manage bookings easily</p>
-                 </div>
-                 
-                 <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
-                   <div className="bg-white/10 p-3 rounded-full">
-                     <FaShieldAlt className="w-6 h-6" />
-                   </div>
-                   <p className="text-xl">Receive secure payments</p>
-                 </div>
-                 
-                 <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
-                   <div className="bg-white/10 p-3 rounded-full">
-                     <FaCheckCircle className="w-6 h-6" />
-                   </div>
-                   <p className="text-xl">Build your reputation</p>
-                 </div>
-               </div>
-             </div>
-     
-             <button className="w-full bg-white text-black py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] mt-8">
-               LEARN MORE
-             </button>
-           </div>
-     
+      {/* Left div - hidden on mobile */}
+      <div className="hidden md:flex md:flex-1 bg-black text-white p-10 flex-col justify-between">
+        <div>
+          <h1 className="text-5xl font-bold mb-2">HelperBuddy</h1>
+          <h2 className="text-3xl mb-10">Join Our Service Provider Network</h2>
+          
+          <p className="text-xl mb-8">Become a part of our growing network of professional service providers and:</p>
+          
+          <div className="space-y-12">
+            <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
+              <div className="bg-white/10 p-3 rounded-full">
+                <FaUserPlus className="w-6 h-6" />
+              </div>
+              <p className="text-xl">Grow your business</p>
+            </div>
+            
+            <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
+              <div className="bg-white/10 p-3 rounded-full">
+                <FaHandshake className="w-6 h-6" />
+              </div>
+              <p className="text-xl">Get more clients</p>
+            </div>
+            
+            <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
+              <div className="bg-white/10 p-3 rounded-full">
+                <FaCalendarCheck className="w-6 h-6" />
+              </div>
+              <p className="text-xl">Manage bookings easily</p>
+            </div>
+            
+            <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
+              <div className="bg-white/10 p-3 rounded-full">
+                <FaShieldAlt className="w-6 h-6" />
+              </div>
+              <p className="text-xl">Receive secure payments</p>
+            </div>
+            
+            <div className="flex items-center space-x-4 transform hover:translate-x-2 transition-transform duration-300">
+              <div className="bg-white/10 p-3 rounded-full">
+                <FaCheckCircle className="w-6 h-6" />
+              </div>
+              <p className="text-xl">Build your reputation</p>
+            </div>
+          </div>
+        </div>
 
-      {/* Right Side */}
-      <MultiStepSignupForm/>
+        <button className="w-full bg-white text-black py-3 rounded-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-[1.02] mt-8">
+          LEARN MORE
+        </button>
+      </div>
+
+      {/* Right Side - full width on mobile */}
+      <div className="flex-1 md:flex-1">
+        <MultiStepSignupForm/>
+      </div>
     </div>
   );
 };
