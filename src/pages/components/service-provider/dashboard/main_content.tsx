@@ -24,7 +24,7 @@ export default function MainContent({ activeTab }: MainContentProps) {
     return <Reviews />
   }
   if (activeTab === "Workspace") {
-    return <Workspace />
+    return <Workspace providerId={providerId} />
   }
   if (activeTab === "Income") {
     return <Income />

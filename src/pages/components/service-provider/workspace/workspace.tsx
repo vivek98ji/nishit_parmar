@@ -18,8 +18,14 @@ interface Service {
 
 export function Workspace({ providerId }: { providerId: string }) {
   const [services, setServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // Add isLoading state
+  const [error, setError] = useState<string | null>(null); // Add error state
 
   useEffect(() => {
+    if (!providerId) {
+      console.error("Provider ID is missing or undefined");
+      return; // Exit if providerId is not set
+    }
     const fetchServices = async () => {
       try {
         const response = await fetch(`/api/servicess?providerId=${providerId}`);
@@ -27,9 +33,14 @@ export function Workspace({ providerId }: { providerId: string }) {
         
         if (data.success) {
           setServices(data.services);
+        } else {
+          setError("Failed to fetch services");
         }
       } catch (error) {
         console.error("Error fetching services:", error);
+        setError("An error occurred while fetching services");
+      } finally {
+        setIsLoading(false); // Set loading to false after fetch completes
       }
     };
 
@@ -84,7 +95,7 @@ export function Workspace({ providerId }: { providerId: string }) {
             <div key={service._id} className="flex items-center px-4 py-3 hover:bg-gray-50 rounded-lg">
               <div className="flex items-center flex-1">
                 <Image
-                  src={service.thumbnail || "/service-page/webd.jpg?height=80&width=80"} // Default thumbnail if not provided
+                  src={service.thumbnail || "/logo.png?height=80&width=80"} // Default thumbnail if not provided
                   alt={service.name}
                   width={80}
                   height={80}

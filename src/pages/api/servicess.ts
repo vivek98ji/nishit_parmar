@@ -1,7 +1,13 @@
+import connectDB from "@/lib/mongodb";
+import Service from "@/models/Service";
+import { NextApiRequest, NextApiResponse } from "next";
+import Provider from "@/models/provider";
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
   ) {
+    await connectDB();
     try {
       const { providerId } = req.query;
   
