@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Trash2, Plus, AlertCircle } from 'lucide-react';
+import { Trash2, Plus, AlertCircle, Edit2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface BlogPost {
   _id: string;
@@ -26,6 +27,10 @@ const BlogsAdmin = () => {
     image: '',
   });
 
+  const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null);
+
+  const router = useRouter();
+
   // Fetch blogs
   const fetchBlogs = async () => {
     try {
@@ -49,20 +54,34 @@ const BlogsAdmin = () => {
     fetchBlogs();
   }, []);
 
-  // Handle form submission
+  // Handle edit click
+  const handleEdit = (blog: BlogPost) => {
+    setEditingBlog(blog);
+    setShowForm(true);
+    setNewBlog({
+      title: blog.title,
+      excerpt: blog.excerpt,
+      content: blog.content,
+      image: blog.image,
+    });
+  };
+
+  // Update handleSubmit to handle both create and edit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Check if blog count is at limit
-    if (blogs.length >= 10) {
+    if (!editingBlog && blogs.length >= 10) {
       setError('Maximum limit of 10 blogs reached. Please delete some blogs before adding new ones.');
       setShowForm(false);
       return;
     }
 
     try {
-      const response = await fetch('/api/blog', {
-        method: 'POST',
+      const url = editingBlog ? `/api/blog/${editingBlog._id}` : '/api/blog';
+      const method = editingBlog ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -81,9 +100,10 @@ const BlogsAdmin = () => {
       // Reset form and refresh blogs
       setNewBlog({ title: '', excerpt: '', content: '', image: '' });
       setShowForm(false);
+      setEditingBlog(null);
       fetchBlogs();
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to create blog');
+      setError(error instanceof Error ? error.message : 'Failed to save blog');
     }
   };
 
@@ -152,6 +172,23 @@ const BlogsAdmin = () => {
       {showForm && (
         <form onSubmit={handleSubmit} className="mb-8 p-6 bg-gray-50 rounded-lg">
           <div className="grid gap-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold">
+                {editingBlog ? 'Edit Blog Post' : 'Create New Blog Post'}
+              </h2>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowForm(false);
+                  setEditingBlog(null);
+                  setNewBlog({ title: '', excerpt: '', content: '', image: '' });
+                }}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                Cancel
+              </button>
+            </div>
+
             <div>
               <label className="block mb-2">Title</label>
               <input
@@ -162,6 +199,7 @@ const BlogsAdmin = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block mb-2">Excerpt</label>
               <textarea
@@ -171,6 +209,7 @@ const BlogsAdmin = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block mb-2">Image URL</label>
               <input
@@ -181,6 +220,7 @@ const BlogsAdmin = () => {
                 required
               />
             </div>
+
             <div>
               <label className="block mb-2">Main Content</label>
               <textarea
@@ -191,11 +231,12 @@ const BlogsAdmin = () => {
                 required
               />
             </div>
+
             <button
               type="submit"
               className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
             >
-              Create Blog Post
+              {editingBlog ? 'Update Blog Post' : 'Create Blog Post'}
             </button>
           </div>
         </form>
@@ -219,13 +260,22 @@ const BlogsAdmin = () => {
                 {new Date(blog.date).toLocaleDateString()}
               </p>
               <p className="text-gray-700 mb-4">{blog.excerpt}</p>
-              <button
-                onClick={() => handleDelete(blog._id)}
-                className="flex items-center gap-2 text-red-600 hover:text-red-700"
-              >
-                <Trash2 size={20} />
-                Delete
-              </button>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => handleEdit(blog)}
+                  className="flex items-center gap-2 text-blue-600 hover:text-blue-700"
+                >
+                  <Edit2 size={20} />
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(blog._id)}
+                  className="flex items-center gap-2 text-red-600 hover:text-red-700"
+                >
+                  <Trash2 size={20} />
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         ))}
