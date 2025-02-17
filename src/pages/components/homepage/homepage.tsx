@@ -333,40 +333,35 @@ const HomeServices: React.FC = () => {
   const ServiceModal: React.FC<ServiceModalProps> = ({ modalId, onClose }) => {
     const content = modalContent[modalId];
 
-    if (!content) {
-      return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg">
-            <p>Service details not found</p>
-            <button onClick={onClose} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
-              Close
-            </button>
-          </div>
-        </div>
-      );
-    }
+    if (!content) return null;
 
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.3 }}
-          style={{ backgroundColor: 'white', padding: '1.5rem', borderRadius: '0.5rem', width: '33.333333%' }}
+          className="bg-white p-4 md:p-6 rounded-lg w-full md:w-1/3 max-h-[90vh] overflow-y-auto"
         >
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">{content.title}</h2>
-            <button onClick={onClose} className="text-xl font-bold">&times;</button>
+            <h2 className="text-xl md:text-2xl font-bold">{content.title}</h2>
+            <button 
+              onClick={onClose} 
+              className="text-2xl font-bold p-2 hover:bg-gray-100 rounded-full"
+            >
+              &times;
+            </button>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {content.items.map((item, index) => (
-              <div key={index} className="text-center">
+              <div key={index} className="text-center p-2 hover:bg-gray-50 rounded-lg">
                 <img
                   src={item.icon}
                   alt={item.title}
-                  className="w-12 h-12 mx-auto"
+                  className="w-10 h-10 md:w-12 md:h-12 mx-auto mb-2"
                 />
-                <p className="text-sm">{item.title}</p>
+                <p className="text-xs md:text-sm">{item.title}</p>
               </div>
             ))}
           </div>

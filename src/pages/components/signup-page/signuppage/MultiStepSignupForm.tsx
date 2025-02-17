@@ -322,14 +322,14 @@ const MultiStepSignupForm = () => {
   };
 
   return (
-    <div className="flex-1 bg-white p-10 flex flex-col justify-center items-center">
-      <div className="bg-white p-8 rounded-xl shadow-xl w-96">
+    <div className="flex-1 bg-white mt-4 md:p-10 flex flex-col justify-center items-center">
+      <div className="bg-white p-0 md:p-8 rounded-xl shadow-xl w-full md:w-96">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
           Service Provider Sign Up
         </h2>
         
         {/* Progress indicator */}
-        <div className="mb-8 flex justify-between">
+        <div className="mb-8 flex justify-between px-4">
           {[1, 2, 3, 4].map((stepNumber) => (
             <div
               key={stepNumber}
@@ -340,7 +340,7 @@ const MultiStepSignupForm = () => {
           ))}
         </div>
   
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 px-4 md:px-0">
           {renderStepContent()}
   
           {submitError && (
