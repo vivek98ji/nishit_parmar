@@ -38,7 +38,7 @@ const CreateBlog = () => {
         throw new Error(result.message);
       }
 
-      router.push('/components/blog');
+      router.push('/components/blog/blog');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create blog post');
     } finally {
@@ -128,7 +128,7 @@ const CreateBlog = () => {
             <div className="flex justify-end gap-4">
               <button
                 type="button"
-                onClick={() => router.push('/components/blog')}
+                onClick={() => router.push('/components/blog/blog')}
                 className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Cancel
