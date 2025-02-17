@@ -15,7 +15,7 @@ export default function Product() {
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
     const priceRanges = [
-        { label: 'All', value: 'all' },
+        { label: 'All Prices', value: 'all' },
         { label: 'Under ₹100', value: 'under100' },
         { label: '₹100 - ₹500', value: '100-500' },
         { label: '₹1000 - ₹2000', value: '1000-2000' },
@@ -23,11 +23,13 @@ export default function Product() {
     ];
 
     const categories = [
-        { label: 'All', value: 'all' },
+        { label: 'All Categories', value: 'all' },
         { label: 'SERVICE', value: 'service' },
-        { label: 'REPAIR', value: 'REPAIR' },
+        { label: 'REPAIR', value: 'repair' },
         { label: 'Cleaning', value: 'cleaning' },
         { label: 'Furniture', value: 'furniture' },
+        { label: 'Installation', value: 'installation' },
+        { label: 'Maintenance', value: 'maintenance' },
     ];
 
     useEffect(() => {
@@ -69,28 +71,44 @@ export default function Product() {
         });
     };
 
-    // Combined search and price filter
+    // Enhanced search and filter function
     const applyFilters = (searchTerm: string, priceRange: string, category: string) => {
         let filtered = products;
 
-        // Apply search filter
+        // Apply search filter (search by name, description, and category)
         if (searchTerm) {
             filtered = filtered.filter((product) =>
                 product.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 product.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                product.category?.toLowerCase().includes(searchTerm.toLowerCase())
+                product.category?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                product.price?.toString().includes(searchTerm) // Search by price
             );
         }
 
         // Apply price filter
         if (priceRange !== 'all') {
-            filtered = filterByPrice(filtered);
+            filtered = filtered.filter((product) => {
+                const price = Number(product.price);
+                switch (priceRange) {
+                    case 'under100':
+                        return price <= 100;
+                    case '100-500':
+                        return price > 100 && price <= 500;
+                    case '1000-2000':
+                        return price >= 1000 && price <= 2000;
+                    case 'above2000':
+                        return price > 2000;
+                    default:
+                        return true;
+                }
+            });
         }
 
-        // Apply category filter
+        // Apply category/work filter
         if (category !== 'all') {
             filtered = filtered.filter((product) =>
-                product.category?.toLowerCase() === category.toLowerCase()
+                product.category?.toLowerCase() === category.toLowerCase() ||
+                product.workType?.toLowerCase() === category.toLowerCase()
             );
         }
 
@@ -132,7 +150,7 @@ export default function Product() {
     return (
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Search Section with Price Filters */}
+                {/* Search and Filter Section */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
                         Our Services
@@ -141,7 +159,7 @@ export default function Product() {
                         <SearchBar
                             searchQuery={searchQuery}
                             setSearchQuery={handleSearch}
-                            placeholder="Search services by name, description, or category..."
+                            placeholder="Search by service name, price, or category..."
                         />
                     </div>
 
@@ -162,7 +180,7 @@ export default function Product() {
                         ))}
                     </div>
 
-                    {/* Category Filters */}
+                    {/* Category/Work Type Filters */}
                     <div className="flex flex-wrap justify-center gap-2 mt-4">
                         {categories.map((category) => (
                             <button
@@ -170,8 +188,8 @@ export default function Product() {
                                 onClick={() => handleCategoryChange(category.value)}
                                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200
                                     ${selectedCategory === category.value
-                                    ? 'bg-black text-white'
-                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                        ? 'bg-black text-white'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                                     }`}
                             >
                                 {category.label}
