@@ -20,6 +20,15 @@ const CreateBlog = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const validateImageUrl = async (url: string) => {
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      return response.ok;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -29,13 +38,19 @@ const CreateBlog = () => {
       const response = await fetch('/api/blog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          title: formData.title,
+          excerpt: formData.excerpt,
+          content: formData.content || formData.excerpt,
+          image: formData.image,
+          date: new Date().toISOString()
+        })
       });
 
       const result = await response.json();
 
       if (!result.success) {
-        throw new Error(result.message);
+        throw new Error(result.message || 'Failed to create blog post');
       }
 
       router.push('/components/blog/blog');
@@ -44,6 +59,11 @@ const CreateBlog = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const url = e.target.value;
+    setFormData(prev => ({ ...prev, image: url }));
   };
 
   return (
@@ -68,7 +88,7 @@ const CreateBlog = () => {
                 id="title"
                 type="text"
                 value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value.trim() }))}
                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black focus:border-black"
                 required
               />
@@ -82,7 +102,7 @@ const CreateBlog = () => {
                 id="excerpt"
                 type="text"
                 value={formData.excerpt}
-                onChange={(e) => setFormData(prev => ({ ...prev, excerpt: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, excerpt: e.target.value.trim() }))}
                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black focus:border-black"
                 required
               />
@@ -96,19 +116,10 @@ const CreateBlog = () => {
                 id="image"
                 type="text"
                 value={formData.image}
-                onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value.trim() }))}
                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black focus:border-black"
                 required
               />
-              {formData.image && (
-                <div className="mt-2 relative h-48 rounded-lg overflow-hidden">
-                  <img
-                    src={formData.image}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
             </div>
 
             <div>
@@ -118,7 +129,7 @@ const CreateBlog = () => {
               <textarea
                 id="content"
                 value={formData.content}
-                onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
+                onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value.trim() }))}
                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-black focus:border-black min-h-[400px]"
                 placeholder="Write your blog content here..."
                 required

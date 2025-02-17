@@ -22,7 +22,7 @@ export default async function handler(
 
     case "POST":
       try {
-        const { title, excerpt, content, image } = req.body;
+        const { title, excerpt, content, image, date } = req.body;
         
         // Validate required fields
         if (!title || !excerpt || !content || !image) {
@@ -32,20 +32,22 @@ export default async function handler(
           });
         }
 
+        // Create new blog post
         const newBlog = await blog.create({
           title,
           excerpt,
           content,
           image,
-          date: new Date(),
+          date: new Date(date),
           author: 'Admin' // You can modify this based on logged-in user
         });
 
         return res.status(201).json({ success: true, data: newBlog });
       } catch (error) {
+        console.error('Blog creation error:', error);
         return res.status(500).json({ 
           success: false, 
-          message: error instanceof Error ? error.message : String(error) 
+          message: error instanceof Error ? error.message : "Failed to create blog post"
         });
       }
 
