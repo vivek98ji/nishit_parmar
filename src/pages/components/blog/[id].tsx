@@ -112,10 +112,10 @@ const BlogDetail = () => {
           />
         </div>
 
-        {/* Main Content */}
+        {/* Main Content Section */}
         <div className="prose prose-lg max-w-none">
-          {/* Using white-space-pre-wrap to preserve formatting */}
-          <div className="text-gray-800 leading-relaxed whitespace-pre-wrap">
+          <h2 className="text-2xl font-bold mb-6 text-gray-900">Main Content</h2>
+          <div className="text-gray-800 leading-relaxed whitespace-pre-wrap bg-white p-8 rounded-lg shadow-sm">
             {post.content}
           </div>
         </div>

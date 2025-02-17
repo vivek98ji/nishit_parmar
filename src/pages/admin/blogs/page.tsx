@@ -8,6 +8,7 @@ interface BlogPost {
   title: string;
   date: string;
   excerpt: string;
+  content: string;
   image: string;
 }
 
@@ -21,6 +22,7 @@ const BlogsAdmin = () => {
   const [newBlog, setNewBlog] = useState({
     title: '',
     excerpt: '',
+    content: '',
     image: '',
   });
 
@@ -77,7 +79,7 @@ const BlogsAdmin = () => {
       }
 
       // Reset form and refresh blogs
-      setNewBlog({ title: '', excerpt: '', image: '' });
+      setNewBlog({ title: '', excerpt: '', content: '', image: '' });
       setShowForm(false);
       fetchBlogs();
     } catch (error) {
@@ -165,7 +167,7 @@ const BlogsAdmin = () => {
               <textarea
                 value={newBlog.excerpt}
                 onChange={(e) => setNewBlog({ ...newBlog, excerpt: e.target.value })}
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border rounded h-20"
                 required
               />
             </div>
@@ -176,6 +178,16 @@ const BlogsAdmin = () => {
                 value={newBlog.image}
                 onChange={(e) => setNewBlog({ ...newBlog, image: e.target.value })}
                 className="w-full p-2 border rounded"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-2">Main Content</label>
+              <textarea
+                value={newBlog.content}
+                onChange={(e) => setNewBlog({ ...newBlog, content: e.target.value })}
+                className="w-full p-2 border rounded min-h-[200px]"
+                placeholder="Write your blog content here..."
                 required
               />
             </div>
