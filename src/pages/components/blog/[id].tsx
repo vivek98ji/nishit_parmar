@@ -95,10 +95,10 @@ const BlogDetail = () => {
 
         {/* Excerpt/Summary Box */}
         <div className="bg-gray-50 p-6 rounded-lg mb-8 border-4 border-black shadow-sm hover:shadow-md transition-shadow duration-300">
-          <h2 className="text-xl font-semibold mb-3 text-gray-800 flex items-center">
-            <span className="bg-black text-white px-3 py-1 rounded-md mr-2 text-sm">Summary</span>
+          <h2 className="text-xl font-bold mb-3 text-gray-800 flex items-center font-serif">
+            <span className="bg-black text-white px-3 py-1 rounded-md mr-2 text-sm font-sans">Summary</span>
           </h2>
-          <p className="text-gray-700 italic leading-relaxed">
+          <p className="text-gray-700 italic leading-relaxed font-serif text-lg">
             {post.excerpt}
           </p>
         </div>
