@@ -89,7 +89,7 @@ const Signup: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
       try {
         const response = await fetch("/api/auth/signup", {
@@ -128,11 +128,11 @@ const Signup: React.FC = () => {
     const res = await fetch("/api/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        email: formData.email, 
+      body: JSON.stringify({
+        email: formData.email,
         password: formData.password,
-        otp, 
-        action: "verify" 
+        otp,
+        action: "verify"
       })
     });
     if (res.ok) {

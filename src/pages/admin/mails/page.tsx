@@ -5,6 +5,7 @@ import { IMail } from '@/models/mail';
 
 export default function Mails() {
     const [mails, setMails] = useState<IMail[]>([]);
+    const [showComposeForm, setShowComposeForm] = useState(false);
     const [newMail, setNewMail] = useState({
         subject: '',
         recipient: '',
@@ -77,82 +78,111 @@ export default function Mails() {
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
-            <h1 className="text-2xl font-bold mb-6 text-gray-900">Mail Management</h1>
-            
-            {/* Mail Composition Form */}
-            <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-                <h2 className="text-xl font-semibold mb-4 text-gray-900">Compose New Mail</h2>
-                <form onSubmit={handleSendMail} className="space-y-4">
-                    <div>
-                        <label className="block mb-1 text-gray-700">Recipient Email</label>
-                        <input
-                            type="email"
-                            value={newMail.recipient}
-                            onChange={(e) => setNewMail({...newMail, recipient: e.target.value})}
-                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block mb-1 text-gray-700">Subject</label>
-                        <input
-                            type="text"
-                            value={newMail.subject}
-                            onChange={(e) => setNewMail({...newMail, subject: e.target.value})}
-                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block mb-1 text-gray-700">Message</label>
-                        <textarea
-                            value={newMail.preview}
-                            onChange={(e) => setNewMail({...newMail, preview: e.target.value})}
-                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
-                            rows={4}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label className="block mb-1 text-gray-700">Priority</label>
-                        <select
-                            value={newMail.priority}
-                            onChange={(e) => setNewMail({...newMail, priority: e.target.value})}
-                            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
-                        >
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                        </select>
-                    </div>
-                    <div className="flex gap-4">
-                        <div className="flex-1">
-                            <label className="block mb-1 text-gray-700">Order ID (Optional)</label>
-                            <input
-                                type="text"
-                                value={newMail.orderID}
-                                onChange={(e) => setNewMail({...newMail, orderID: e.target.value})}
-                                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
-                            />
-                        </div>
-                        <div className="flex-1">
-                            <label className="block mb-1 text-gray-700">Provider ID (Optional)</label>
-                            <input
-                                type="text"
-                                value={newMail.providerId}
-                                onChange={(e) => setNewMail({...newMail, providerId: e.target.value})}
-                                className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
-                            />
-                        </div>
-                    </div>
-                    <button
-                        type="submit"
-                        className="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
-                    >
-                        Send Mail
-                    </button>
-                </form>
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-bold text-gray-900">Mail Management</h1>
+                <button
+                    onClick={() => setShowComposeForm(true)}
+                    className="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+                >
+                    Compose New Mail
+                </button>
             </div>
+            
+            {/* Modal for Mail Composition */}
+            {showComposeForm && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-semibold text-gray-900">Compose New Mail</h2>
+                            <button 
+                                onClick={() => setShowComposeForm(false)}
+                                className="text-gray-500 hover:text-gray-700"
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <form onSubmit={handleSendMail} className="space-y-4">
+                            <div>
+                                <label className="block mb-1 text-gray-700">Recipient Email</label>
+                                <input
+                                    type="email"
+                                    value={newMail.recipient}
+                                    onChange={(e) => setNewMail({...newMail, recipient: e.target.value})}
+                                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block mb-1 text-gray-700">Subject</label>
+                                <input
+                                    type="text"
+                                    value={newMail.subject}
+                                    onChange={(e) => setNewMail({...newMail, subject: e.target.value})}
+                                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block mb-1 text-gray-700">Message</label>
+                                <textarea
+                                    value={newMail.preview}
+                                    onChange={(e) => setNewMail({...newMail, preview: e.target.value})}
+                                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
+                                    rows={4}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block mb-1 text-gray-700">Priority</label>
+                                <select
+                                    value={newMail.priority}
+                                    onChange={(e) => setNewMail({...newMail, priority: e.target.value})}
+                                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
+                                >
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="flex-1">
+                                    <label className="block mb-1 text-gray-700">Order ID (Optional)</label>
+                                    <input
+                                        type="text"
+                                        value={newMail.orderID}
+                                        onChange={(e) => setNewMail({...newMail, orderID: e.target.value})}
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <label className="block mb-1 text-gray-700">Provider ID (Optional)</label>
+                                    <input
+                                        type="text"
+                                        value={newMail.providerId}
+                                        onChange={(e) => setNewMail({...newMail, providerId: e.target.value})}
+                                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-gray-500"
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex justify-end space-x-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowComposeForm(false)}
+                                    className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+                                >
+                                    Send Mail
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
 
             {/* Mail List */}
             <div className="bg-white rounded-lg shadow-md">

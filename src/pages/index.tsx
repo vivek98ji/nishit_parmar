@@ -18,8 +18,7 @@ export default function Home() {
 
       <main className="flex-grow">
 
-        {/* <HomeServices /> */}
-        <Cart />
+         <HomeServices />
       </main>
 
     </div>

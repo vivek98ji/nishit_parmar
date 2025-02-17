@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AlertCircle } from 'lucide-react';
-
+import { useRouter } from 'next/router';
 interface BlogPost {
   _id: string;
   title: string;
@@ -18,15 +18,15 @@ const Blog = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const router = useRouter();
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await fetch('/api/blog');
-        
+
         if (!response.ok) {
           throw new Error(`Server error: ${response.status} ${response.statusText}`);
         }
@@ -70,8 +70,8 @@ const Blog = () => {
           <h2 className="text-2xl font-bold">Oops! Something went wrong</h2>
         </div>
         <p className="text-gray-600 text-center max-w-md mb-6">{error}</p>
-        <button 
-          onClick={() => window.location.reload()} 
+        <button
+          onClick={() => window.location.reload()}
           className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 
                    transition-colors duration-300 flex items-center gap-2"
         >
@@ -109,14 +109,14 @@ const Blog = () => {
       <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
-            <article 
-              key={post._id} 
+            <article
+              key={post._id}
               className="bg-gray-200 rounded-xl overflow-hidden shadow-lg transition-all duration-300 
                        hover:shadow-2xl hover:-translate-y-1"
             >
               <div className="relative h-64 overflow-hidden">
-                <img 
-                  src={post.image} 
+                <img
+                  src={post.image}
                   alt={post.title}
                   className="w-full h-full object-cover transform transition-transform duration-500 
                            hover:scale-110"
@@ -143,11 +143,12 @@ const Blog = () => {
                 <p className="text-gray-600 mb-4 line-clamp-3">
                   {post.excerpt}
                 </p>
-                <button 
+                <button
                   className="inline-flex items-center gap-2 text-black font-semibold 
                            hover:text-gray-600 transition-colors duration-300"
                   onClick={() => {
                     console.log(`Navigate to blog post: ${post._id}`);
+
                   }}
                 >
                   Read More
