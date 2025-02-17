@@ -22,7 +22,25 @@ export default async function handler(
 
     case "POST":
       try {
-        const newBlog = await blog.create(req.body);
+        const { title, excerpt, content, image } = req.body;
+        
+        // Validate required fields
+        if (!title || !excerpt || !content || !image) {
+          return res.status(400).json({ 
+            success: false, 
+            message: "All fields are required" 
+          });
+        }
+
+        const newBlog = await blog.create({
+          title,
+          excerpt,
+          content,
+          image,
+          date: new Date(),
+          author: 'Admin' // You can modify this based on logged-in user
+        });
+
         return res.status(201).json({ success: true, data: newBlog });
       } catch (error) {
         return res.status(500).json({ 

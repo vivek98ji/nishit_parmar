@@ -332,15 +332,11 @@ const HomeServices: React.FC = () => {
 
   const ServiceModal: React.FC<ServiceModalProps> = ({ modalId, onClose }) => {
     const content = modalContent[modalId];
-
     if (!content) return null;
 
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.3 }}
+        <div 
           className="bg-white p-4 md:p-6 rounded-lg w-full md:w-1/3 max-h-[90vh] overflow-y-auto"
         >
           <div className="flex justify-between items-center mb-4">
@@ -355,7 +351,11 @@ const HomeServices: React.FC = () => {
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {content.items.map((item, index) => (
-              <div key={index} className="text-center p-2 hover:bg-gray-50 rounded-lg">
+              <div 
+                key={index} 
+                className="text-center p-2 hover:bg-gray-50 rounded-lg cursor-pointer"
+                onClick={() => router.push(`/components/services/${modalId}/${item.title.toLowerCase().replace(/ /g, '-')}`)}
+              >
                 <img
                   src={item.icon}
                   alt={item.title}
@@ -365,7 +365,7 @@ const HomeServices: React.FC = () => {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     );
   };

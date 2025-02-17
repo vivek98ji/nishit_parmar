@@ -146,10 +146,7 @@ const Blog = () => {
                 <button
                   className="inline-flex items-center gap-2 text-black font-semibold 
                            hover:text-gray-600 transition-colors duration-300"
-                  onClick={() => {
-                    console.log(`Navigate to blog post: ${post._id}`);
-
-                  }}
+                  onClick={() => router.push(`/components/blog/${post._id}`)}
                 >
                   Read More
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
