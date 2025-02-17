@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, CalendarIcon, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/router';
+
 interface BlogPost {
   _id: string;
   title: string;
@@ -19,6 +20,7 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
@@ -93,7 +95,7 @@ const Blog = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="min-h-screen bg-gray-50 pb-16">
       {/* Enhanced Header Section */}
       <header className="relative py-20 bg-black text-white overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black to-gray-500 opacity-90"></div>
@@ -105,58 +107,86 @@ const Blog = () => {
         </div>
       </header>
 
-      {/* Blog Posts Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post) => (
-            <article
-              key={post._id}
-              className="bg-gray-200 rounded-xl overflow-hidden shadow-lg transition-all duration-300 
-                       hover:shadow-2xl hover:-translate-y-1"
+          {blogPosts.map((blog) => (
+            <div 
+              key={blog._id} 
+              className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
             >
-              <div className="relative h-64 overflow-hidden">
+              {/* Image Container */}
+              <div className="relative h-48 overflow-hidden">
                 <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover transform transition-transform duration-500 
-                           hover:scale-110"
+                  src={blog.image}
+                  alt={blog.title}
+                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = '/placeholder-image.jpg';
                   }}
                 />
-                <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-gradient-to-t from-black/80 to-transparent">
-                  <p className="text-white text-sm">
-                    {new Date(post.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
-                  </p>
-                </div>
               </div>
 
-              <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-3 line-clamp-2">
-                  {post.title}
+              {/* Content Container */}
+              <div className="p-6 flex flex-col flex-grow">
+                <h2 className="text-2xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-gray-700 transition-colors">
+                  {blog.title}
                 </h2>
-                <p className="text-gray-600 mb-4 line-clamp-3">
-                  {post.excerpt}
+                
+                <div className="text-gray-600 mb-4 flex items-center gap-2 text-sm">
+                  <CalendarIcon className="w-4 h-4" />
+                  {new Date(blog.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </div>
+
+                <p className="text-gray-700 mb-6 line-clamp-3">
+                  {blog.excerpt}
                 </p>
-                <button
-                  className="inline-flex items-center gap-2 text-black font-semibold 
-                           hover:text-gray-600 transition-colors duration-300"
-                  onClick={() => router.push(`/components/blog/${post._id}`)}
-                >
-                  Read More
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+
+                {/* Fixed Read More Button */}
+                <div className="mt-auto pt-4">
+                  <button
+                    onClick={() => router.push(`/components/blog/${blog._id}`)}
+                    className="group relative w-full bg-black text-white py-3 px-6 rounded-lg 
+                             overflow-hidden transition-all duration-300 hover:scale-105
+                             hover:shadow-lg active:scale-95"
+                  >
+                    <div className="absolute inset-0 bg-gray-100 
+                                  opacity-0 group-hover:opacity-100 transition-all duration-300" />
+                    <div className="absolute inset-0 bg-gray-100 
+                                  opacity-0 group-hover:opacity-100 transition-all duration-300 
+                                  group-hover:translate-x-1" />
+                    <div className="relative z-10 flex items-center justify-center gap-2 
+                                  transition-transform duration-300 group-hover:scale-105
+                                  group-hover:text-black">
+                      <span className="font-semibold">Read More</span>
+                      <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 
+                                         transition-all duration-300" />
+                    </div>
+                  </button>
+                </div>
               </div>
-            </article>
+            </div>
           ))}
         </div>
+
+        {/* Loading State */}
+        {loading && (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin h-8 w-8 border-4 border-black border-t-transparent rounded-full"></div>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="flex items-center justify-center gap-2 text-red-600 py-12">
+            <AlertCircle className="w-5 h-5" />
+            <p>{error}</p>
+          </div>
+        )}
       </div>
 
       {/* Enhanced Footer */}
