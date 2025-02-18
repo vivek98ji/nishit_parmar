@@ -8,14 +8,16 @@ const Signup: React.FC = () => {
     email: "",
     phone: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    referralCode: ""
   });
   const [errors, setErrors] = useState({
     name: "",
     email: "",
     phone: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    referralCode: ""
   });
   const [step, setStep] = useState(1);
   const [otp, setOtp] = useState("");
@@ -55,7 +57,8 @@ const Signup: React.FC = () => {
       email: "",
       phone: "",
       password: "",
-      confirmPassword: ""
+      confirmPassword: "",
+      referralCode: ""
     };
 
     if (!formData.name.trim()) {
@@ -99,7 +102,8 @@ const Signup: React.FC = () => {
             name: formData.name,
             email: formData.email,
             phone: formData.phone,
-            password: formData.password
+            password: formData.password,
+            referralCode: formData.referralCode
           })
         });
 
@@ -262,6 +266,23 @@ const Signup: React.FC = () => {
                     className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
                   />
                   {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
+                </div>
+
+                <div className="w-full relative">
+                  <input
+                    type="text"
+                    name="referralCode"
+                    placeholder="Referral Code (Optional)"
+                    value={formData.referralCode}
+                    onChange={handleInputChange}
+                    className="w-full px-6 py-4 rounded-lg border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/5 transition-all text-lg"
+                  />
+                  {errors.referralCode && (
+                    <p className="text-red-500 text-sm mt-1">{errors.referralCode}</p>
+                  )}
+                  <p className="text-gray-500 text-sm mt-1">
+                    Have a referral code? Enter it here to get special benefits!
+                  </p>
                 </div>
 
                 <button

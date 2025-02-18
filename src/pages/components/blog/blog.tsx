@@ -1,6 +1,9 @@
+"use client"
 import React, { useEffect, useState } from 'react';
 import { AlertCircle, CalendarIcon, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/router';
+import { motion, HTMLMotionProps } from 'framer-motion';
+import { NextSeo } from 'next-seo';
 
 interface BlogPost {
   _id: string;
@@ -14,6 +17,14 @@ interface ApiResponse {
   success: boolean;
   data: BlogPost[];
 }
+
+// Add type definitions
+type Div = HTMLMotionProps<"div">;
+type Header = HTMLMotionProps<"header">;
+type Button = HTMLMotionProps<"button">;
+type Paragraph = HTMLMotionProps<"p">;
+type Heading1 = HTMLMotionProps<"h1">;
+type Heading2 = HTMLMotionProps<"h2">;
 
 const Blog = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -52,6 +63,34 @@ const Blog = () => {
 
     fetchBlogs();
   }, []);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 50
+    },
+    visible: { 
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        bounce: 0.4,
+        duration: 0.8
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -95,108 +134,185 @@ const Blog = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-16">
-      {/* Enhanced Header Section */}
-      <header className="relative py-20 bg-black text-white overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-black to-gray-500 opacity-90"></div>
-        <div className="relative z-10 max-w-6xl mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">Our Blog</h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Discover expert tips, insights, and the latest trends in home services and maintenance.
-          </p>
-        </div>
-      </header>
-
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((blog) => (
-            <div 
-              key={blog._id} 
-              className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
+    <>
+      <NextSeo
+        title="Blog | Home Services Tips & Insights"
+        description="Discover expert tips, maintenance guides, and insights about home services, repairs, and improvements."
+        canonical="https://your-domain.com/blog"
+        openGraph={{
+          url: 'https://your-domain.com/blog',
+          title: 'Blog | Home Services Tips & Insights',
+          description: 'Discover expert tips, maintenance guides, and insights about home services, repairs, and improvements.',
+          images: [
+            {
+              url: 'https://your-domain.com/blog-og-image.jpg',
+              width: 1200,
+              height: 630,
+              alt: 'Home Services Blog',
+            },
+          ],
+        }}
+      />
+      <div className="min-h-screen bg-gray-50 pb-16">
+        {/* Animated Header Section */}
+        <motion.header className="relative py-20 bg-black text-white overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-black to-gray-500 opacity-90"></div>
+          <motion.div 
+            className="relative z-10 max-w-6xl mx-auto px-4 text-center"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            <motion.h1 className="text-5xl md:text-6xl font-bold mb-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
             >
-              {/* Image Container */}
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={blog.image}
-                  alt={blog.title}
-                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = '/placeholder-image.jpg';
-                  }}
-                />
-              </div>
+              Our Blog
+            </motion.h1>
+            <motion.p className="text-xl text-gray-300 max-w-2xl mx-auto"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              Discover expert tips, insights, and the latest trends in home services and maintenance.
+            </motion.p>
+          </motion.div>
+        </motion.header>
 
-              {/* Content Container */}
-              <div className="p-6 flex flex-col flex-grow">
-                <h2 className="text-2xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-gray-700 transition-colors">
-                  {blog.title}
-                </h2>
-                
-                <div className="text-gray-600 mb-4 flex items-center gap-2 text-sm">
-                  <CalendarIcon className="w-4 h-4" />
-                  {new Date(blog.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </div>
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            {blogPosts.map((blog) => (
+              <motion.div 
+                key={blog._id}
+                variants={itemVariants}
+                whileHover={{ 
+                  scale: 1.03,
+                  transition: { duration: 0.2 }
+                }}
+                className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col h-full"
+              >
+                {/* Image Container */}
+                <motion.div 
+                  {...{
+                    className: "relative h-48 overflow-hidden",
+                    whileHover: { scale: 1.05 },
+                    transition: { duration: 0.3 }
+                  } as Div}
+                >
+                  <img
+                    src={blog.image}
+                    alt={blog.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/placeholder-image.jpg';
+                    }}
+                  />
+                </motion.div>
 
-                <p className="text-gray-700 mb-6 line-clamp-3">
-                  {blog.excerpt}
-                </p>
-
-                {/* Fixed Read More Button */}
-                <div className="mt-auto pt-4">
-                  <button
-                    onClick={() => router.push(`/components/blog/${blog._id}`)}
-                    className="group relative w-full bg-black text-white py-3 px-6 rounded-lg 
-                             overflow-hidden transition-all duration-300 hover:scale-105
-                             hover:shadow-lg active:scale-95"
+                {/* Content Container */}
+                <div className="p-6 flex flex-col flex-grow">
+                  <motion.h2 
+                    className="text-2xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-gray-700 transition-colors"
+                    whileHover={{ scale: 1.01 }}
                   >
-                    <div className="absolute inset-0 bg-gray-100 
-                                  opacity-0 group-hover:opacity-100 transition-all duration-300" />
-                    <div className="absolute inset-0 bg-gray-100 
-                                  opacity-0 group-hover:opacity-100 transition-all duration-300 
-                                  group-hover:translate-x-1" />
-                    <div className="relative z-10 flex items-center justify-center gap-2 
-                                  transition-transform duration-300 group-hover:scale-105
-                                  group-hover:text-black">
-                      <span className="font-semibold">Read More</span>
-                      <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 
-                                         transition-all duration-300" />
-                    </div>
-                  </button>
+                    {blog.title}
+                  </motion.h2>
+                  
+                  <motion.div 
+                    className="text-gray-600 mb-4 flex items-center gap-2 text-sm"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <CalendarIcon className="w-4 h-4" />
+                    {new Date(blog.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </motion.div>
+
+                  <motion.p 
+                    {...{
+                      className: "text-gray-700 mb-6 line-clamp-3",
+                      initial: { opacity: 0 },
+                      animate: { opacity: 1 },
+                      transition: { delay: 0.3 }
+                    } as Paragraph}
+                  >
+                    {blog.excerpt}
+                  </motion.p>
+
+                  {/* Animated Read More Button */}
+                  <div className="mt-auto pt-4">
+                    <motion.button
+                      {...{
+                        onClick: () => router.push(`/components/blog/${blog._id}`),
+                        className: "group relative w-full bg-black text-white py-3 px-6 rounded-lg overflow-hidden transition-all duration-300",
+                        whileHover: { scale: 1.05 },
+                        whileTap: { scale: 0.95 }
+                      } as Button}
+                    >
+                      <div className="relative z-10 flex items-center justify-center gap-2">
+                        <span className="font-semibold">Read More</span>
+                        <motion.div
+                          whileHover={{ x: 5 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <ArrowRight className="w-5 h-5" />
+                        </motion.div>
+                      </div>
+                    </motion.button>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="flex justify-center items-center py-12">
-            <div className="animate-spin h-8 w-8 border-4 border-black border-t-transparent rounded-full"></div>
+        {/* Animated Footer */}
+        <motion.footer 
+          className="bg-black text-white py-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <motion.p 
+              className="text-lg font-medium"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              BLOG by NISHIT_PARMAR
+            </motion.p>
+            <motion.p 
+              className="text-gray-400 mt-2"
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              Sharing knowledge, empowering homes
+            </motion.p>
           </div>
-        )}
-
-        {/* Error State */}
-        {error && (
-          <div className="flex items-center justify-center gap-2 text-red-600 py-12">
-            <AlertCircle className="w-5 h-5" />
-            <p>{error}</p>
-          </div>
-        )}
+        </motion.footer>
       </div>
-
-      {/* Enhanced Footer */}
-      <footer className="bg-black text-white py-10">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-lg font-medium">BLOG by NISHIT_PARMAR</p>
-          <p className="text-gray-400 mt-2">Sharing knowledge, empowering homes</p>
-        </div>
-      </footer>
-    </div>
+    </>
   );
 };
 

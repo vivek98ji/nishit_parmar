@@ -379,6 +379,63 @@ const HomeServices: React.FC = () => {
     }
   `;
 
+  // Add these animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 50
+    },
+    visible: { 
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        bounce: 0.4,
+        duration: 1
+      }
+    }
+  };
+
+  // Add these animation variants for testimonials
+  const testimonialContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const testimonialItemVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 30,
+      scale: 0.9
+    },
+    visible: { 
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        bounce: 0.4,
+        duration: 0.8
+      }
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 mt-8 sm:mt-12">
       {/* Search Section - Moved to top */}
@@ -552,28 +609,78 @@ const HomeServices: React.FC = () => {
 
       {/* steps */}
       <section className="py-16 text-center bg-gray-200">
-        <h2 className="text-4xl font-bold mb-10 text-primary">How It Works</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl font-bold mb-10 text-primary"
+        >
+          How It Works
+        </motion.h2>
+        
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {[
             { step: "1", title: "Search", desc: "Find the service you need." },
             { step: "2", title: "Select", desc: "Choose from verified professionals." },
             { step: "3", title: "Book", desc: "Schedule at your convenience." },
             { step: "4", title: "Enjoy", desc: "Relax while we handle the rest!" },
           ].map(({ step, title, desc }) => (
-            <div key={step} className="p-8 bg-white shadow-lg rounded-xl flex flex-col items-center">
-              <FaCheckCircle className="text-black text-4xl mb-4" />
+            <motion.div 
+              key={step}
+              variants={itemVariants}
+              className="p-8 bg-white shadow-lg rounded-xl flex flex-col items-center"
+              whileHover={{ 
+                scale: 1.05,
+                transition: { type: "spring", bounce: 0.4 }
+              }}
+            >
+              <motion.div
+                whileHover={{ 
+                  scale: 1.2,
+                  rotate: [0, -10, 10, -10, 0],
+                  transition: {
+                    rotate: {
+                      repeat: Infinity,
+                      duration: 1.5
+                    }
+                  }
+                }}
+              >
+                <FaCheckCircle className="text-black text-4xl mb-4" />
+              </motion.div>
               <h3 className="text-2xl font-bold">Step {step}: {title}</h3>
               <p className="text-gray-600 mt-3 text-lg">{desc}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
       <div className="mt-16 overflow-hidden bg-gray-200 py-10">
         <style>{marqueeStyles}</style>
-        <h2 className="text-3xl font-bold text-center mb-10">What Our Customers Say</h2>
+        <motion.h2 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-3xl font-bold text-center mb-10"
+        >
+          What Our Customers Say
+        </motion.h2>
 
-        <div className="relative overflow-hidden">
-          <div
+        <motion.div 
+          className="relative overflow-hidden"
+          variants={testimonialContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.div
             className="flex space-x-8 whitespace-nowrap"
             style={{
               animation: 'scroll 30s linear infinite',
@@ -583,21 +690,52 @@ const HomeServices: React.FC = () => {
           >
             {/* Double the testimonials for seamless loop */}
             {[...testimonials, ...testimonials].map((review, index) => (
-              <div
+              <motion.div
                 key={index}
+                variants={testimonialItemVariants}
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { type: "spring", bounce: 0.4 }
+                }}
                 className="w-[350px] inline-flex flex-none flex-col rounded-lg bg-black p-6 shadow-lg mx-4"
               >
-                <div className="flex justify-center mb-4">
+                <motion.div 
+                  className="flex justify-center mb-4"
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
                   {[...Array(5)].map((_, i) => (
-                    <FaStar key={i} className="text-yellow-400 text-xl" />
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 * i }}
+                    >
+                      <FaStar className="text-yellow-400 text-xl" />
+                    </motion.div>
                   ))}
-                </div>
-                <p className="text-white italic mb-4">"{review.text}"</p>
-                <p className="text-white font-semibold">- {review.author}</p>
-              </div>
+                </motion.div>
+                <motion.p 
+                  className="text-white italic mb-4"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  "{review.text}"
+                </motion.p>
+                <motion.p 
+                  className="text-white font-semibold"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  - {review.author}
+                </motion.p>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );
