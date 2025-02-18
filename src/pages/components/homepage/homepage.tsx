@@ -9,6 +9,7 @@ import "react-multi-carousel/lib/styles.css";
 import SearchBar from '../common/SearchBar';
 import ProductData from '../../../data/ProductData';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 // Define types for service and modal items
 interface ServiceItem {
@@ -476,20 +477,26 @@ const HomeServices: React.FC = () => {
         <div className="hidden md:flex gap-4">
           {/* First column - 3 images */}
           <div className="flex flex-col gap-4">
-            <img
+            <Image
               src="/img/showcase/service1.jpg"
               alt="Service 1"
               className="w-full h-48 object-cover rounded-lg shadow-md"
+              width={300}
+              height={300}
             />
-            <img
+            <Image
               src="/img/showcase/service2.jpg"
               alt="Service 2"
               className="w-full h-48 object-cover rounded-lg shadow-md"
+              width={300}
+              height={300}
             />
-            <img
+            <Image
               src="/img/showcase/service3.jpg"
               alt="Service 3"
               className="w-full h-48 object-cover rounded-lg shadow-md"
+              width={300}
+              height={300}
             />
           </div>
 
