@@ -10,6 +10,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [activeIcon, setActiveIcon] = useState<string | null>(null);
+  const [activeNav, setActiveNav] = useState<string | null>(null);
   const router = useRouter();
 
   const updateCartCount = () => {
@@ -55,23 +56,27 @@ const Header = () => {
   ];
 
   const handleIconClick = () => {
-    setActiveIcon(activeIcon === 'provider' ? null : 'provider');
+    setActiveIcon('provider');
+    setActiveNav(null);
     router.push('/components/signup-page/signuppage/serviceprovidersignin');
   };
 
   const handleCartClick = () => {
-    setActiveIcon(activeIcon === 'cart' ? null : 'cart');
+    setActiveIcon('cart');
+    setActiveNav(null);
     router.push('/components/Cart/Cart');
   };
 
   const handleSignupClick = () => {
-    setActiveIcon(activeIcon === 'signup' ? null : 'signup');
+    setActiveIcon('signup');
+    setActiveNav(null);
     router.push('/components/signup-page/signuppage/signup');
   };
 
-  const handleNavigation = (href: string) => {
+  const handleNavClick = (label: string, href: string) => {
+    setActiveNav(label);
+    setActiveIcon(null);
     router.push(href);
-    setIsMenuOpen(false);
   };
 
   return (
@@ -85,30 +90,49 @@ const Header = () => {
             </Link>
           </div>
 
-          {/* Centered Navigation */}
-          <nav className="hidden md:flex flex-grow justify-center space-x-8">
+          {/* Centered Navigation with rounded rectangle backgrounds */}
+          <nav className="hidden md:flex flex-grow justify-center space-x-8 relative">
+            {/* Animated white background */}
+            {activeNav && (
+              <div
+                className="absolute h-10 bg-white rounded-lg transition-all duration-300 ease-in-out transform"
+                style={{
+                  width: '80px',
+                  top: '50%',
+                  transform: `translateY(-50%) ${
+                    activeNav === 'Home' ? 'translateX(-9.2rem)' : 
+                    activeNav === 'Services' ? 'translateX(-2.1rem)' : 
+                    activeNav === 'Blog' ? 'translateX(4.9rem)' : 
+                    activeNav === 'About' ? 'translateX(11rem)' : ''
+                  }`
+                }}
+              />
+            )}
+            
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className="text-white hover:text-gray-300 transition-colors duration-200"
+                className={`relative z-10 px-4 py-2 rounded-lg transition-all duration-300
+                  ${activeNav === item.label ? 'text-black' : 'text-white hover:text-gray-300'}`}
+                onClick={() => handleNavClick(item.label, item.href)}
               >
-                {item.label}
+                <span className="relative z-10">{item.label}</span>
               </Link>
             ))}
           </nav>
 
-          {/* Icons section with precise positioning */}
+          {/* Icons section with existing white circle */}
           <div className="flex items-center space-x-6 relative">
-            {/* Animated background with adjusted right positioning */}
+            {/* Existing icon background animation */}
             {activeIcon && (
               <div
                 className={`absolute w-12 h-12 bg-white rounded-full transition-all duration-300 ease-in-out transform`}
                 style={{
                   top: '50%',
                   transform: `translateY(-50%) ${
-                    activeIcon === 'signup' ? 'translateX(0.8rem)' : 
-                    activeIcon === 'provider' ? 'translateX(4.9rem)' : 
+                    activeIcon === 'signup' ? 'translateX(0.9rem)' : 
+                    activeIcon === 'provider' ? 'translateX(5rem)' : 
                     activeIcon === 'cart' ? 'translateX(9.5rem)' : ''
                   }`
                 }}
@@ -176,10 +200,17 @@ const Header = () => {
               {navItems.map((item) => (
                 <button
                   key={item.label}
-                  onClick={() => handleNavigation(item.href)}
-                  className="block w-full text-left px-3 py-2 text-white hover:text-gray-300 transition-colors duration-200"
+                  onClick={() => {
+                    handleNavClick(item.label, item.href);
+                    setIsMenuOpen(false);
+                  }}
+                  className={`block w-full text-left px-4 py-2 rounded-lg transition-all duration-300 relative
+                    ${activeNav === item.label ? 'text-black' : 'text-white hover:bg-white/10'}`}
                 >
-                  {item.label}
+                  {activeNav === item.label && (
+                    <div className="absolute inset-0 bg-white rounded-lg transition-all duration-300 ease-in-out" />
+                  )}
+                  <span className="relative z-10">{item.label}</span>
                 </button>
               ))}
               <button 
