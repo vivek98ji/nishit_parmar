@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ShoppingBag, UserPlus } from 'lucide-react';
+import { Menu, X, ShoppingBag, UserPlus, UserCog } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaReact } from "react-icons/fa";
@@ -79,6 +79,10 @@ const Header = () => {
     router.push(href);
   };
 
+  const handleAdminLogin = () => {
+    router.push('/admin/login');
+  };
+
   return (
     <header className="w-full bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -154,6 +158,15 @@ const Header = () => {
                 className={`cursor-pointer h-6 w-6 transition-all duration-300 transform hover:scale-110
                   ${activeIcon === 'provider' ? 'text-black' : 'text-white hover:text-gray-300'}`}
                 title="Service Provider Portal"
+              />
+            </div>
+
+            <div className="p-1 rounded-full z-10 relative flex items-center justify-center">
+              <UserCog 
+                onClick={handleAdminLogin}
+                className={`cursor-pointer h-6 w-6 transition-all duration-300 transform hover:scale-110
+                  ${activeIcon === 'admin' ? 'text-black' : 'text-white hover:text-gray-300'}`}
+                title="Admin Login"
               />
             </div>
 

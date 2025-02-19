@@ -5,6 +5,11 @@ import { FaUsers, FaCog, FaWallet, FaMoneyBill, FaBlog, FaMailBulk } from 'react
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
 
+    // Don't show sidebar on login page
+    if (router.pathname === '/admin/login') {
+        return <>{children}</>;
+    }
+
     const menuItems = [
         {
             path: '/admin/service-partners/page',
@@ -44,12 +49,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
     return (
         <div className="flex min-h-screen">
-            {/* Single Sidebar */}
+            {/* Sidebar */}
             <div className="w-64 bg-black text-white fixed h-full">
                 <div className="p-6">
                     <h1 className="text-2xl font-bold">Admin Panel</h1>
                 </div>
-
                 <nav className="mt-6">
                     {menuItems.map((item) => (
                         <div
