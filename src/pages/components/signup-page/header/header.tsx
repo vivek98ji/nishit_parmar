@@ -137,7 +137,8 @@ const Header = () => {
                   transform: `translateY(-50%) ${
                     activeIcon === 'signup' ? 'translateX(0.9rem)' : 
                     activeIcon === 'provider' ? 'translateX(5rem)' : 
-                    activeIcon === 'cart' ? 'translateX(9.5rem)' : ''
+                    activeIcon === 'admin' ? 'translateX(9.5rem)' : 
+                    activeIcon === 'cart' ? 'translateX(13.1rem)' : ''
                   }`
                 }}
               />
