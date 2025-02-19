@@ -4,6 +4,7 @@ import { AlertCircle, CalendarIcon, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { motion, HTMLMotionProps } from 'framer-motion';
 import { NextSeo } from 'next-seo';
+import ScrollToTop from '@/components/ScrollToTop';
 
 interface BlogPost {
   _id: string;
@@ -312,6 +313,7 @@ const Blog = () => {
           </div>
         </motion.footer>
       </div>
+      <ScrollToTop />
     </>
   );
 };

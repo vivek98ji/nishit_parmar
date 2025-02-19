@@ -10,6 +10,7 @@ import SearchBar from '../common/SearchBar';
 import ProductData from '../../../data/ProductData';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import ScrollToTop from '@/components/ScrollToTop';
 
 // Define types for service and modal items
 interface ServiceItem {
@@ -737,6 +738,7 @@ const HomeServices: React.FC = () => {
           </motion.div>
         </motion.div>
       </div>
+      <ScrollToTop />
     </div>
   );
 };
