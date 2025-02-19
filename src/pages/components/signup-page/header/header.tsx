@@ -162,12 +162,14 @@ const Header = () => {
               />
             </div>
 
-            <div className="p-1 rounded-full z-10 relative flex items-center justify-center">
+            <div 
+              className="p-1 rounded-full z-10 relative flex items-center justify-center"
+              title="Admin Login"
+            >
               <UserCog 
                 onClick={handleAdminLogin}
                 className={`cursor-pointer h-6 w-6 transition-all duration-300 transform hover:scale-110
                   ${activeIcon === 'admin' ? 'text-black' : 'text-white hover:text-gray-300'}`}
-                title="Admin Login"
               />
             </div>
 
